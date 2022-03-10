@@ -1,12 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
 
 export default function Home() {
   return (
-    <div>
+    <div> This is the Home component
     <h1>Home</h1>
-    <Link to='about'>Click here to view about</Link>
-    <Link to='login'>Click here to view Login</Link>
     </div>
   )
 }
