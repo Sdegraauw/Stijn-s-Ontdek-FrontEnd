@@ -4,6 +4,8 @@ import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import About from "./Pages/About";
 import ErrorPage from "./Pages/ErrorPage";
+import FormSignup from "./Pages/FormSignup";
+import Register from "./Pages/RegisterStation";
 import { nav, container, navbar } from "bootstrap/dist/css/bootstrap.css";
 
 function App() {
@@ -68,6 +70,12 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/about"> About</Link>
               </li>
+              <li className="nav-item">
+                <Link to="/Signup"> Signup</Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/Register"> Register</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -80,17 +88,13 @@ function App() {
           </div>
       ) : (<Login Login = {LoggingIn} error = {error}/>
       )}
-
-      {/* <nav>
-        <Link to="/"> Home</Link>
-        <Link to="/login"> Login</Link>
-        <Link to="/about"> About</Link>
-      </nav> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/About" element={<About />} />
         <Route path="/Login" element={<Login />} />
         <Route path="*" element={<ErrorPage />} />
+        <Route path="/Signup" element={<FormSignup />} />
+        <Route path="/Register" element={<Register />} />
       </Routes>
     </div>
   );
