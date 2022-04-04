@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
+import axios from "axios";
 
 function RegisterStation() {
   // states for Registration
@@ -20,6 +21,14 @@ function RegisterStation() {
     e.preventDefault();
     setError(validate(inputs));
     setSubmitted(true);
+    axios
+      .post("http://localhost:5001/register", inputvalues)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //Showing success message
@@ -41,7 +50,6 @@ function RegisterStation() {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
     if (!values.name) {
       errors.name = "name is required";
     }
@@ -65,7 +73,7 @@ function RegisterStation() {
         {successMessage()}
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-input">
           <label className="label">name</label>
           <input
@@ -93,11 +101,7 @@ function RegisterStation() {
               type="text"
             />
           </div>
-          <button
-            onClick={handleSubmit}
-            className="btn btn-primary"
-            type="submit"
-          >
+          <button className="btn btn-primary" type="submit">
             Submit
           </button>
         </div>

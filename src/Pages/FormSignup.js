@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function FormSignup() {
   const initialvalues = { Username: "", Email: "", Password: "" };
   const [inputs, setInputs] = useState(initialvalues);
   const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -16,19 +16,25 @@ function FormSignup() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormErrors(validate(inputs));
-    setIsSubmit(true);
+    axios
+      .post("http://localhost:5001/register", initialvalues)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log("server responded");
+        } else if (error.request) {
+          console.log("network error");
+        } else {
+          console.log(error);
+        }
+      });
   };
-
-  useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(inputs);
-    }
-  }, [formErrors]);
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
     if (!values.Username) {
       errors.Username = "Username is required";
     }
@@ -40,6 +46,7 @@ function FormSignup() {
     }
     return errors;
   };
+
   return (
     <div className="form-signup">
       <pre>{JSON.stringify(inputs, undefined, 2)}</pre>
