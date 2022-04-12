@@ -1,110 +1,111 @@
-import React, { useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import useAuth from '../hooks/useAuth';
+//import '../SignUpIn.css'
+import axios from '../api/axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-export default function Login() {
-  const [details, setDetails] = useState({ name: "", password: "" });
+const LOGIN_URL = '/login';
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+const Login = () => {
 
-    Login(details);
-  };
-  const adminUser = {
-    name: "admin@gmail.com",
-    password: "admin123",
-  };
+    //after successfull login, set new auth state to global context (so the whole app?)
+    const { setAuth } = useAuth();
 
-  const [user, setUser] = useState({ name: "" });
-  const [error, setError] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
-  const LoggingIn = (details) => {
-    console.log(details);
+    //put focus on user input box
+    const userRef = useRef();
+    const errRef = useRef();
 
-    if (
-      details.name == adminUser.name &&
-      details.password == adminUser.password
-    ) {
-      console.log("Ingelogd");
-      setUser({
-        name: details.name,
-      });
-    } else {
-      console.log("onjuiste gegevens ingevuld");
-      setError("onjuiste gegevens ingevuld");
-    }
-  };
-  const Logout = () => {
-    console.log("Logout");
-    setUser({ name: "" });
-  };
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
-  {
-    {
-      user.name != "" ? (
-        <div className="welcome">
-          <h2>
-            Welcome, <span>{user.name}</span>
-          </h2>
-          <button onClick={Logout}>Logout</button>
-        </div>
-      ) : (
-        <Login Login={LoggingIn} error={error} />
-      );
-    }
+    useEffect(() => {
+      userRef.current.focus();
+    }, [])
+
+    useEffect(() => {
+      setErrMsg('');
+    }, [user, pwd])
+
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      try {
+          const response = await axios.post(LOGIN_URL, JSON.stringify({ email: user, password: pwd }),
+              {
+                  headers: { 'Content-Type': 'application/JSON' },
+                  withCredentials: true
+              });
+
+          console.log(JSON.stringify(response?.data));
+          const accessToken = response?.data?.accessToken;
+          const roles = response?.data?.roles;
+
+          //save all of our info in auth object, which is saved in global context
+          setAuth({ user, pwd, roles, accessToken });
+          setUser('');
+          setPwd('');
+          navigate(from, { replace: true });
+
+
+      } catch (err) {
+          if (!err?.response) {
+              setErrMsg('No server response');
+          } else if (err.response?.status === 400) {
+              //400 status is harcoded given by backend
+              setErrMsg('Missing username or password');
+          } else if (err.response?.status === 401) {
+              setErrMsg('Unauthorized');
+          } else {
+              setErrMsg('Login failed');
+          }
+          //set focus on error display, so a screenreader can read info
+          errRef.current.focus();
+      }
   }
 
   return (
-    <div className="container">
-      <div className="d-flex justify-content-center h-100 card-margin">
-        <div className="card">
-          <div className="card-header">
-            <h3>Inloggen</h3>
-          </div>
-          <div className="card-body">
-            <form onSubmit={submitHandler}>
-              <div>
-                {error != "" ? <div className="error">{error}</div> : ""}
-              </div>
-              <div className="input-group form-group login-boxes-margin">
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="gebruikersnaam"
-                  onChange={(e) =>
-                    setDetails({ ...details, name: e.target.value })
-                  }
-                  value={details.name}
-                />
-              </div>
-              <div className="input-group form-group login-boxes-margin">
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="wachtwoord"
-                  onChange={(e) =>
-                    setDetails({ ...details, password: e.target.value })
-                  }
-                  value={details.password}
-                />
-              </div>
-              <div className="form-group center login-button-margin">
-                <input
-                  type="submit"
-                  value="Login"
-                  className="btn btn-info login_btn"
-                />
-              </div>
-            </form>
-          </div>
-          <div className="card-footer">
-            <div className="d-flex justify-content-center links">
-              Nog geen account?<a href="#">Registreer</a>
-            </div>
-            <div className="d-flex justify-content-center">
-              <a href="#">Wachtwoord vergeten?</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    <section>
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+        <h1>Inloggen</h1>
+
+        <form onSubmit={handleSubmit}>
+            <label htmlFor="email">Email:</label>
+            <input
+                type="email"
+                id="email"
+                ref={userRef}
+                autoComplete="off"
+                onChange={(e) => setUser(e.target.value)}
+                value={user}
+                required
+            />
+            {/*value: to clear input on submission*/}
+
+            <label htmlFor="password">Wachtwoord:</label>
+            <input
+                type="password"
+                id="password"
+                onChange={(e) => setPwd(e.target.value)}
+                value={pwd}
+                required
+            />
+            <button>Inloggen</button>
+        </form>
+
+        <p>
+            Nog geen account?<br />
+            <span className="line">
+                <Link to="/signup">Registreer</Link>
+            </span>
+        </p>
+    </section>
+  )
 }
+
+export default Login
