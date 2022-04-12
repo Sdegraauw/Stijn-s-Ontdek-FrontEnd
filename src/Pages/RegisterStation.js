@@ -4,7 +4,13 @@ import axios from "axios";
 
 function RegisterStation() {
   // states for Registration
-  const inputvalues = { name: "", adress: "", height: "" };
+  const inputvalues = {
+    stationname: "",
+    address: "",
+    height: 0,
+    longitude: 0,
+    latitude: 0,
+  };
   const [inputs, setInputs] = useState(inputvalues);
   //States for checking errors
   const [submitted, setSubmitted] = useState(false);
@@ -22,7 +28,7 @@ function RegisterStation() {
     setError(validate(inputs));
     setSubmitted(true);
     axios
-      .post("http://localhost:5001/register", inputvalues)
+      .post("http://localhost:8080/api/Station", inputs)
       .then((response) => {
         console.log(response);
       })
@@ -50,14 +56,20 @@ function RegisterStation() {
 
   const validate = (values) => {
     const errors = {};
-    if (!values.name) {
-      errors.name = "name is required";
+    if (!values.stationname) {
+      errors.stationname = "name is required";
     }
-    if (!values.adress) {
-      errors.adress = "adress is required";
+    if (!values.address) {
+      errors.address = "adress is required";
     }
     if (!values.height) {
       errors.height = "Password is required";
+    }
+    if (!values.longitude) {
+      errors.longitude = "Longitude is required";
+    }
+    if (!values.latitude) {
+      errors.latitude = "Latitude is required";
     }
     return errors;
   };
@@ -80,7 +92,7 @@ function RegisterStation() {
             onChange={handleChange}
             className="form-control"
             placeholder="Name"
-            name="name"
+            name="stationname"
             type="text"
           />
           <label className="label">adress</label>
@@ -88,7 +100,7 @@ function RegisterStation() {
             onChange={handleChange}
             className="form-control"
             placeholder="Adress"
-            name="adress"
+            name="address"
             type="text"
           />
           <div className="form-input">
@@ -101,6 +113,27 @@ function RegisterStation() {
               type="text"
             />
           </div>
+          <div className="form-input">
+            <label className="label">Longitude</label>
+            <input
+              onChange={handleChange}
+              placeholder="Longitude"
+              className="form-control"
+              name="longitude"
+              type="text"
+            />
+          </div>
+          <div className="form-input">
+            <label className="label">Latitude</label>
+            <input
+              onChange={handleChange}
+              placeholder="Latitude"
+              className="form-control"
+              name="latitude"
+              type="text"
+            />
+          </div>
+
           <button className="btn btn-primary" type="submit">
             Submit
           </button>
