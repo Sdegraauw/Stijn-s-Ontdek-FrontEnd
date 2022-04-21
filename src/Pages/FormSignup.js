@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function FormSignup() {
-  const initialvalues = { Username: "", Email: "", Password: "" };
+  const initialvalues = { username: "", email: "", password: "" };
   const [inputs, setInputs] = useState(initialvalues);
   const [formErrors, setFormErrors] = useState({});
 
@@ -17,47 +17,39 @@ function FormSignup() {
     event.preventDefault();
     setFormErrors(validate(inputs));
     axios
-      .post("http://localhost:5001/register", initialvalues)
+      .post("http://localhost:8082/api/Authentication/register", inputs)
       .then((response) => {
         console.log(response);
       })
       .catch((error) => {
-        if (error.response) {
-          console.log(error.response);
-          console.log("server responded");
-        } else if (error.request) {
-          console.log("network error");
-        } else {
-          console.log(error);
-        }
+        console.log(error);
       });
   };
 
   const validate = (values) => {
     const errors = {};
-    if (!values.Username) {
-      errors.Username = "Username is required";
+    if (!values.username) {
+      errors.username = "Username is required";
     }
-    if (!values.Email) {
-      errors.Email = "Email is required";
+    if (!values.email) {
+      errors.email = "Email is required";
     }
-    if (!values.Password) {
-      errors.Password = "Password is required";
+    if (!values.password) {
+      errors.password = "Password is required";
     }
     return errors;
   };
 
   return (
     <div className="form-signup">
-      <pre>{JSON.stringify(inputs, undefined, 2)}</pre>
       <form className="form" onSubmit={handleSubmit}>
-        <h1> Vul hier uw gegevens in van het station!</h1>
+        <h1> Vul hier uw gegevens in om een account aan te maken</h1>
         <div className="form-input">
-          <label htmlFor="Username" className="form-label">
+          <label htmlFor="username" className="form-label">
             Username
           </label>
           <input
-            name="Username"
+            name="username"
             type="text"
             className="form-control"
             placeholder="Enter your Username"
@@ -66,11 +58,11 @@ function FormSignup() {
         </div>
         <p>{formErrors.Username}</p>
         <div className="form-input">
-          <label htmlFor="Email" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
-            name="Email"
+            name="email"
             type="email"
             className="form-control"
             placeholder="Enter your email"
@@ -79,11 +71,11 @@ function FormSignup() {
         </div>
         <p>{formErrors.Email}</p>
         <div className="form-input">
-          <label htmlFor="Password" className="form-label">
+          <label htmlFor="password" className="form-label">
             Password
           </label>
           <input
-            name="Password"
+            name="password"
             type="password"
             className="form-control"
             placeholder="Enter your Password"
@@ -96,7 +88,7 @@ function FormSignup() {
             Repeat Password
           </label>
           <input
-            name="Password"
+            name="password"
             type="password"
             className="form-control"
             placeholder="Repeat your password"
