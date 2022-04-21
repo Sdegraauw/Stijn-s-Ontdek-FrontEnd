@@ -17,7 +17,7 @@ function FormSignup() {
     event.preventDefault();
     setFormErrors(validate(inputs));
     axios
-      .post("http://localhost:8080/api/User", inputs)
+      .post("http://localhost:8082/api/Authentication/register", inputs)
       .then((response) => {
         console.log(response);
       })

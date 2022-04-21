@@ -28,7 +28,7 @@ function RegisterStation() {
     setError(validate(inputs));
     setSubmitted(true);
     axios
-      .post("http://localhost:8080/api/Station", inputs)
+      .post("http://localhost:8082/api/Station", inputs)
       .then((response) => {
         console.log(response);
       })
@@ -90,16 +90,16 @@ function RegisterStation() {
           <label className="label">name</label>
           <input
             onChange={handleChange}
-            className="form-control"
             placeholder="Name"
+            className="form-control"
             name="stationname"
             type="text"
           />
           <label className="label">adress</label>
           <input
             onChange={handleChange}
-            className="form-control"
             placeholder="Adress"
+            className="form-control"
             name="address"
             type="text"
           />
