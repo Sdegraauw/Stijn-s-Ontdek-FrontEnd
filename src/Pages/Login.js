@@ -52,7 +52,6 @@ const Login = () => {
           setPwd('');
           navigate(from, { replace: true });
 
-
       } catch (err) {
           if (!err?.response) {
               setErrMsg('No server response');
@@ -66,7 +65,7 @@ const Login = () => {
           }
           //set focus on error display, so a screenreader can read info
           errRef.current.focus();
-      }
+        }
   }
 
   return (

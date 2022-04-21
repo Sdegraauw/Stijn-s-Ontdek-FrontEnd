@@ -33,12 +33,12 @@ function App() {
           <Route path="Unauthorized" element={<Unauthorized />} />
 
           {/* we want to protect these routes */}
-          <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-            <Route element={<PersistLogin />}>
+          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
+            <Route element={<PersistLogin />}> */}
               <Route path="Register" element={<RegisterStation />} />
               {/* multiple route can be placed in here */}
-            </Route>
-          </Route>
+            {/* </Route>
+          </Route> */}
 
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
             <Route element={<PersistLogin />}>

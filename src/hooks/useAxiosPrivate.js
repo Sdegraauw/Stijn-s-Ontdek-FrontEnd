@@ -24,7 +24,7 @@ const useAxiosPrivate = () => {
             async (error) => { //when access token is expired
                 const prevRequest = error?.config;
                 if (error?.response?.status === 403 && !prevRequest?.sent) { //403 = forbidden: expired access token
-                    prevRequest.sent = true; //makes sure it only sends ones
+                    prevRequest.sent = true; //makes sure it only sends once
                     const newAccessToken = await refresh();
                     prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`; //put new access token in authorization header
                     return axiosPrivate(prevRequest);
