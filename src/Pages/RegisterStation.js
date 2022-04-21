@@ -1,9 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
+import axios from "axios";
 
 function RegisterStation() {
   // states for Registration
-  const inputvalues = { name: "", adress: "", height: "" };
+  const inputvalues = {
+    stationname: "",
+    address: "",
+    height: 0,
+    longitude: 0,
+    latitude: 0,
+  };
   const [inputs, setInputs] = useState(inputvalues);
   //States for checking errors
   const [submitted, setSubmitted] = useState(false);
@@ -20,6 +27,14 @@ function RegisterStation() {
     e.preventDefault();
     setError(validate(inputs));
     setSubmitted(true);
+    axios
+      .post("http://localhost:8082/api/Station", inputs)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //Showing success message
@@ -41,15 +56,20 @@ function RegisterStation() {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
-    if (!values.name) {
-      errors.name = "name is required";
+    if (!values.stationname) {
+      errors.stationname = "name is required";
     }
-    if (!values.adress) {
-      errors.adress = "adress is required";
+    if (!values.address) {
+      errors.address = "adress is required";
     }
     if (!values.height) {
       errors.height = "Password is required";
+    }
+    if (!values.longitude) {
+      errors.longitude = "Longitude is required";
+    }
+    if (!values.latitude) {
+      errors.latitude = "Latitude is required";
     }
     return errors;
   };
@@ -65,22 +85,22 @@ function RegisterStation() {
         {successMessage()}
       </div>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-input">
           <label className="label">name</label>
           <input
             onChange={handleChange}
-            className="form-control"
             placeholder="Name"
-            name="name"
+            className="form-control"
+            name="stationname"
             type="text"
           />
           <label className="label">adress</label>
           <input
             onChange={handleChange}
-            className="form-control"
             placeholder="Adress"
-            name="adress"
+            className="form-control"
+            name="address"
             type="text"
           />
           <div className="form-input">
@@ -93,11 +113,28 @@ function RegisterStation() {
               type="text"
             />
           </div>
-          <button
-            onClick={handleSubmit}
-            className="btn btn-primary"
-            type="submit"
-          >
+          <div className="form-input">
+            <label className="label">Longitude</label>
+            <input
+              onChange={handleChange}
+              placeholder="Longitude"
+              className="form-control"
+              name="longitude"
+              type="text"
+            />
+          </div>
+          <div className="form-input">
+            <label className="label">Latitude</label>
+            <input
+              onChange={handleChange}
+              placeholder="Latitude"
+              className="form-control"
+              name="latitude"
+              type="text"
+            />
+          </div>
+
+          <button className="btn btn-primary" type="submit">
             Submit
           </button>
         </div>
