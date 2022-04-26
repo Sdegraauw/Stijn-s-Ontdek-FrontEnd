@@ -1,4 +1,4 @@
-import RegisterStation from "../../src/Pages/RegisterStation";
+import RegisterStation from "../../src/Components/RegisterStation";
 
 it("Should POST the correct json", () => {
   const Stationname = "Piet";
