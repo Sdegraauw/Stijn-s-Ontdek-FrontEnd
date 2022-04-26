@@ -15,6 +15,7 @@ import RequireAuth from "./Components/RequireAuth";
 import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
+import UserDetails from "./Components/UserDetails";
 
 const ROLES = {
   User: 2001,
@@ -35,8 +36,9 @@ function App() {
           <Route path="/Edit/:stationId" element={<EditStation />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
           <Route path="/Account" element={<Account />} />
-          <Route path="/Station/:id" element={<Station />}/>
+          <Route path="/Station/:id" element={<Station />} />
 
+          <Route path="Userdetails" element={<UserDetails />} />
           {/* we want to protect these routes */}
           <Route path="Register" element={<RegisterStation />} />
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
@@ -54,4 +56,3 @@ function App() {
 }
 
 export default App;
-

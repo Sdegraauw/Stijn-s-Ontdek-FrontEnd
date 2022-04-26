@@ -40,6 +40,10 @@ function NavBar() {
                   {" "}
                   Account
                 </Link>
+                <Link className="nav-link" to="/Userdetails">
+                  {" "}
+                  Userdetails
+                </Link>
               </li>
             </ul>
           </div>
