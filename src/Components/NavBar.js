@@ -35,6 +35,12 @@ function NavBar() {
                   Register
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/Map">
+                  {" "}
+                  Kaart
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
