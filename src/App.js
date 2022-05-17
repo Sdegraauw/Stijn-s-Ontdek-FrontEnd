@@ -8,7 +8,7 @@ import FormSignup from "./Components/FormSignup";
 import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
-
+import EditStation from "./Pages/EditStation";
 import Layout from "./Components/Layout";
 import PersistLogin from "./Components/PersistLogin";
 import RequireAuth from "./Components/RequireAuth";
@@ -30,6 +30,7 @@ function App() {
           <Route path="About" element={<About />} />
           <Route path="Login" element={<Login />} />
           <Route path="Signup" element={<FormSignup />} />
+          <Route path="/Edit/:stationId" element={<EditStation />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
 
           {/* we want to protect these routes */}
@@ -55,3 +56,4 @@ function App() {
 }
 
 export default App;
+
