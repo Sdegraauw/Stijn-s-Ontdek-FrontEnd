@@ -12,8 +12,6 @@ describe("See average data from the map", () => {
     
     
     it("should show data", () => {
-        //fixture: 'mock_avgData.json'
-        //cy.fixture('mock_avgData.json').as('usersData');
         cy.intercept('GET', 'http://localhost:8082/api/Sensor/type', {fixture: 'mock_avgData.json'}).as("averageData");
         cy.visit("/Map");
         
