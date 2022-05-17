@@ -6,6 +6,8 @@ it("Should POST the correct json", () => {
   const Height = "20";
   const Longitude = "20.222";
   const Latitude = "20.1234";
+  const IsPublic = true;
+
   cy.intercept("POST", "http://localhost:8082/api/Station", {}).as(
     "addStation"
   );
@@ -26,6 +28,7 @@ it("Should POST the correct json", () => {
       height: Height,
       longitude: Longitude,
       latitude: Latitude,
+      IsPublic: IsPublic,
     };
     expect(JSON.stringify(interception.request.body)).equal(
       JSON.stringify(expectedValue)
