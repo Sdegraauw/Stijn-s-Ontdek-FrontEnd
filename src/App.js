@@ -8,7 +8,7 @@ import FormSignup from "./Components/FormSignup";
 import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
-import EditStation from "./Pages/EditStation";
+import EditStation from "./Components/EditStation";
 import Layout from "./Components/Layout";
 import PersistLogin from "./Components/PersistLogin";
 import RequireAuth from "./Components/RequireAuth";
