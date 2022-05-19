@@ -12,6 +12,8 @@ it("Should POST the correct json", () => {
   const LongitudeEdit = "30";
   const LatitudeEdit = "20";
   
+  cy.intercept("GET", "http://localhost:8082/api/Station/1", {}).as("getStation");
+
   cy.visit("http://localhost:3000/Edit/1");
 
 //   cy.get('[name="name"]').should('have.value', StationName)
@@ -41,7 +43,6 @@ it("Should POST the correct json", () => {
 
   cy.wait("@editStation").then((interception) => {
     const expectedValue = {
-      id: Id,
       name: StationNameEdit,
       address: AddressEdit,
       height: HeightEdit,
