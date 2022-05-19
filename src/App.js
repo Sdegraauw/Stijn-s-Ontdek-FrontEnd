@@ -9,6 +9,7 @@ import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
 import EditStation from "./Pages/EditStation";
+import StationsTable from "./Components/StationsTable";
 import Layout from "./Components/Layout";
 import PersistLogin from "./Components/PersistLogin";
 import RequireAuth from "./Components/RequireAuth";
@@ -39,7 +40,9 @@ function App() {
           <Route path="/Station/:id" element={<Station />} />
 
           <Route path="Userdetails" element={<UserDetails />} />
+
           {/* we want to protect these routes */}
+          <Route path="Stations" element={<StationsTable />} />
           <Route path="Register" element={<RegisterStation />} />
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
             <Route element={<PersistLogin />}>
