@@ -1,8 +1,8 @@
 {
-    "temperatuur": 15,
-    "stikstof": 4,
-    "koolstofdioxide": 5,
-    "fijnstof": 45,
-    "luchtvochtigheid": 66,
-    "windsnelheid": 7.5
+    "temperature": 15,
+    "nitrogen": 4,
+    "carbonDioxide": 5,
+    "particulateMatter": 45,
+    "humidity": 66,
+    "windSpeed": 7.5
 }

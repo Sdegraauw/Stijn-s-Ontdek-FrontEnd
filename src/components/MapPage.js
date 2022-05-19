@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from '../api/axios';
 
-const AVERAGE_DATA_URL = "/Sensor/type";
+const AVERAGE_DATA_URL = "/Sensor/average";
 
 const MapPage = () => {
 
@@ -22,7 +22,7 @@ const MapPage = () => {
                 isMounted && setAvgData(response.data); 
                 // const count = Object.keys(response.data).length;
                 // console.log(count);
-                if (response.data.length == 0) {
+                if (response.data.length === 0) {
                     setErrMsg('Geen algemene data gevonden');
                 }
             } catch (err) {
@@ -59,12 +59,12 @@ const MapPage = () => {
                             {(!errMsg)
                                 ? (
                                     <ul>
-                                        <li><span></span>Temperatuur: {avgData?.temperatuur}</li>
-                                        <li><span></span>Stikstof (N2): {avgData?.stikstof}</li>
-                                        <li><span></span>koolstofdioxide (CO2): {avgData?.koolstofdioxide}</li>
-                                        <li><span></span>Fijnstof: {avgData?.fijnstof}</li>
-                                        <li><span></span>Luchtvochtigheid: {avgData?.luchtvochtigheid}</li>
-                                        <li><span></span>Windsnelheid: {avgData?.windsnelheid}</li>
+                                        <li><span></span>Temperatuur: {avgData?.temperature} °C</li>
+                                        <li><span></span>Stikstof (N2): {avgData?.nitrogen}</li>
+                                        <li><span></span>koolstofdioxide (CO2): {avgData?.carbonDioxide}</li>
+                                        <li><span></span>Fijnstof: {avgData?.particulateMatter} µm</li>
+                                        <li><span></span>Luchtvochtigheid: {avgData?.humidity}%</li>
+                                        <li><span></span>Windsnelheid: {avgData?.windSpeed} km/h</li>
                                     </ul>
                                 ) : <p>{errMsg}</p>
                             }
