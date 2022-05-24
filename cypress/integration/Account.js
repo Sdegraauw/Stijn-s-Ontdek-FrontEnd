@@ -4,20 +4,17 @@
 describe('Account page tests', () => {
     
 
-    beforeEach(() => {
-        cy.visit("http://localhost:3000/");
-    })
-    
     it('Loads stations on account page for user 1', () =>{
-        cy.server();
-        cy.contains('Home');
-        cy.request("http://localhost:8082/api/Station/user/1");
-        cy.visit("http://localhost:3000/account");
+        cy.intercept('GET', /\/api\/Station\/user\/[0-9]+$/, { fixture: 'account-1-page.json'}).as('getStations');
+
+        cy.visit("http://localhost:3000/Account");
+        cy.wait("@getStations");
 
         // Assert station
-        cy.contains('breda');
-        cy.contains('tilburg')
+        cy.contains('Test one');
+        cy.contains('Second Station');
+        cy.contains('Final Test');
     })
 
-    
+
 }) 
