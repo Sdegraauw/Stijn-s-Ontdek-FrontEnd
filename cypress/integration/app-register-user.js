@@ -1,4 +1,4 @@
-import FormSignup from "../../src/Pages/FormSignup";
+import FormSignup from "../../src/Components/FormSignup";
 
 it("Should POST the correct json", () => {
   const username = "Piet";
