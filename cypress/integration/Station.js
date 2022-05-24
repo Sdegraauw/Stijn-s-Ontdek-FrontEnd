@@ -1,10 +1,11 @@
-describe('Account page', () => {
+describe('Account page tests', () => {
     
+
     beforeEach(() => {
         cy.visit("http://localhost:3000/");
     })
     
-    it.only('Loads stations on click', () =>{
+    it('Loads stations on click', () =>{
         cy.server();
         cy.visit("http://localhost:3000/account");
 
@@ -22,4 +23,6 @@ describe('Account page', () => {
         cy.contains('Lengtegraad: 2');
         cy.contains('Breedtegraad: 2');
     })
+
+    
 }) 
