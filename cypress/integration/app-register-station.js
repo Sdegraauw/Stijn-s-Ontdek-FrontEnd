@@ -1,5 +1,7 @@
 import RegisterStation from "../../src/Components/RegisterStation";
 
+describe('Register station page tests', () => {
+  
 it("Should POST the correct json WITHOUT public check", () => {
   const userId = 1;
   const Stationname = "Piet";
@@ -73,6 +75,9 @@ it("Should POST the correct json WITH public check", () => {
     };
     expect(JSON.stringify(interception.request.body)).equal(
       JSON.stringify(expectedValue)
-    );
+      );
   });
-});
+  
+      })
+
+

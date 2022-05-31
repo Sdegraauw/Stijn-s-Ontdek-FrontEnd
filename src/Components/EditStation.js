@@ -75,7 +75,7 @@ useEffect(() => {
       e.preventDefault();
       let confirmDelete = window.confirm('Delete station?')
       if(confirmDelete){
-        axios.delete('http://localhost:8082/api/Station/'+ (station.id))
+        axios.delete('http://localhost:8082/api/Station/'+ (stationId))
         .then((response) => {
           console.log(response);
         })

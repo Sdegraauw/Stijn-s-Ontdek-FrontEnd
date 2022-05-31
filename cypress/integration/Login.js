@@ -1,6 +1,8 @@
 /// <reference types="Cypress" />
 
-describe("Log in page", () => {
+describe("Log in page tests", () => {
+
+
   it("should login", () => {
     const User = {
       email: "admin@gmail.com",
@@ -30,4 +32,6 @@ describe("Log in page", () => {
       );
     });
   });
+
+
 });
