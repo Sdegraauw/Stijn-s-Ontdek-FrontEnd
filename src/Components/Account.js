@@ -44,7 +44,7 @@ export default function Account() {
           <ul>
           {data.map(({ id, name }) => (
             <li key={id}>
-              <Link to={`/Station/${id}`}> {name}</Link>
+              <Link to={`/Station/${id}`} style={{ color: '#00F' }}> {name}</Link>
             </li>
           ))}
           </ul>}
