@@ -15,6 +15,8 @@ import RequireAuth from "./Components/RequireAuth";
 import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
+import MapPage from "./Components/MapPage";
+
 
 const ROLES = {
   User: 2001,
@@ -34,6 +36,7 @@ function App() {
           <Route path="Signup" element={<FormSignup />} />
           <Route path="/Edit/:stationId" element={<EditStation />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
+          <Route path="Map" element={<MapPage />} />
           <Route path="/Account" element={<Account />} />
           <Route path="/Station/:id" element={<Station />}/>
 
