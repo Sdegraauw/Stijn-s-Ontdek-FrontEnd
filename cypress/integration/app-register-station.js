@@ -76,8 +76,6 @@ it("Should POST the correct json WITH public check", () => {
     expect(JSON.stringify(interception.request.body)).equal(
       JSON.stringify(expectedValue)
       );
+    });
   });
-  
-      })
-
-
+})
