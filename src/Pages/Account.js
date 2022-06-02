@@ -27,7 +27,7 @@ export default function Account() {
     };
     const log = console.log(data);
     getData();
-  },[]);
+  });
 
   return (
     <div className="Account">
@@ -44,7 +44,7 @@ export default function Account() {
           <ul>
           {data.map(({ id, name }) => (
             <li key={id}>
-              <Link to={`/Station/${id}`} style={{ color: '#00F' }}> {name}</Link>
+              <Link to={`/Station/${id}`}> {name}</Link>
             </li>
           ))}
           </ul>}
@@ -52,3 +52,4 @@ export default function Account() {
     </div>
   );
 }
+

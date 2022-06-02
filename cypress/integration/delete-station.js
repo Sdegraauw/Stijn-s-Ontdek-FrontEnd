@@ -1,4 +1,7 @@
-it("Should POST the correct json", () => {
+describe('Delete station page tests', () => {
+
+
+  it("Should POST the correct json", () => {
     const Id = 12;
     
     cy.intercept("GET", "http://localhost:8082/api/Station/12", {}).as("getStation");
@@ -23,3 +26,6 @@ it("Should POST the correct json", () => {
     );
     });
   });
+
+
+})

@@ -36,9 +36,23 @@ function NavBar() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/Map">
+                  {" "}
+                  Kaart
+                 </Link>
+               </li>
+               <li className="nav-item">
                 <Link className="nav-link" to="/Account">
                   {" "}
                   Account
+                </Link>
+                <Link className="nav-link" to="/Userdetails">
+                  {" "}
+                  Userdetails
+                </Link>
+                <Link className="nav-link" to="/Stations">
+                  {" "}
+                  Stations
                 </Link>
               </li>
             </ul>
