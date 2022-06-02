@@ -5,8 +5,17 @@ import axios from "axios";
 
 function EditStation() {
 
-const inputvalues = { id: 0, name: '', height: 0, locationName: '', longitude: 0, latitude: 0 };
+const inputvalues = { 
+  id: 0, 
+  name: '', 
+  height: 0, 
+  locationName: '', 
+  longitude: 0, 
+  latitude: 0, 
+  ispublic: false 
+};
 const [station, setStation] = useState(inputvalues);
+const [isChecked, setIsChecked] = useState(false);
 const navigate = useNavigate();
 const { stationId } = useParams();
 console.log(stationId);
@@ -18,11 +27,18 @@ const handleChange = (event) => {
   console.log(station);
 };
 
+const checkboxHandler = (event) => {
+  setIsChecked(!isChecked);
+  const { name, checked } = event.target;
+  setStation({ ...station, [name]: checked });
+  console.log(station);
+};
+
 useEffect(() => {
   axios.get('http://localhost:8082/api/Station/'+ (stationId))
   .then(resp => {
-    const { id, name, locationName, height, longitude, latitude} = resp.data
-    setStation({ id, name, height, locationName, longitude, latitude })
+    const { id, name, locationName, height, longitude, latitude, ispublic} = resp.data
+    setStation({ id, name, height, locationName, longitude, latitude, ispublic })
   })
 }, []);
 
@@ -34,7 +50,8 @@ useEffect(() => {
           address: station.locationName,
           height: station.height,
           longitude: station.longitude,
-          latitude: station.latitude
+          latitude: station.latitude, 
+          ispublic: station.ispublic
       }
         axios.put('http://localhost:8082/api/Station/', currentStation)
           .then((response) => {
@@ -58,7 +75,7 @@ useEffect(() => {
       e.preventDefault();
       let confirmDelete = window.confirm('Delete station?')
       if(confirmDelete){
-        axios.delete('http://localhost:8082/api/Station/'+ (station.id))
+        axios.delete('http://localhost:8082/api/Station/'+ (stationId))
         .then((response) => {
           console.log(response);
         })
@@ -131,6 +148,16 @@ useEffect(() => {
               type="text"
             />
           </div>
+          <div>
+            <input
+              type="checkbox" 
+              checked={station.ispublic} 
+              onChange={checkboxHandler} 
+              placeholder="Ispublic" 
+              name="ispublic"/>
+              <label className="label">Ik wil dit station publiek zichtbaar hebben</label>
+          </div>
+
           <button size="sm" color="danger" onClick={(e) =>handleDelete(e, station.id)}>Delete</button>
           <button className="btn btn-primary" type="submit">Submit</button>
         </div>

@@ -8,8 +8,8 @@ import FormSignup from "./Components/FormSignup";
 import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
-import EditStation from "./Pages/EditStation";
 import StationsTable from "./Components/StationsTable";
+import EditStation from "./Components/EditStation";
 import Layout from "./Components/Layout";
 import PersistLogin from "./Components/PersistLogin";
 import RequireAuth from "./Components/RequireAuth";
@@ -17,6 +17,7 @@ import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
 import UserDetails from "./Components/UserDetails";
+import MapPage from "./Components/MapPage";
 
 const ROLES = {
   User: 2001,
@@ -36,6 +37,7 @@ function App() {
           <Route path="Signup" element={<FormSignup />} />
           <Route path="/Edit/:stationId" element={<EditStation />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
+          <Route path="Map" element={<MapPage />} />
           <Route path="/Account" element={<Account />} />
           <Route path="/Station/:id" element={<Station />} />
 
