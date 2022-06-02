@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import React from 'react';
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -29,6 +29,7 @@ export default function Station() {
               <p>Lengtegraad: {station.longitude}</p>
               <p>Breedtegraad: {station.latitude}</p>
               <p>Dit station is {station.ispublic ? "publiek zichtbaar" : "privé"}</p>
+              <a style={{ textDecoration: 'none', color: '#FFF', borderRadius: '4px',  backgroundColor: '#0d6efd', border: 'none', padding: '20px', width: '200px'}}href={"/edit/" + station.id}>Edit</a>
           </div>
         </div>
     );
