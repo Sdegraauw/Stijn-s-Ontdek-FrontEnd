@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from '../api/axios';
 
 const AVERAGE_DATA_URL = "/Sensor/average";
+test
 
 const MapPage = () => {
 
@@ -39,7 +40,7 @@ const MapPage = () => {
         }
     }, [])
 
-
+    
     return (
         <div className="container">
             <div className="row seethroughsection">
