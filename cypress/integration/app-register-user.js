@@ -1,8 +1,3 @@
-import FormSignup from "../../src/Components/FormSignup";
-
-describe('Register User page tests', () => {
-
-
   it("Should POST the correct json", () => {
     const username = "Piet";
     const email = "test@email.com";

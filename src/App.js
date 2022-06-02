@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./Components/Home";
 import Login from "./Components/Login";
 import About from "./Components/About";
@@ -8,6 +8,7 @@ import FormSignup from "./Components/FormSignup";
 import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
+import StationsTable from "./Components/StationsTable";
 import EditStation from "./Components/EditStation";
 import Layout from "./Components/Layout";
 import PersistLogin from "./Components/PersistLogin";
@@ -15,8 +16,8 @@ import RequireAuth from "./Components/RequireAuth";
 import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
+import UserDetails from "./Components/UserDetails";
 import MapPage from "./Components/MapPage";
-
 
 const ROLES = {
   User: 2001,
@@ -38,16 +39,13 @@ function App() {
           <Route path="Unauthorized" element={<Unauthorized />} />
           <Route path="Map" element={<MapPage />} />
           <Route path="/Account" element={<Account />} />
-          <Route path="/Station/:id" element={<Station />}/>
+          <Route path="/Station/:id" element={<Station />} />
+
+          <Route path="Userdetails" element={<UserDetails />} />
 
           {/* we want to protect these routes */}
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-            <Route element={<PersistLogin />}> */}
+          <Route path="Stations" element={<StationsTable />} />
           <Route path="Register" element={<RegisterStation />} />
-          {/* multiple route can be placed in here */}
-          {/* </Route>
-          </Route> */}
-
           <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
             <Route element={<PersistLogin />}>
               <Route path="Admin" element={<Admin />} />
@@ -63,4 +61,3 @@ function App() {
 }
 
 export default App;
-

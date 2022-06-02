@@ -2,7 +2,6 @@
 
 describe("Error page tests", () => {
 
-
     it("renders correctly", () => {
         //cy.visit("admin");
         //cy.url().should('be.equal', 'http://localhost:3000/login')
@@ -12,3 +11,4 @@ describe("Error page tests", () => {
 
 
 });
+
