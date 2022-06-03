@@ -1,18 +1,28 @@
 import { useState, useEffect } from "react";
 import axios from '../api/axios';
+import { MapContainer, TileLayer, useMap, Popup, Marker} from 'react-leaflet';
+
 
 const AVERAGE_DATA_URL = "/Sensor/average";
-test
+
 
 const MapPage = () => {
 
     const [avgData, setAvgData] = useState();
     const [errMsg, setErrMsg] = useState('');
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         //used to clean up the async function in the useEffect
         let isMounted = true;
         const controller = new AbortController();
+
+        axios
+        .get(`http://localhost:8082/api/Station/Stations`)
+        .then((response) => setData(response.data) + console.log(response))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
 
         const getAvgData = async () => {
             try {
@@ -46,11 +56,19 @@ const MapPage = () => {
             <div className="row seethroughsection">
 
                 <div className="col-md-9">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eget dignissim quam. Aliquam erat volutpat.
-                        Cras quam eros, scelerisque congue erat sit amet, fringilla ornare ante. Sed sagittis dui tortor. Duis vitae
-                        nisi euismod, interdum quam id, posuere diam. Cras enim dui, pharetra eu tellus eu, scelerisque mollis nibh.
-                        Etiam in ligula arcu. Fusce luctus dignissim nibh, et fringilla nisl consequat quis. Aenean porta hendrerit vulputate.
-                        Duis consectetur tempus arcu ac consectetur. Fusce euismod odio id tempus rutrum. Suspendisse potenti.</p>
+                  <MapContainer center={[51.565120, 5.066322]} zoom={13}>
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    {data.map(({ id, latitude, longitude , name}) => (
+                          <Marker key = {id} position={[latitude, longitude]}>
+                            <Popup>
+                              {name}
+                            </Popup>
+                          </Marker>
+                      ))}
+                  </MapContainer>)
                 </div>
 
                 <div className="col-md-3">
