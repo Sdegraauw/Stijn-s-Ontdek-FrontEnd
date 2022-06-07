@@ -38,15 +38,17 @@ function RegisterStation() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(validate(inputs));
-    setSubmitted(true);
-    axios
-      .post("http://localhost:8082/api/Station", inputs)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (error == false) {
+      setSubmitted(true);
+      axios
+        .post("http://localhost:8082/api/Station", inputs)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   //Showing success message
@@ -57,7 +59,7 @@ function RegisterStation() {
       </div>
     );
   };
-  // Showing error message is error is true
+  // Showing error message if error is true
   const errorMessage = () => {
     return (
       <div className="error" style={{ display: error ? "" : "none" }}>
@@ -147,12 +149,15 @@ function RegisterStation() {
           </div>
           <div>
             <input
-              type="checkbox" 
-              checked={isChecked} 
-              onChange={checkboxHandler} 
-              placeholder="Ispublic" 
-              name="ispublic"/>
-              <label className="label">Ik wil dit station publiek zichtbaar hebben</label>
+              type="checkbox"
+              checked={isChecked}
+              onChange={checkboxHandler}
+              placeholder="Ispublic"
+              name="ispublic"
+            />
+            <label className="label">
+              Ik wil dit station publiek zichtbaar hebben
+            </label>
           </div>
 
           <button className="btn btn-primary" type="submit">
