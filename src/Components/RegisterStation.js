@@ -38,15 +38,17 @@ function RegisterStation() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(validate(inputs));
-    setSubmitted(true);
-    axios
-      .post("http://localhost:8082/api/Station", inputs)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (error == false) {
+      setSubmitted(true);
+      axios
+        .post("http://localhost:8082/api/Station", inputs)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   //Showing success message
@@ -57,7 +59,7 @@ function RegisterStation() {
       </div>
     );
   };
-  // Showing error message is error is true
+  // Showing error message if error is true
   const errorMessage = () => {
     return (
       <div className="error" style={{ display: error ? "" : "none" }}>
@@ -99,30 +101,33 @@ function RegisterStation() {
 
       <form onSubmit={handleSubmit}>
         <div className="form-input">
-          <label className="label">name</label>
+          <label className="label">Naam</label>
           <input
             onChange={handleChange}
             placeholder="Name"
             className="form-control"
             name="stationname"
             type="text"
+            required
           />
-          <label className="label">adress</label>
+          <label className="label">Adres</label>
           <input
             onChange={handleChange}
             placeholder="Adress"
             className="form-control"
             name="address"
             type="text"
+            required
           />
           <div className="form-input">
-            <label className="label">height</label>
+            <label className="label">Hoogte</label>
             <input
               onChange={handleChange}
               placeholder="Height"
               className="form-control"
               name="height"
               type="text"
+              required
             />
           </div>
           <div className="form-input">
@@ -133,6 +138,7 @@ function RegisterStation() {
               className="form-control"
               name="longitude"
               type="text"
+              required
             />
           </div>
           <div className="form-input">
@@ -143,20 +149,25 @@ function RegisterStation() {
               className="form-control"
               name="latitude"
               type="text"
+              required
             />
           </div>
           <div>
             <input
-              type="checkbox" 
-              checked={isChecked} 
-              onChange={checkboxHandler} 
-              placeholder="Ispublic" 
-              name="ispublic"/>
-              <label className="label">Ik wil dit station publiek zichtbaar hebben</label>
+              type="checkbox"
+              checked={isChecked}
+              onChange={checkboxHandler}
+              placeholder="Ispublic"
+              name="ispublic"
+              required
+            />
+            <label className="label">
+              Ik wil dit station publiek zichtbaar hebben
+            </label>
           </div>
 
           <button className="btn btn-primary" type="submit">
-            Submit
+            Versturen
           </button>
         </div>
       </form>

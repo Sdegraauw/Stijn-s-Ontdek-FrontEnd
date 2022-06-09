@@ -27,13 +27,12 @@ function UserDetails() {
 
   return (
     <>
-      <div className="Form-Input">UserDetails</div>
       <form onSubmit={handleSubmit}>
         <div>
-          <label className="labels">Name</label>
+          <label className="labels">Gebruikersnaam</label>
           <input
             name="username"
-            placeholder="Username"
+            placeholder="Gebruikersnaam"
             type="text"
             className="form-control"
             onChange={handleChange}
@@ -46,23 +45,23 @@ function UserDetails() {
             className="form-control"
             onChange={handleChange}
           />
-          <label className="labels">Password</label>
+          <label className="labels">Wachtwoord</label>
           <input
             name="Password"
-            placeholder="Password"
+            placeholder="Wachtwoord"
             type="text"
             className="form-control"
             onChange={handleChange}
           />
-          <label className="labels">Repeat Password</label>
+          <label className="labels">Herhaal Wachtwoord</label>
           <input
             name="Password2"
-            placeholder="Repeat password"
+            placeholder="Herhaal Wachtwoord"
             type="text"
             className="form-control"
             onChange={handleChange}
           />
-          <button>Update my data!</button>
+          <button>Update mijn data!</button>
         </div>
       </form>
     </>

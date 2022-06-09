@@ -14,7 +14,7 @@ code {
 }
 
 .nav-item {
-  font-size: 18px;;
+  font-size: 15px;;
 }
 
 
@@ -88,6 +88,7 @@ button {
   box-sizing: border-box;
   justify-content: center;
 }
+
 /* .App {
   display: flex;
   flex-direction: column;

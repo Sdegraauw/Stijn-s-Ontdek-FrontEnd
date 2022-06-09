@@ -14,15 +14,15 @@ function AllStations() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <h3>Loading...</h3>;
+  if (loading) return <h3>Laden...</h3>;
   return (
     <div>
-      AllStations
+      Alle stations
       <table className="table table-striped">
         <thead>
           <tr>
             <th scope="col">id</th>
-            <th scope="col">Name</th>
+            <th scope="col">Naam</th>
           </tr>
         </thead>
         <tbody>
