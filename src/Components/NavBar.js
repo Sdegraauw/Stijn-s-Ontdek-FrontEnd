@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function NavBar() {
   return (
     <div className="app">
-      <nav className="navbar navbar-expand-sm navbar-dark bg-dark justify-content-between">
+      <nav className="navbar navbar-expand-sm navbar-dark bg-primary justify-content-between">
         <button
           class="navbar-toggler"
           type="button"
@@ -30,19 +30,19 @@ function NavBar() {
             <li className="nav-item">
               <Link className="nav-link" to="/about">
                 {" "}
-                About
+                Over ons
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/Signup">
                 {" "}
-                Signup
+                Registreren
               </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/Register">
                 {" "}
-                Register
+                Registreer Station
               </Link>
             </li>
             <li className="nav-item">
@@ -60,7 +60,7 @@ function NavBar() {
             <li className="nav-item">
               <Link className="nav-link" to="/Userdetails">
                 {" "}
-                Userdetails
+                Gebruiker Details
               </Link>
             </li>
             <li className="nav-item">

@@ -46,14 +46,15 @@ function FormSignup() {
         <h1> Vul hier uw gegevens in om een account aan te maken</h1>
         <div className="form-input">
           <label htmlFor="username" className="form-label">
-            Username
+            Gebruikersnaam
           </label>
           <input
             name="username"
             type="text"
             className="form-control"
-            placeholder="Enter your Username"
+            placeholder="Gebruikersnaam"
             onChange={handleChange}
+            required
           />
         </div>
         <p>{formErrors.Username}</p>
@@ -65,34 +66,37 @@ function FormSignup() {
             name="email"
             type="email"
             className="form-control"
-            placeholder="Enter your email"
+            placeholder="Email"
             onChange={handleChange}
+            required
           />
         </div>
         <p>{formErrors.Email}</p>
         <div className="form-input">
           <label htmlFor="password" className="form-label">
-            Password
+            Wachtwoord
           </label>
           <input
             name="password"
             type="password"
             className="form-control"
-            placeholder="Enter your Password"
+            placeholder="Wachtwoord"
             onChange={handleChange}
+            required
           />
         </div>
         <p>{formErrors.Password}</p>
         <div className="form-input">
           <label htmlFor="password2" className="form-label">
-            Repeat Password
+            Herhaal Wachtwoord
           </label>
           <input
             name="password"
             type="password"
             className="form-control"
-            placeholder="Repeat your password"
+            placeholder="Herhaal wachtwoord"
             onChange={handleChange}
+            required
           />
         </div>
         <p>{formErrors.Password}</p>
@@ -101,8 +105,8 @@ function FormSignup() {
             Sign up
           </button>
           <span className="form-input-login">
-            Already have an account? login
-            <Link to="/Login"> here</Link>
+            Heb je al een account?
+            <Link to="/Login"> hier</Link>
           </span>
         </div>
       </form>
