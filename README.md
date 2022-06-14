@@ -35,3 +35,8 @@ npm start
 
 Dit start de app in de development mode.
 Open [http://localhost:3000](http://localhost:3000) om het in je browser te bekijken.
+
+
+## Testen
+
+Voor uitleg over de Cypress testen en meer over onze keuzes, lees in het [overdrachtsdocument](https://github.com/OntdekIT/Software-Documents/blob/main/Overdrachtsdocument.docx) hoofdstuk 6.3 testen
