@@ -68,7 +68,7 @@ const MapPage = () => {
                             </Popup>
                           </Marker>
                       ))}
-                  </MapContainer>)
+                  </MapContainer>
                 </div>
 
                 <div className="col-md-3">

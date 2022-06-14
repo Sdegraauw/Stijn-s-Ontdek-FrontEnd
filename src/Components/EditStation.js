@@ -158,6 +158,7 @@ useEffect(() => {
               <label className="label">Ik wil dit station publiek zichtbaar hebben</label>
           </div>
 
+          <button onClick={() => navigate(-1)}>Back</button>
           <button size="sm" color="danger" onClick={(e) =>handleDelete(e, station.id)}>Delete</button>
           <button className="btn btn-primary" type="submit">Submit</button>
         </div>
