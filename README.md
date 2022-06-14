@@ -2,7 +2,7 @@
 
 Voor het gebruik van React zul je eerst node.js moeten installeren, deze kan je hier vinden: https://nodejs.org/en/ 
 
-Na het installeren hiervan kun je de repo clonen, heirna ga je React installeren voor het project. Open het project in vs code en maak een nieuw terminal aan. 
+Na het installeren hiervan kun je de repo clonen, hierna ga je React installeren voor het project. Open het project in vs code en maak een nieuw terminal aan. 
 Voer hierbij het volgende commando in: 
 
 ```console 
