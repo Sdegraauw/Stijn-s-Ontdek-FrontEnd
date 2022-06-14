@@ -14,6 +14,16 @@ Voor de routing van het project gebruiken we react-router. Dit is een van de pop
 npm install react-router-dom@6
 ```
 
+Om de kaart te kunnen gebruiken moet Leaflet eerst geïnstaleerd worden. dit doe je via de commandos:
+
+```console
+Npm install leaflet@1.6.0 
+```
+
+```console
+Npm install react-leaflet@3.2.0 
+```
+
 Na dit commando zou je het project moeten kunnen opstarten! 
 
 Het project opstarten doe je door dit commando in de terminal te zetten: 
