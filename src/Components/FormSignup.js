@@ -35,7 +35,6 @@ const Register = () => {
 
   useEffect(() => {
     setErrMsg('');
-    setSuccessMsg('');
   }, [firstname, surname, username, email])
 
 
@@ -55,13 +54,16 @@ const Register = () => {
 
         //save all of our info in auth object, which is saved in global context
         setAuth({ firstname, surname, username, email, roles, accessToken });
+
         setFirstname('');
         setSurname('');
         setUsername('');
         setEmail('');
-        if (response?.status === 200) {
+
+        if (response?.status === 201) {
           setSuccessMsg('Check your mail inbox!');
         }
+        
         // Navigates to home page
         //navigate(from, { replace: true });
 
