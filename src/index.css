@@ -41,10 +41,6 @@ form {
   padding-bottom: 1rem;
 }
 
-a, a:visited {
-  color: #fff;
-}
-
 input[type="email"],
 input[type="password"],
 button,
@@ -76,6 +72,15 @@ button {
   padding: 0.5rem;
   margin-bottom: 0.5rem;
 }
+
+.successmsg {
+  background-color: rgb(97, 206, 115);
+  color: rgb(15, 75, 25);
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 
 .line {
   display: inline-block;
