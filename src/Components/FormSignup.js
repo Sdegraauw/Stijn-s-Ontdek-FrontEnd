@@ -1,115 +1,107 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useRef, useState, useEffect } from "react";
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
+import { Link } from 'react-router-dom';
 
-function FormSignup() {
-  const initialvalues = { firstname: "", surname: "", username: "", email: "" };
-  const [inputs, setInputs] = useState(initialvalues);
-  const [formErrors, setFormErrors] = useState({});
+const REGISTER_URL = '/Authentication/register';
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setInputs({ ...inputs, [name]: value });
-    console.log(inputs);
-  };
+const Register = () => {
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setFormErrors(validate(inputs));
-    if (formErrors == false) {
-      axios
-      .post("http://localhost:8082/api/Authentication/register", inputs)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
-  };
+  //after successfull login, set new auth state to global context (so the whole app?)
+  const { setAuth } = useAuth();
 
-  const validate = (values) => {
-    const errors = {};
-    if (!values.firstname) {
-      errors.firstname = "Voornaam moet ingevuld zijn";
-    }
-    if (!values.surname) {
-      errors.surname = "Achternaam moet ingevuld zijn";
-    }
-    if (!values.username) {
-      errors.username = "Gebruikersnaam moet ingevuld zijn";
-    }
-    if (!values.email) {
-      errors.email = "Email moet ingevuld zijn";
-    }
-    return errors;
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  return (
-    <div className="form-signup">
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-input">
-          <label htmlFor="firstname" className="form-label">
-            Voornaam
-          </label>
-          <input
-            name="firstname"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.firstname}</p>
-        <div className="form-input">
-          <label htmlFor="surname" className="form-label">
-            Achternaam
-          </label>
-          <input
-            name="surname"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.surname}</p>
-        <div className="form-input">
-          <label htmlFor="username" className="form-label">
-            Gebruikersnaam
-          </label>
-          <input
-            name="username"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.username}</p>
-        <div className="form-input">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.email}</p>
-        <div>
-          <button className="form-input-btn" type="submit">
-            Registreren
-          </button>
-          <span className="form-input-login">
-            <Link to="/Login">Heb je al een account?</Link>
-          </span>
-        </div>
-      </form>
-    </div>
-  );
+  //put focus on user input box
+  const userRef = useRef();
+  const errRef = useRef();
+  const successRef = useRef();
+
+  const [user, setUser] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, [])
+
+  useEffect(() => {
+    setErrMsg('');
+    setSuccessMsg('');
+  }, [user, pwd])
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await axios.post(LOGIN_URL, JSON.stringify({ email: user, password: pwd }),
+          {
+              headers: { 'Content-Type': 'application/JSON' },
+              withCredentials: false
+          });
+
+        console.log(JSON.stringify(response?.data));
+        const accessToken = response?.data?.accessToken;
+        const roles = response?.data?.roles;
+
+        //save all of our info in auth object, which is saved in global context
+        setAuth({ user, pwd, roles, accessToken });
+        setUser('');
+        setPwd('');
+        if (response?.status === 200) {
+          setSuccessMsg('Check your mail inbox!');
+        }
+        // Navigates to home page
+        //navigate(from, { replace: true });
+
+    } catch (err) {
+        if (!err?.response) {
+            setErrMsg('No server response');
+        } else if (err.response?.status === 400) {
+            //400 status is harcoded given by backend
+            setErrMsg('Missing username or password');
+        } else if (err.response?.status === 401) {
+            setErrMsg('Unauthorized');
+        } else {
+            setErrMsg('Login failed');
+        }
+        //set focus on error display, so a screenreader can read info
+        errRef.current.focus();
+      }
 }
-export default FormSignup;
+
+return (
+  <section>
+      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+      <h1>Inloggen</h1>
+
+      <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Email:</label>
+          <input
+              type="email"
+              id="email"
+              ref={userRef}
+              autoComplete="off"
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              required
+          />
+          <button>Inloggen</button>
+      </form>
+
+      <p>
+          Nog geen account?<br />
+          <span className="line">
+              <Link to="/signup">Registreer</Link>
+          </span>
+      </p>
+  </section>
+)
+}
+
+export default Login
