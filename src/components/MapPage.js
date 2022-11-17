@@ -25,6 +25,8 @@ const MapPage = () => {
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
 
+    const [showDataStations, setShowDataStations] = useState(true)
+
     const gradient_default = {
         0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
         0.6: '#FAF3A5', 0.8: '#F5D98B', '1.0': '#DE9A96'
@@ -65,6 +67,10 @@ const MapPage = () => {
     
     function handleToggleWindspeed(){
         setShowWindspeed(!showWindspeed);
+    }
+
+    function handleToggleShowDataStations(){
+        setShowDataStations(!showDataStations);
     }
 
     function getHeatmapData()
@@ -117,24 +123,21 @@ const MapPage = () => {
     
     return (
         <div className="container">
+
+            <label>Toon meetstations: </label>
+            <input type="checkbox" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
+
+
             <div className="row seethroughsection">
 
                 <div className="col-md-9">
                   <Map center={[51.565120, 5.066322]} zoom={13}>
-                    <TileLayer
-                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    {data.map(({ id, latitude, longitude , name}) => (
-                          <Marker key = {id} position={[latitude, longitude]}>
-                            <Popup>
-                              {name}
-                            </Popup>
-                          </Marker>
-                      ))}           
 
-        <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
-        <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
+                    <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
+                    <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
+                    <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
+                    <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
         
 
                   </Map>
@@ -186,6 +189,23 @@ const HML = ({heatmapData, gradient, visible}) => {
         max={Number.parseFloat(0.4)}
       />
     )
+   }
+
+   const MeetStationLayer = ({data, visible}) =>{
+        if(!visible) return (<></>);
+
+        return(
+            <>
+             {data.map(({ id, latitude, longitude , name}) => (
+            <Marker key = {id} position={[latitude, longitude]}>
+              <Popup>
+                {name}
+              </Popup>
+            </Marker>
+        ))}      
+            </>
+        )
+            
    }
 
 export default MapPage
