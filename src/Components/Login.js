@@ -18,10 +18,12 @@ const Login = () => {
     //put focus on user input box
     const userRef = useRef();
     const errRef = useRef();
+    const successRef = useRef();
 
     const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
 
     useEffect(() => {
       userRef.current.focus();
@@ -29,6 +31,7 @@ const Login = () => {
 
     useEffect(() => {
       setErrMsg('');
+      setSuccessMsg('');
     }, [user, pwd])
 
 
@@ -37,10 +40,10 @@ const Login = () => {
 
       try {
           const response = await axios.post(LOGIN_URL, JSON.stringify({ email: user, password: pwd }),
-              {
-                  headers: { 'Content-Type': 'application/JSON' },
-                  withCredentials: true
-              });
+            {
+                headers: { 'Content-Type': 'application/JSON' },
+                withCredentials: false
+            });
 
           console.log(JSON.stringify(response?.data));
           const accessToken = response?.data?.accessToken;
@@ -50,7 +53,11 @@ const Login = () => {
           setAuth({ user, pwd, roles, accessToken });
           setUser('');
           setPwd('');
-          navigate(from, { replace: true });
+          if (response?.status === 200) {
+            setSuccessMsg('Check your mail inbox!');
+          }
+          // Navigates to home page
+          //navigate(from, { replace: true });
 
       } catch (err) {
           if (!err?.response) {
@@ -71,6 +78,7 @@ const Login = () => {
   return (
     <section>
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+        <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
         <h1>Inloggen</h1>
 
         <form onSubmit={handleSubmit}>
@@ -84,7 +92,6 @@ const Login = () => {
                 value={user}
                 required
             />
-            {/*value: to clear input on submission*/}
             <button>Inloggen</button>
         </form>
 
