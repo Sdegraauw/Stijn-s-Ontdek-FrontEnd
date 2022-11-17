@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function FormSignup() {
-  const initialvalues = { username: "", email: "", password: "" };
+  const initialvalues = { firstname: "", surname: "", username: "", email: "" };
   const [inputs, setInputs] = useState(initialvalues);
   const [formErrors, setFormErrors] = useState({});
 
@@ -16,7 +16,8 @@ function FormSignup() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setFormErrors(validate(inputs));
-    axios
+    if (formErrors == false) {
+      axios
       .post("http://localhost:8082/api/Authentication/register", inputs)
       .then((response) => {
         console.log(response);
@@ -24,18 +25,22 @@ function FormSignup() {
       .catch((error) => {
         console.log(error);
       });
+    }
   };
 
   const validate = (values) => {
     const errors = {};
+    if (!values.firstname) {
+      errors.firstname = "Voornaam moet ingevuld zijn";
+    }
+    if (!values.surname) {
+      errors.surname = "Achternaam moet ingevuld zijn";
+    }
     if (!values.username) {
-      errors.username = "Username is required";
+      errors.username = "Gebruikersnaam moet ingevuld zijn";
     }
     if (!values.email) {
-      errors.email = "Email is required";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
+      errors.email = "Email moet ingevuld zijn";
     }
     return errors;
   };
@@ -43,7 +48,32 @@ function FormSignup() {
   return (
     <div className="form-signup">
       <form className="form" onSubmit={handleSubmit}>
-        <h1> Vul hier uw gegevens in om een account aan te maken</h1>
+        <div className="form-input">
+          <label htmlFor="firstname" className="form-label">
+            Voornaam
+          </label>
+          <input
+            name="firstname"
+            type="text"
+            className="form-control"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <p>{formErrors.firstname}</p>
+        <div className="form-input">
+          <label htmlFor="surname" className="form-label">
+            Achternaam
+          </label>
+          <input
+            name="surname"
+            type="text"
+            className="form-control"
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <p>{formErrors.surname}</p>
         <div className="form-input">
           <label htmlFor="username" className="form-label">
             Gebruikersnaam
@@ -52,12 +82,11 @@ function FormSignup() {
             name="username"
             type="text"
             className="form-control"
-            placeholder="Gebruikersnaam"
             onChange={handleChange}
             required
           />
         </div>
-        <p>{formErrors.Username}</p>
+        <p>{formErrors.username}</p>
         <div className="form-input">
           <label htmlFor="email" className="form-label">
             Email
@@ -66,52 +95,21 @@ function FormSignup() {
             name="email"
             type="email"
             className="form-control"
-            placeholder="Email"
             onChange={handleChange}
             required
           />
         </div>
-        <p>{formErrors.Email}</p>
-        <div className="form-input">
-          <label htmlFor="password" className="form-label">
-            Wachtwoord
-          </label>
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            placeholder="Wachtwoord"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.Password}</p>
-        <div className="form-input">
-          <label htmlFor="password2" className="form-label">
-            Herhaal Wachtwoord
-          </label>
-          <input
-            name="password"
-            type="password"
-            className="form-control"
-            placeholder="Herhaal wachtwoord"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.Password}</p>
+        <p>{formErrors.email}</p>
         <div>
           <button className="form-input-btn" type="submit">
-            Sign up
+            Registreren
           </button>
           <span className="form-input-login">
-            Heb je al een account?
-            <Link to="/Login"> hier</Link>
+            <Link to="/Login">Heb je al een account?</Link>
           </span>
         </div>
       </form>
     </div>
   );
 }
-
 export default FormSignup;
