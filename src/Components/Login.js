@@ -85,15 +85,6 @@ const Login = () => {
                 required
             />
             {/*value: to clear input on submission*/}
-
-            <label htmlFor="password">Wachtwoord:</label>
-            <input
-                type="password"
-                id="password"
-                onChange={(e) => setPwd(e.target.value)}
-                value={pwd}
-                required
-            />
             <button>Inloggen</button>
         </form>
 
