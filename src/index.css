@@ -29,7 +29,7 @@ code {
     justify-content: flex-start;
     padding: 1rem;
     /*background-color: rgba(0,0,0,0.4);*/
-    background-image: linear-gradient(to bottom right, #FFCE00, #FE4880);
+    /* background-image: linear-gradient(to bottom right, #FFCE00, #FE4880); */
 
 }
 
@@ -41,8 +41,6 @@ form {
   padding-bottom: 1rem;
 }
 
-input[type="email"],
-input[type="password"],
 button,
 textarea {
 font-family: 'Nunito', sans-serif;
