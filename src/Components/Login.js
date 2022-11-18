@@ -39,7 +39,7 @@ const Login = () => {
       e.preventDefault();
 
       try {
-          const response = await axios.post(LOGIN_URL, JSON.stringify({ email: user, password: pwd }),
+          const response = await axios.post(LOGIN_URL, JSON.stringify({ mailAddress : user }),
             {
                 headers: { 'Content-Type': 'application/JSON' },
                 withCredentials: false
