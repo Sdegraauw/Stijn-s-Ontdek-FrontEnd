@@ -1,115 +1,145 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { useRef, useState, useEffect } from "react";
+import useAuth from '../hooks/useAuth';
+import axios from '../api/axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-function FormSignup() {
-  const initialvalues = { firstname: "", surname: "", username: "", email: "" };
-  const [inputs, setInputs] = useState(initialvalues);
-  const [formErrors, setFormErrors] = useState({});
+const REGISTER_URL = '/Authentication/register';
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setInputs({ ...inputs, [name]: value });
-    console.log(inputs);
-  };
+const Register = () => {
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setFormErrors(validate(inputs));
-    if (formErrors == false) {
-      axios
-      .post("http://localhost:8082/api/Authentication/register", inputs)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    }
-  };
+  //after successfull login, set new auth state to global context (so the whole app?)
+  const { setAuth } = useAuth();
 
-  const validate = (values) => {
-    const errors = {};
-    if (!values.firstname) {
-      errors.firstname = "Voornaam moet ingevuld zijn";
-    }
-    if (!values.surname) {
-      errors.surname = "Achternaam moet ingevuld zijn";
-    }
-    if (!values.username) {
-      errors.username = "Gebruikersnaam moet ingevuld zijn";
-    }
-    if (!values.email) {
-      errors.email = "Email moet ingevuld zijn";
-    }
-    return errors;
-  };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  
+  const firstnameRef = useRef();
+  const surnameRef = useRef();
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const errRef = useRef();
+  const successRef = useRef();
 
-  return (
-    <div className="form-signup">
-      <form className="form" onSubmit={handleSubmit}>
-        <div className="form-input">
-          <label htmlFor="firstname" className="form-label">
-            Voornaam
-          </label>
-          <input
-            name="firstname"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.firstname}</p>
-        <div className="form-input">
-          <label htmlFor="surname" className="form-label">
-            Achternaam
-          </label>
-          <input
-            name="surname"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.surname}</p>
-        <div className="form-input">
-          <label htmlFor="username" className="form-label">
-            Gebruikersnaam
-          </label>
-          <input
-            name="username"
-            type="text"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.username}</p>
-        <div className="form-input">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            name="email"
-            type="email"
-            className="form-control"
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <p>{formErrors.email}</p>
-        <div>
-          <button className="form-input-btn" type="submit">
-            Registreren
-          </button>
-          <span className="form-input-login">
-            <Link to="/Login">Heb je al een account?</Link>
-          </span>
-        </div>
-      </form>
-    </div>
-  );
+  const [firstname, setFirstname] = useState('');
+  const [surname, setSurname] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [errMsg, setErrMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
+  //put focus on user input box
+  useEffect(() => {
+    firstnameRef.current.focus();
+  }, [])
+
+  useEffect(() => {
+    setErrMsg('');
+  }, [firstname, surname, username, email])
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await axios.post(REGISTER_URL, JSON.stringify({ firstname, surname, username, email }),
+          {
+              headers: { 'Content-Type': 'application/JSON' },
+              withCredentials: false
+          });
+
+        console.log(JSON.stringify(response?.data));
+        const accessToken = response?.data?.accessToken;
+        const roles = response?.data?.roles;
+
+        //save all of our info in auth object, which is saved in global context
+        setAuth({ firstname, surname, username, email, roles, accessToken });
+
+        setFirstname('');
+        setSurname('');
+        setUsername('');
+        setEmail('');
+
+        if (response?.status === 201) {
+          setSuccessMsg('Check your mail inbox!');
+        }
+        
+        // Navigates to home page
+        //navigate(from, { replace: true });
+
+    } catch (err) {
+        if (!err?.response) {
+            setErrMsg('No server response');
+        } else if (err.response?.status === 400) {
+            //400 status is harcoded given by backend
+            setErrMsg('Missing username or password');
+        } else if (err.response?.status === 401) {
+            setErrMsg('Unauthorized');
+        } else {
+            setErrMsg('Register failed');
+        }
+        //set focus on error display, so a screenreader can read info
+        errRef.current.focus();
+      }
 }
-export default FormSignup;
+
+return (
+  <section>
+      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+      <h1>Registreren</h1>
+
+      <form onSubmit={handleSubmit}>
+        <input
+            type="firstname"
+            id="firstname"
+            ref={firstnameRef}
+            autoComplete="off"
+            onChange={(e) => setFirstname(e.target.value)}
+            value={firstname}
+            required
+            placeholder="Voornaam"
+        />
+        <input
+            type="surname"
+            id="surname"
+            ref={surnameRef}
+            autoComplete="off"
+            onChange={(e) => setSurname(e.target.value)}
+            value={surname}
+            required
+            placeholder="Achternaam"
+        />
+        <input
+            type="username"
+            id="username"
+            ref={usernameRef}
+            autoComplete="off"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+            required
+            placeholder="Gebruikersnaam"
+        />
+        <input
+            type="email"
+            id="email"
+            ref={emailRef}
+            autoComplete="off"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            required
+            placeholder="Email"
+        />
+        <button>Registreren</button>
+      </form>
+      <p>
+          Al een account?<br />
+          <span className="line">
+              <Link to="/login">Inloggen</Link>
+          </span>
+      </p>
+  </section>
+)
+}
+
+export default Register
