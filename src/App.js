@@ -29,7 +29,7 @@ function App() {
     <>
       <NavBar> </NavBar>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route className="container" path="/" element={<Layout />}>
           {/* public routes */}
           <Route path="/" element={<Home />} />
           <Route path="About" element={<About />} />

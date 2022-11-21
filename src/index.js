@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
+import "./fonts/Roboto-Regular.woff";
 import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthProvider";

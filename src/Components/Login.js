@@ -76,13 +76,12 @@ const Login = () => {
   }
 
   return (
-    <section>
+    <section className="form-section">
         <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
         <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
         <h1>Inloggen</h1>
 
         <form onSubmit={handleSubmit}>
-            <label htmlFor="email">Email:</label>
             <input
                 type="email"
                 id="email"
@@ -91,6 +90,7 @@ const Login = () => {
                 onChange={(e) => setUser(e.target.value)}
                 value={user}
                 required
+                placeholder="Email"
             />
             <button>Inloggen</button>
         </form>
