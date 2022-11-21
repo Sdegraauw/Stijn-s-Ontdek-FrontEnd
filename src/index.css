@@ -79,6 +79,9 @@ button {
   margin-bottom: 0.5rem;
 }
 
+.bold{
+  font-weight: bold;
+}
 
 .line {
   display: inline-block;

@@ -1,12 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from '../api/axios';
-import {Map, TileLayer, useMap, Popup, Marker, MapLayer} from 'react-leaflet';
+import {Map, TileLayer, useMap, Popup, Marker, Polygon} from 'react-leaflet';
 import HeatmapLayer from './HeatmapLayer';
+import { type } from "@testing-library/user-event/dist/type";
 
 const AVERAGE_DATA_URL = "/Sensor/average";
 
 const BLUR = 30;
 const RADIUS = 30;
+
+const purpleOptions = { color: 'purple' }
+const redOptions = { color: 'red' }
+
+const tilburgPolygonPosition = [
+    [51.581124, 4.994231],
+    [51.575043, 5.002305],
+    [51.539151, 5.079001],
+    [51.59, 5.1]
+  ]
+  
 
 const MapPage = () => {
 
@@ -133,6 +145,19 @@ const MapPage = () => {
                 <div className="col-md-9">
                   <Map center={[51.565120, 5.066322]} zoom={13}>
 
+                  <Polygon pathOptions={redOptions} positions={tilburgPolygonPosition}>
+                    <Popup>
+                        <label className="bold">Algemene data Tilburg:</label> <br/>
+                        <label>Temperatuur: {avgData?.temperature} °C</label><br/>
+                        <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
+                        <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
+                        <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
+                        <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
+                        <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
+                    </Popup>
+                  </Polygon>
+
+
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
                     <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
@@ -196,16 +221,63 @@ const HML = ({heatmapData, gradient, visible}) => {
 
         return(
             <>
-             {data.map(({ id, latitude, longitude , name}) => (
+             {data.map(({ id, latitude, longitude , name, sensors}) => (
             <Marker key = {id} position={[latitude, longitude]}>
               <Popup>
-                {name}
+                <label className="bold">{name}</label>
+
+                {sensors.map(({id, typeId, data}) =>(
+                    <div key = {id}>
+                        <label>
+                            {getDataType(typeId)}: {data} {getDataTypeSuffix(typeId)}
+                        </label>
+                    </div>
+                    
+                ))}
               </Popup>
             </Marker>
         ))}      
             </>
-        )
-            
+        )         
+   }
+   
+
+   function getDataTypeSuffix(typeId){
+    switch(typeId){
+        case 1:
+            return "°C";
+        case 2:
+            return "";
+        case 3:
+            return "";
+        case 4:
+            return "µm ";
+        case 5:
+            return "%";
+        case 6:
+            return "km/h";
+        default:
+            return "Onbekend.";
+    }
+   }
+
+   function getDataType(typeId){
+    switch(typeId){
+        case 1:
+            return "Temperatuur";
+        case 2:
+            return "Stikstof (N2)";
+        case 3:
+            return "koolstofdioxide (CO2)";
+        case 4:
+            return "Fijnstof";
+        case 5:
+            return "Luchtvochtigheid";
+        case 6:
+            return "Windsnelheid";
+        default:
+            return "Onbekend.";
+    }
    }
 
 export default MapPage
