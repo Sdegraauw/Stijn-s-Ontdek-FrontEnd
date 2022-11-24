@@ -85,8 +85,8 @@ const Register = () => {
 
 return (
   <section className="form-section">
-      <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-      <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+      <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+      <p ref={successRef} className={successMsg ? "success-msg" : "offscreen"} aria-live="assertive">{successMsg}</p>
       <h1>Registreren</h1>
 
       <form onSubmit={handleSubmit}>
@@ -132,12 +132,12 @@ return (
         />
         <button>Registreren</button>
       </form>
-      <p>
-          Al een account?<br />
+      <div className="form-redirect">
+          <p>Al een account?</p>
           <span className="line">
               <Link to="/login">Inloggen</Link>
           </span>
-      </p>
+      </div>
   </section>
 )
 }

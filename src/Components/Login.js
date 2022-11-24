@@ -77,8 +77,8 @@ const Login = () => {
 
   return (
     <section className="form-section">
-        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-        <p ref={successRef} className={successMsg ? "successmsg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+        <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+        <p ref={successRef} className={successMsg ? "success-msg" : "offscreen"} aria-live="assertive">{successMsg}</p>
         <h1>Inloggen</h1>
 
         <form onSubmit={handleSubmit}>
@@ -94,13 +94,12 @@ const Login = () => {
             />
             <button>Inloggen</button>
         </form>
-
-        <p>
-            Nog geen account?<br />
+        <div className="form-redirect">
+            <p>Nog geen account?</p>
             <span className="line">
-                <Link to="/signup">Registreer</Link>
+                <Link to="/signup">Registreren</Link>
             </span>
-        </p>
+        </div>
     </section>
   )
 }
