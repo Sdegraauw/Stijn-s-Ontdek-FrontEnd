@@ -2,23 +2,45 @@ import { useState, useEffect } from "react";
 import axios from '../api/axios';
 import {Map, TileLayer, useMap, Popup, Marker, Polygon} from 'react-leaflet';
 import HeatmapLayer from './HeatmapLayer';
-import { type } from "@testing-library/user-event/dist/type";
-
-const AVERAGE_DATA_URL = "/Sensor/average";
 
 const BLUR = 30;
 const RADIUS = 30;
 
 const purpleOptions = { color: 'purple' }
-const redOptions = { color: 'red' }
+const redOptions = { color: 'red', fillColor: 'red' }
 
-const tilburgPolygonPosition = [
-    [51.581124, 4.994231],
-    [51.575043, 5.002305],
-    [51.539151, 5.079001],
-    [51.59, 5.1]
+//TODO: implement RegionCords en Region uit DB!
+
+const tilburgNoord = [
+    [51.56255066080151, 5.110574072153875],
+    [51.578729761919675, 5.089185307344954],
+    [51.58073572699174, 5.051152783432803],
+    [51.597919306791404, 5.07069963024435],
+    [51.57888096194896, 5.123793169211084]
+  ]
+
+  const tilburgOudNoord = [
+    [51.56255066080151, 5.110574072153875],
+    [51.578729761919675, 5.089185307344954],
+    [51.578643584479835, 5.0659733505178215],
+    [51.56100656418654, 5.0647628830634766],
+    [51.56019133219468, 5.1033375878349325]
   ]
   
+  const gradient_default = {
+    0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
+    0.6: '#FAF3A5', 0.8: '#F5D98B', '1.0': '#DE9A96'
+  };
+
+  const gradient_fijnstof = {
+    0.1: '#6D28ED', 0.2: '#9A07EF', 0.4: '#CD13F2',
+    0.6: '#F900E0', 0.8: '#F73D94', '1.0': '#F43430'
+  };
+
+  function getGradient(typeID){
+    if(typeID === 4) return gradient_fijnstof;
+    return gradient_default;
+}
 
 const MapPage = () => {
 
@@ -33,29 +55,11 @@ const MapPage = () => {
     const [showWindspeed, setShowWindspeed] = useState(false)
 
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
 
     const [showDataStations, setShowDataStations] = useState(true)
-
-    const gradient_default = {
-        0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
-        0.6: '#FAF3A5', 0.8: '#F5D98B', '1.0': '#DE9A96'
-      };
-
-      const gradient_fijnstof = {
-        0.1: '#6D28ED', 0.2: '#9A07EF', 0.4: '#CD13F2',
-        0.6: '#F900E0', 0.8: '#F73D94', '1.0': '#F43430'
-      };
-
-      //1=temp, 2= stikstof, 3=koolstofdioxide, 4= fijnstof, 5=luchtvochtigheid, 6=windsnelheid
-      function getGradient(typeID){
-
-        if(typeID === 4) return gradient_fijnstof;
-        return gradient_default;
-
-      }
+    const [showRegions, setShowRegions] = useState(true)
 
     function handleToggleTemp(){
         setShowTemp(!showTemp);
@@ -85,6 +89,10 @@ const MapPage = () => {
         setShowDataStations(!showDataStations);
     }
 
+    function handleToggleShowRegions(){
+        setShowRegions(!showRegions);
+    }
+
     function getHeatmapData()
     {
         axios.get('http://localhost:8082/api/Heatmap/'+1).then((response) => setTemperatureData(response.data))
@@ -94,72 +102,52 @@ const MapPage = () => {
         .catch((error) => console.log(error))
     }
 
-    useEffect(() => {
-        //used to clean up the async function in the useEffect
-        let isMounted = true;
-        const controller = new AbortController();
-
-        axios
-        .get(`http://localhost:8082/api/Station/Stations`)
-        .then((response) => setData(response.data))
+    function getStationsData()
+    {
+        axios.get(`http://localhost:8082/api/Station/Stations`).then((response) => setData(response.data))
         .catch((error) => console.log(error))
-        .finally(() => setLoading(false));
+    }
 
-        const getAvgData = async () => {
-            try {
-                const response = await axios.get(AVERAGE_DATA_URL, {
-                    signal: controller.signal
-                });
-                
-                isMounted && setAvgData(response.data); 
-                // const count = Object.keys(response.data).length;
-                // console.log(count);
-                if (response.data.length === 0) {
-                    setErrMsg('Geen algemene data gevonden');
-                }
-            } catch (err) {
-                setErrMsg('Server timeout');
-                console.error(err);
-            }
+    function getAverageData()
+    {
+        axios.get('http://localhost:8082/api/Sensor/average').then((response) => setAvgData(response.data))
+        .catch((error) => console.log(error))
+    }
+
+    useEffect(() => {
+
+        try
+        {
+            getStationsData();
+            getAverageData();
+            getHeatmapData();
+        }
+        catch(error)
+        {
+            console.log('error loading data.');
+            setErrMsg('Fout bij ophalen kaart-data.');
         }
 
-        getAvgData();
-
-        getHeatmapData();
-
-        return () => {
-            isMounted = false;
-            controller.abort();
-        }
     }, [])
     
     return (
         <div className="container">
 
             <label>Toon meetstations: </label>
-            <input type="checkbox" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
+            <input type="checkbox" checked={showDataStations} onChange={handleToggleShowDataStations}></input> <br></br>
 
+            <label>Toon regio's: </label>
+            <input type="checkbox" checked={showRegions} onChange={handleToggleShowRegions}></input>
 
             <div className="row seethroughsection">
 
                 <div className="col-md-9">
-                  <Map center={[51.565120, 5.066322]} zoom={13}>
-
-                  <Polygon pathOptions={redOptions} positions={tilburgPolygonPosition}>
-                    <Popup>
-                        <label className="bold">Algemene data Tilburg:</label> <br/>
-                        <label>Temperatuur: {avgData?.temperature} °C</label><br/>
-                        <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
-                        <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
-                        <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
-                        <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
-                        <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
-                    </Popup>
-                  </Polygon>
-
+                  <Map center={[51.565120, 5.066322]} zoom={13}> 
 
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
+
+                    <PolygonLayer avgData={avgData} visible={showRegions}></PolygonLayer>
                     <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
                     <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
                     <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
@@ -195,6 +183,28 @@ const MapPage = () => {
                 </div>
             </div>
         </div>
+    )
+}
+
+const PolygonLayer = ({avgData, visible}) =>{
+    if(!visible) return(<></>);
+
+    return (
+        <>
+         <Polygon positions={tilburgNoord}></Polygon>
+
+            <Polygon color="red" positions={tilburgOudNoord}>
+            <Popup>
+                <label className="bold">Algemene data Tilburg:</label> <br/>
+                <label>Temperatuur: {avgData?.temperature} °C</label><br/>
+                <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
+                <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
+                <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
+                <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
+                <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
+            </Popup>
+    </Polygon>
+        </>
     )
 }
 
