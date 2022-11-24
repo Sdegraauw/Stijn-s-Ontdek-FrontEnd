@@ -15,13 +15,25 @@ body {
 }
 /* Setting general spacing for all content in main */
 main {
-  margin: auto;
+  margin: 0 auto;
   width: 1280px;
   max-width: 1280px;
 }
 /*///////////////////////////////////////////////////*/
 /*                  Specific classes                 */
 /*///////////////////////////////////////////////////*/
+/* Navbar */
+.navbar-section {
+  background-color: var(--yellow);
+}
+.navbar-section nav a, .navbar-section nav div ul li a  {
+  color: var(--dark-grey);
+}
+nav.navbar {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+/* End navbar */
 /* Form */
 form {
   display: flex;
