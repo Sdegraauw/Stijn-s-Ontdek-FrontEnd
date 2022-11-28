@@ -17,7 +17,6 @@ body {
 /* Setting general spacing for all content in main */
 main {
   margin: 0 auto;
-  width: 1280px;
   max-width: 1280px;
 }
 .bold {
@@ -47,9 +46,6 @@ nav.navbar {
   width: 100%;
   height: 40rem;
   border-radius: 0.5rem;
-}
-.map-options {
-  
 }
 /* End home */
 
@@ -126,6 +122,14 @@ form {
   margin-bottom: 0.5rem;
 }
 /* End alerts */
+/*///////////////////////////////////////////////////*/
+/*                 Responsive changes                */
+/*///////////////////////////////////////////////////*/
+@media only screen and (max-width: 600px) {
+  body {
+    background-color: lightblue;
+  }
+}
 /*///////////////////////////////////////////////////*/
 /*                       Fonts                       */
 /*///////////////////////////////////////////////////*/
