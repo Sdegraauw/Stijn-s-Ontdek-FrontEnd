@@ -10,22 +10,6 @@ const purpleOptions = { color: 'purple' }
 const redOptions = { color: 'red', fillColor: 'red' }
 
 //TODO: implement RegionCords en Region uit DB!
-
-const tilburgNoord = [
-    [51.56255066080151, 5.110574072153875],
-    [51.578729761919675, 5.089185307344954],
-    [51.58073572699174, 5.051152783432803],
-    [51.597919306791404, 5.07069963024435],
-    [51.57888096194896, 5.123793169211084]
-  ]
-
-  const tilburgOudNoord = [
-    [51.56255066080151, 5.110574072153875],
-    [51.578729761919675, 5.089185307344954],
-    [51.578643584479835, 5.0659733505178215],
-    [51.56100656418654, 5.0647628830634766],
-    [51.56019133219468, 5.1033375878349325]
-  ]
   
   const gradient_default = {
     0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
@@ -57,6 +41,7 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
+    const [regionData, setRegionData] = useState([]);
 
     const [showDataStations, setShowDataStations] = useState(true)
     const [showRegions, setShowRegions] = useState(true)
@@ -104,13 +89,19 @@ const Home = () => {
 
     function getStationsData()
     {
-        axios.get(`http://localhost:8082/api/Station/Stations`).then((response) => setData(response.data))
+        axios.get(`http://localhost:8082/api/Station/Stations`).then((response) => {setData(response.data); console.log(response.data);})
         .catch((error) => console.log(error))
     }
 
     function getAverageData()
     {
         axios.get('http://localhost:8082/api/Sensor/average').then((response) => setAvgData(response.data))
+        .catch((error) => console.log(error))
+    }
+
+    function getRegionCords()
+    {
+        axios.get('http://localhost:8082/api/Region/regioninfo').then((response) => {setRegionData(response.data); console.log(response.data);})
         .catch((error) => console.log(error))
     }
 
@@ -121,6 +112,7 @@ const Home = () => {
             getStationsData();
             getAverageData();
             getHeatmapData();
+            getRegionCords();
         }
         catch(error)
         {
@@ -147,7 +139,8 @@ const Home = () => {
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
 
-                    <PolygonLayer avgData={avgData} visible={showRegions}></PolygonLayer>
+
+                    <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
                     <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
                     <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
                     <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
@@ -186,14 +179,12 @@ const Home = () => {
     )
 }
 
-const PolygonLayer = ({avgData, visible}) =>{
-    if(!visible) return(<></>);
+const PolygonLayer = ({avgData, regionData, visible}) =>{
+    return(<></>);
 
     return (
         <>
-         <Polygon positions={tilburgNoord}></Polygon>
-
-            <Polygon color="red" positions={tilburgOudNoord}>
+            <Polygon color="red" positions={regionData}>
             <Popup>
                 <label className="bold">Algemene data Tilburg:</label> <br/>
                 <label>Temperatuur: {avgData?.temperature} °C</label><br/>
@@ -224,6 +215,47 @@ const HML = ({heatmapData, gradient, visible}) => {
         max={Number.parseFloat(0.4)}
       />
     )
+   }
+
+   const RegionLayer = ({data, visible}) =>{
+    if(!visible) return (<></>);
+
+
+     return (
+        <>
+        {data.map(({ region, cordsList, averageData}) =>(
+            <Polygon positions={cordsList} key={region.id}>
+                <Popup>
+                    <label className="bold">Algemene data {region.name}</label> <br/>
+                    <label>Temperatuur: {averageData.temperature} °C</label><br/>
+                    <label>Stikstof (N2): {averageData.nitrogen}</label><br/>
+                    <label>koolstofdioxide (CO2): {averageData.carbonDioxide}</label><br/>
+                    <label>Fijnstof: {averageData.particulateMatter} µm</label><br/>
+                    <label>Luchtvochtigheid: {averageData.humidity}%</label><br/>
+                    <label>Windsnelheid: {averageData.windSpeed} km/h</label>
+                </Popup>
+         </Polygon>
+        ))}
+        </>)
+
+    // return (
+    //     <>
+    //     {data.map(({ Id, region, cordsList}) =>(
+    //         <Polygon positions={cordsList} key={Id}>
+    //             <Popup>
+    //             <label className="bold">Algemene data Tilburg:</label> <br/>
+    //             <label>Temperatuur: {avgData?.temperature} °C</label><br/>
+    //             <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
+    //             <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
+    //             <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
+    //             <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
+    //             <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
+    //         </Popup>
+    //         </Polygon>
+    //     ))}
+    //     </>
+    // )
+
    }
 
    const MeetStationLayer = ({data, visible}) =>{
