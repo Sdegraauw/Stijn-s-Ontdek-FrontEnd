@@ -4,6 +4,7 @@
 /* Declare color variables for global use */
 :root {
   --yellow: #FECB3D;
+  --dark-yellow: #F1C13A;
   --dark-grey: #424043;
   --red: #F42D21;
   --green: #33A567;
@@ -63,7 +64,6 @@ form {
   margin: auto;
   margin-top: 1.6rem;
   max-width: 420px;
-  min-height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -90,6 +90,12 @@ form {
   font-size: 22px;
   padding: 0.7rem;
   margin-top: 0.8rem;
+}
+.form-section form button:hover {
+  background-color: var(--dark-yellow);
+}
+.form-section form button:active {
+  transform: scale(0.98);
 }
 .form-section .form-redirect {
   display: flex;

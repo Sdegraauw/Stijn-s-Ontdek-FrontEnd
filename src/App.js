@@ -4,7 +4,7 @@ import Home from "./Components/Home";
 import Login from "./Components/Login";
 import About from "./Components/About";
 import ErrorPage from "./Components/ErrorPage";
-import FormSignup from "./Components/FormSignup";
+import Register from "./Components/Register";
 import RegisterStation from "./Components/RegisterStation";
 import Unauthorized from "./Components/Unauthorized";
 import Admin from "./Components/Admin";
@@ -33,7 +33,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="About" element={<About />} />
           <Route path="Login" element={<Login />} />
-          <Route path="Register" element={<FormSignup />} />
+          <Route path="Register" element={<Register />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
           <Route path="/Account" element={<Account />} />
 
