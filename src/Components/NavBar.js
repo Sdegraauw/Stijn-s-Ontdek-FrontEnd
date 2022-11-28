@@ -21,9 +21,6 @@ function NavBar() {
         </a>
         <div className="navbar-nav justify-content-end" id="navbarLinks">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-          <li className="nav-item">
-              <Link className="nav-link" to="/Map">Kaart</Link>
-            </li>
             <li className="nav-item">
               <Link className="nav-link" to="/about">Over ons</Link>
             </li>

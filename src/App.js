@@ -17,7 +17,6 @@ import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
 import UserDetails from "./Components/UserDetails";
-import MapPage from "./Components/MapPage";
 
 const ROLES = {
   User: 2001,
@@ -36,7 +35,6 @@ function App() {
           <Route path="Login" element={<Login />} />
           <Route path="Register" element={<FormSignup />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
-          <Route path="Map" element={<MapPage />} />
           <Route path="/Account" element={<Account />} />
 
           {/* we want to protect these routes */}
