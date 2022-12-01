@@ -145,19 +145,19 @@ const Home = () => {
           <div className="map-options">
             <h2>Instellingen</h2>
             <div className="form-check">
-              <label for="showDataStations">Toon meetstations: </label>
+              <label for="showDataStations">Meetstations</label>
               <input className="form-check-input" type="checkbox" id="showDataStations" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
             </div>
             <div className="form-check">
-              <label for="showRegions">Toon regio's: </label>
+              <label for="showRegions">Regio's</label>
               <input className="form-check-input" type="checkbox" id="showRegions" checked={showRegions} onChange={handleToggleShowRegions}></input>
             </div>
             <div className="form-check">
-              <label for="showTemp">Toon temperatuur {avgData?.temperature}</label>
+              <label for="showTemp">Temperatuur</label>
               <input className="form-check-input" type="checkbox" id="showTemp" checked={showTemp} onChange={handleToggleTemp}></input>
             </div>
             <div className="form-check">
-              <label for="showParticulateMatter">Toon fijnstof {avgData?.particulateMatter}</label>
+              <label for="showParticulateMatter">Fijnstof</label>
               <input className="form-check-input" type="checkbox" id="showParticulateMatter" checked={showFijnstof} onChange={handleToggleFijnStof}></input>
             </div>
           </div>
