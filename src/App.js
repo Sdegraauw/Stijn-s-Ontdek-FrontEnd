@@ -26,7 +26,7 @@ const ROLES = {
 function App() {
   return (
     <>
-      <NavBar> </NavBar>
+      <NavBar></NavBar>
       <Routes>
         <Route className="container" path="/" element={<Layout />}>
           {/* public routes */}

@@ -1,6 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import "popper.js";
+import "jquery/src/jquery";
 import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/js/bootstrap";
 import "./index.css";
 import "./fonts/Roboto-Regular.woff";
 import App from "./App";

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ReactComponent as Menu } from '../img/icons/menu.svg';
 
 function NavBar() {
   return (
@@ -11,7 +12,7 @@ function NavBar() {
         {/* Collapse button */}
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
           aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
+          <Menu className="navbar-toggler-icon" />
         </button>
 
         {/* Collapsible content */}
@@ -19,16 +20,16 @@ function NavBar() {
           {/* Container for links */}
           <ul className="navbar-nav mr-auto">
             {/* Links */}
-            <li className="nav-item">
+            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <Link className="nav-link" to="/about">Over ons</Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <Link className="nav-link" to="/Account">Mijn stations</Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <Link className="nav-link" to="/Userdetails">Mijn gegevens</Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <Link className="nav-link" to="/login">Login</Link>
             </li>
           </ul>

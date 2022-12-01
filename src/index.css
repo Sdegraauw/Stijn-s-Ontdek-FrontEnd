@@ -7,6 +7,7 @@
   --dark-yellow: #F1C13A;
   --dark-grey: #424043;
   --red: #F42D21;
+  --light-red: #dc3545;
   --green: #33A567;
 }
 body {
@@ -35,6 +36,12 @@ main {
 nav.navbar {
   max-width: 1280px;
   margin: 0 auto;
+}
+.navbar-toggler:focus {
+  box-shadow: none !important;
+}
+.navbar-toggler-icon {
+  color: var(--dark-grey);
 }
 /* End navbar */
 
@@ -125,9 +132,13 @@ form {
 /*///////////////////////////////////////////////////*/
 /*                 Responsive changes                */
 /*///////////////////////////////////////////////////*/
-@media only screen and (max-width: 600px) {
-  body {
-    background-color: lightblue;
+@media only screen and (max-width: 1350px) {
+  main {
+    padding: 12px;
+  }
+  nav.navbar {
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 /*///////////////////////////////////////////////////*/

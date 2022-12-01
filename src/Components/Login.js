@@ -15,29 +15,29 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
     
-    const userRef = useRef();
+    const mailRef = useRef();
     const errRef = useRef();
     const successRef = useRef();
 
-    const [user, setUser] = useState('');
+    const [mail, setMail] = useState('');
     const [errMsg, setErrMsg] = useState('');
     const [successMsg, setSuccessMsg] = useState('');
 
     //put focus on user input box
     useEffect(() => {
-      userRef.current.focus();
+      mailRef.current.focus();
     }, [])
 
     useEffect(() => {
       setErrMsg('');
       setSuccessMsg('');
-    }, [user])
+    }, [mail])
 
 
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post(LOGIN_URL, JSON.stringify({ mailAddress : user }),
+        const response = await axios.post(LOGIN_URL, JSON.stringify({ mailAddress : mail }),
           {
               headers: { 'Content-Type': 'application/JSON' },
               withCredentials: false
@@ -48,8 +48,8 @@ const Login = () => {
         const roles = response?.data?.roles;
 
         //save all of our info in auth object, which is saved in global context
-        setAuth({ user, roles, accessToken });
-        setUser('');
+        setAuth({ mail, roles, accessToken });
+        setMail('');
         if (response?.status === 200) {
           setSuccessMsg('Check your mail inbox!');
         }
@@ -79,10 +79,10 @@ const Login = () => {
             <input
                 type="email"
                 id="email"
-                ref={userRef}
+                ref={mailRef}
                 autoComplete="off"
-                onChange={(e) => setUser(e.target.value)}
-                value={user}
+                onChange={(e) => setMail(e.target.value)}
+                value={mail}
                 required
                 placeholder="Email"
             />
