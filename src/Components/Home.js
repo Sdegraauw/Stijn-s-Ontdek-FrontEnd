@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import axios from '../api/axios';
 import {Map, TileLayer, useMap, Popup, Marker, Polygon} from 'react-leaflet';
 import HeatmapLayer from './HeatmapLayer';
@@ -45,6 +45,7 @@ const tilburgNoord = [
 const Home = () => {
 
     const [avgData, setAvgData] = useState();
+    const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
 
     const [showTemp, setShowTemp] = useState(false)
@@ -131,57 +132,35 @@ const Home = () => {
     }, [])
     
     return (
-        <div className="container">
-
-            <label>Toon meetstations: </label>
-            <input type="checkbox" checked={showDataStations} onChange={handleToggleShowDataStations}></input> <br></br>
-
-            <label>Toon regio's: </label>
-            <input type="checkbox" checked={showRegions} onChange={handleToggleShowRegions}></input>
-
-            <div className="row seethroughsection">
-
-                <div className="col-md-9">
-                  <Map center={[51.565120, 5.066322]} zoom={13}> 
-
-                    <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
-
-                    <PolygonLayer avgData={avgData} visible={showRegions}></PolygonLayer>
-                    <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-                    <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
-                    <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
-        
-
-                  </Map>
-                </div>
-
-                <div className="col-md-3">
-                    <div className="two-thirdpadding">
-                        <div className="legend">
-                            <h4>Algemene data</h4>
-                            {(!errMsg)
-                                ? (
-                                    <ul>
-                                        <li><span></span>Temperatuur: {avgData?.temperature} °C
-                                        <input type="checkbox" checked={showTemp} onChange={handleToggleTemp}></input></li>
-                                        <li><span></span>Stikstof (N2): {avgData?.nitrogen}
-                                        <input type="checkbox" checked={showStikstof} onChange={handleToggleStikstof}></input></li>
-                                        <li><span></span>koolstofdioxide (CO2): {avgData?.carbonDioxide}
-                                        <input type="checkbox" checked={showKoolstof} onChange={handleToggleKoolstof}></input></li>
-                                        <li><span></span>Fijnstof: {avgData?.particulateMatter} µm 
-                                        <input type="checkbox" checked={showFijnstof} onChange={handleToggleFijnStof}></input></li>
-                                        <li><span></span>Luchtvochtigheid: {avgData?.humidity}%
-                                        <input type="checkbox" checked={showVochtigheid} onChange={handleToggleVochtigheid}></input></li>
-                                        <li><span></span>Windsnelheid: {avgData?.windSpeed} km/h
-                                        <input type="checkbox" checked={showWindspeed} onChange={handleToggleWindspeed}></input></li>
-                                    </ul>
-                                ) : <p>{errMsg}</p>
-                            }
-                        </div>
-                    </div>
-                </div>
+        <div className="home-section">
+          <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
+          <Map center={[51.565120, 5.066322]} zoom={13}> 
+            <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
+            <PolygonLayer avgData={avgData} visible={showRegions}></PolygonLayer>
+            <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
+            <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
+            <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
+          </Map>
+          <div className="map-options">
+            <h2>Instellingen</h2>
+            <div className="form-check">
+              <label for="showDataStations">Meetstations</label>
+              <input className="form-check-input" type="checkbox" id="showDataStations" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
             </div>
+            <div className="form-check">
+              <label for="showRegions">Regio's</label>
+              <input className="form-check-input" type="checkbox" id="showRegions" checked={showRegions} onChange={handleToggleShowRegions}></input>
+            </div>
+            <div className="form-check">
+              <label for="showTemp">Temperatuur</label>
+              <input className="form-check-input" type="checkbox" id="showTemp" checked={showTemp} onChange={handleToggleTemp}></input>
+            </div>
+            <div className="form-check">
+              <label for="showParticulateMatter">Fijnstof</label>
+              <input className="form-check-input" type="checkbox" id="showParticulateMatter" checked={showFijnstof} onChange={handleToggleFijnStof}></input>
+            </div>
+          </div>
         </div>
     )
 }

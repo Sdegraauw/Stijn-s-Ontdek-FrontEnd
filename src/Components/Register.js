@@ -91,7 +91,7 @@ return (
 
       <form onSubmit={handleSubmit}>
         <input
-            type="firstname"
+            type="text"
             id="firstname"
             ref={firstnameRef}
             autoComplete="off"
@@ -101,7 +101,7 @@ return (
             placeholder="Voornaam"
         />
         <input
-            type="surname"
+            type="text"
             id="surname"
             ref={surnameRef}
             autoComplete="off"
@@ -111,7 +111,7 @@ return (
             placeholder="Achternaam"
         />
         <input
-            type="username"
+            type="text"
             id="username"
             ref={usernameRef}
             autoComplete="off"
