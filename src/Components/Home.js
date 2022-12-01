@@ -6,11 +6,8 @@ import HeatmapLayer from './HeatmapLayer';
 const BLUR = 30;
 const RADIUS = 30;
 
-const purpleOptions = { color: 'purple' }
-const redOptions = { color: 'red', fillColor: 'red' }
-
 //TODO: implement RegionCords en Region uit DB!
-  
+
   const gradient_default = {
     0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
     0.6: '#FAF3A5', 0.8: '#F5D98B', '1.0': '#DE9A96'
@@ -24,6 +21,15 @@ const redOptions = { color: 'red', fillColor: 'red' }
   function getGradient(typeID){
     if(typeID === 4) return gradient_fijnstof;
     return gradient_default;
+}
+
+const colors = {
+    1: "red", 2: "green", 3: "blue", 4: "purple", 5: "cyan", 6: "brown", 7: "gray", 8: "pink", 9: "yellow"
+}
+
+function getRegionColor(regionId){
+    if(regionId <= 9) return colors[regionId];
+    else return regionId[1];
 }
 
 const Home = () => {
@@ -43,8 +49,8 @@ const Home = () => {
     const [fijnstofData, setFijnstofData] = useState([]);
     const [regionData, setRegionData] = useState([]);
 
-    const [showDataStations, setShowDataStations] = useState(true)
-    const [showRegions, setShowRegions] = useState(true)
+    const [showDataStations, setShowDataStations] = useState(true);
+    const [showRegions, setShowRegions] = useState(true);
 
     function handleToggleTemp(){
         setShowTemp(!showTemp);
@@ -121,7 +127,7 @@ const Home = () => {
         }
 
     }, [])
-    
+
     return (
         <div className="container">
 
@@ -140,10 +146,10 @@ const Home = () => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
 
 
-                    <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
+                    <RegionLayer data={regionData} visible={showRegions} _opacity={0}></RegionLayer>
                     <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-                    <HML heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HML>
-                    <HML heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HML>
+                    <HeatMapLayer heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HeatMapLayer>
         
 
                   </Map>
@@ -179,27 +185,33 @@ const Home = () => {
     )
 }
 
-const PolygonLayer = ({avgData, regionData, visible}) =>{
-    return(<></>);
+const RegionLayer = ({data, visible}) =>{
+    if(!visible) return (<></>);
 
-    return (
+     return (
         <>
-            <Polygon color="red" positions={regionData}>
-            <Popup>
-                <label className="bold">Algemene data Tilburg:</label> <br/>
-                <label>Temperatuur: {avgData?.temperature} °C</label><br/>
-                <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
-                <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
-                <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
-                <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
-                <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
-            </Popup>
-    </Polygon>
-        </>
-    )
-}
+        {data.map(({ region, cordsList, averageData}) =>(
+            <Polygon positions={cordsList} key={region.id} color={getRegionColor(region.id)} opacity={0.25} fillOpacity={0.2}>
+                <Popup>
+                    <label className="bold">Algemene data {region.name}</label> <br/>
 
-const HML = ({heatmapData, gradient, visible}) => {
+                    {averageData.map(({id, name, data}) =>(
+                    <div key = {id}>
+                        <label>
+                            {name}: {data} {getDataTypeSuffix(id)}
+                        </label>
+                    </div>
+                    
+                ))}
+                </Popup>
+         </Polygon>
+        ))}
+        </>)
+
+   }
+
+
+const HeatMapLayer = ({heatmapData, gradient, visible}) => {
     if(!visible) return(<></>);
 
     return (
@@ -215,47 +227,6 @@ const HML = ({heatmapData, gradient, visible}) => {
         max={Number.parseFloat(0.4)}
       />
     )
-   }
-
-   const RegionLayer = ({data, visible}) =>{
-    if(!visible) return (<></>);
-
-
-     return (
-        <>
-        {data.map(({ region, cordsList, averageData}) =>(
-            <Polygon positions={cordsList} key={region.id}>
-                <Popup>
-                    <label className="bold">Algemene data {region.name}</label> <br/>
-                    <label>Temperatuur: {averageData.temperature} °C</label><br/>
-                    <label>Stikstof (N2): {averageData.nitrogen}</label><br/>
-                    <label>koolstofdioxide (CO2): {averageData.carbonDioxide}</label><br/>
-                    <label>Fijnstof: {averageData.particulateMatter} µm</label><br/>
-                    <label>Luchtvochtigheid: {averageData.humidity}%</label><br/>
-                    <label>Windsnelheid: {averageData.windSpeed} km/h</label>
-                </Popup>
-         </Polygon>
-        ))}
-        </>)
-
-    // return (
-    //     <>
-    //     {data.map(({ Id, region, cordsList}) =>(
-    //         <Polygon positions={cordsList} key={Id}>
-    //             <Popup>
-    //             <label className="bold">Algemene data Tilburg:</label> <br/>
-    //             <label>Temperatuur: {avgData?.temperature} °C</label><br/>
-    //             <label>Stikstof (N2): {avgData?.nitrogen}</label><br/>
-    //             <label>koolstofdioxide (CO2): {avgData?.carbonDioxide}</label><br/>
-    //             <label>Fijnstof: {avgData?.particulateMatter} µm</label><br/>
-    //             <label>Luchtvochtigheid: {avgData?.humidity}%</label><br/>
-    //             <label>Windsnelheid: {avgData?.windSpeed} km/h</label>
-    //         </Popup>
-    //         </Polygon>
-    //     ))}
-    //     </>
-    // )
-
    }
 
    const MeetStationLayer = ({data, visible}) =>{
