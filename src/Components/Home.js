@@ -38,6 +38,7 @@ const Home = () => {
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
 
+    const [showSettings, setShowSettings] = useState(false)
     const [showTemp, setShowTemp] = useState(false)
     const [showStikstof, setShowStikstof] = useState(false)
     const [showKoolstof, setShowKoolstof] = useState(false)
@@ -92,7 +93,9 @@ const Home = () => {
             handleAxiosError(error);
         })
 
-        axios.get('http://localhost:8082/api/Heatmap/'+4).then((response) => setFijnstofData(response.data))
+        axios.get('http://localhost:8082/api/Heatmap/'+4).then(function (response) {
+            setFijnstofData(response.data)
+        })
         .catch(function (error) {
             handleAxiosError(error);
         })
@@ -116,7 +119,12 @@ const Home = () => {
 
     function getRegionCords()
     {
-        axios.get('http://localhost:8082/api/Region/regioninfo').then((response) => {setRegionData(response.data); console.log(response.data);})
+        axios.get('http://localhost:8082/api/Region/regioninfo').then((response) => {
+            setRegionData(response.data);
+            // Since this is the last called get request, enable settings when successfull
+            setShowSettings(true);
+            console.log(response.data);
+        })
         .catch(function (error) {
             handleAxiosError(error);
         })
@@ -126,7 +134,6 @@ const Home = () => {
     function handleAxiosError(error) {
         console.log(error);
         setErrMsg('Het ophalen van de gegevens is mislukt');
-
     }
 
     useEffect(() => {
@@ -166,7 +173,7 @@ const Home = () => {
                 </Map>
             </div>
             {
-                !errMsg && (
+                showSettings && (
                     <div className="map-options">
                         <h2>Instellingen</h2>
                         <div className="form-check">
