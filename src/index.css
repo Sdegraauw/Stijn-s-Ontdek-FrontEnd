@@ -136,18 +136,18 @@ form {
 
 /* Alerts */
 .error-msg {
-  color: rgb(207, 48, 48);
-  background-color: #f8d7da;
-  border: 0.15rem solid;
+  color: #5f2120;
+  background-color: #fdeded;
+  border-left: 0.6rem #ef5350 solid;
   border-radius: 0.25rem;
   font-weight: bold;
   padding: 0.8rem;
   margin-bottom: 0.5rem;
 }
 .success-msg {
-  color: #155724;
-  background-color: #d4edda;
-  border: 0.15rem solid;
+  color: #1e4620;
+  background-color: #edf7ed;
+  border-left: 0.6rem #4caf50 solid;
   border-radius: 0.25rem;
   font-weight: bold;
   padding: 0.8rem;
@@ -164,6 +164,12 @@ form {
   nav.navbar {
     padding-left: 12px;
     padding-right: 12px;
+  }
+}
+@media only screen and (max-width: 650px) {
+  .errorOverlay p {
+    font-size: 1.5rem;
+    text-align: center;
   }
 }
 /*///////////////////////////////////////////////////*/
