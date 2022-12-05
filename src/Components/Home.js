@@ -88,32 +88,48 @@ const Home = () => {
     function getHeatmapData()
     {
         axios.get('http://localhost:8082/api/Heatmap/'+1).then((response) => setTemperatureData(response.data))
-        .catch((error) => console.log(error))
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
 
         axios.get('http://localhost:8082/api/Heatmap/'+4).then((response) => setFijnstofData(response.data))
-        .catch((error) => console.log(error))
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
     }
 
     function getStationsData()
     {
         axios.get(`http://localhost:8082/api/Station/Stations`).then((response) => {setData(response.data); console.log(response.data);})
-        .catch((error) => console.log(error))
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
     }
 
     function getAverageData()
     {
         axios.get('http://localhost:8082/api/Sensor/average').then((response) => setAvgData(response.data))
-        .catch((error) => console.log(error))
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
     }
 
     function getRegionCords()
     {
         axios.get('http://localhost:8082/api/Region/regioninfo').then((response) => {setRegionData(response.data); console.log(response.data);})
-        .catch((error) => console.log(error))
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
+        
+    }
+
+    function handleAxiosError(error) {
+        console.log(error);
+        setErrMsg('Het ophalen van de gegevens is mislukt');
+
     }
 
     useEffect(() => {
-
         try
         {
             getStationsData();
@@ -121,44 +137,57 @@ const Home = () => {
             getHeatmapData();
             getRegionCords();
         }
-        catch(error)
+        catch (error)
         {
+            // Errors don't reach this catch, check function 'handleAxiosError'
             console.log('error loading data.');
             setErrMsg('Fout bij ophalen kaart-data.');
         }
-
     }, [])
 
     return (
         <div className="home-section">
-          <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-          <Map center={[51.565120, 5.066322]} zoom={13}> 
-            <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
-            <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-            <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-            <HeatMapLayer heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HeatMapLayer>
-            <HeatMapLayer heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HeatMapLayer>
-          </Map>
-          <div className="map-options">
-            <h2>Instellingen</h2>
-            <div className="form-check">
-              <label htmlFor="showDataStations">Meetstations</label>
-              <input className="form-check-input" type="checkbox" id="showDataStations" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
+            <div className="map-container">
+                {
+                    errMsg && (
+                        <div className="errorOverlay">
+                            <p ref={errRef} aria-live="assertive">{errMsg}</p>
+                            <button className="button" onClick={() => window.location.reload(false) }>Opnieuw proberen</button>
+                        </div>
+                    )
+                }
+                <Map center={[51.565120, 5.066322]} zoom={13}> 
+                    <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/> 
+                    <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
+                    <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
+                    <HeatMapLayer heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HeatMapLayer>
+                </Map>
             </div>
-            <div className="form-check">
-              <label htmlFor="showRegions">Regio's</label>
-              <input className="form-check-input" type="checkbox" id="showRegions" checked={showRegions} onChange={handleToggleShowRegions}></input>
-            </div>
-            <div className="form-check">
-              <label htmlFor="showTemp">Temperatuur</label>
-              <input className="form-check-input" type="checkbox" id="showTemp" checked={showTemp} onChange={handleToggleTemp}></input>
-            </div>
-            <div className="form-check">
-              <label htmlFor="showParticulateMatter">Fijnstof</label>
-              <input className="form-check-input" type="checkbox" id="showParticulateMatter" checked={showFijnstof} onChange={handleToggleFijnStof}></input>
-            </div>
-          </div>
+            {
+                !errMsg && (
+                    <div className="map-options">
+                        <h2>Instellingen</h2>
+                        <div className="form-check">
+                            <label htmlFor="showDataStations">Meetstations</label>
+                            <input className="form-check-input" type="checkbox" id="showDataStations" checked={showDataStations} onChange={handleToggleShowDataStations}></input>
+                        </div>
+                        <div className="form-check">
+                            <label htmlFor="showRegions">Regio's</label>
+                            <input className="form-check-input" type="checkbox" id="showRegions" checked={showRegions} onChange={handleToggleShowRegions}></input>
+                        </div>
+                        <div className="form-check">
+                            <label htmlFor="showTemp">Temperatuur</label>
+                            <input className="form-check-input" type="checkbox" id="showTemp" checked={showTemp} onChange={handleToggleTemp}></input>
+                        </div>
+                        <div className="form-check">
+                            <label htmlFor="showParticulateMatter">Fijnstof</label>
+                            <input className="form-check-input" type="checkbox" id="showParticulateMatter" checked={showFijnstof} onChange={handleToggleFijnStof}></input>
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

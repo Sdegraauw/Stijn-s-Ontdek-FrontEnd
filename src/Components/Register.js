@@ -42,7 +42,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-        const response = await axios.post(REGISTER_URL, JSON.stringify({ firstname, surname, username, email }),
+        const response = await axios.post(REGISTER_URL, JSON.stringify({ firstName : firstname, lastName : surname, userName : username, mailAddress : email }),
           {
               headers: { 'Content-Type': 'application/JSON' },
               withCredentials: false
@@ -61,7 +61,7 @@ const Register = () => {
         setEmail('');
 
         if (response?.status === 201) {
-          setSuccessMsg('Check your mail inbox!');
+          setSuccessMsg('Gelukt! Bekijk uw mail voor verdere instructies');
         }
         
         // Navigates to home page
@@ -69,14 +69,33 @@ const Register = () => {
 
     } catch (err) {
         if (!err?.response) {
-            setErrMsg('No server response');
+            setErrMsg('Kon geen verbinding maken, probeer het later opnieuw');
         } else if (err.response?.status === 400) {
-            //400 status is harcoded given by backend
-            setErrMsg('Missing username or password');
-        } else if (err.response?.status === 401) {
-            setErrMsg('Unauthorized');
+            setErrMsg('De ingevulde gegevens zijn te lang');
+        } else if (err.response?.status === 409) {
+            if (err.response?.data === 1) {
+              setErrMsg('De gebruikersnaam is al in gebruik');
+            }
+            else if (err.response?.data === 2) {
+              setErrMsg('Het email adres is al in gebruik');
+            }
+            setErrMsg('De ingevulde gegevens zijn incorrect');
+        } else if (err.response?.status === 422) {
+          if (err.response?.data === 1) {
+            setErrMsg('De gebruikersnaam ontbreekt');
+          }
+          else if (err.response?.data === 2) {
+            setErrMsg('Het email adres ontbreekt');
+          }
+          else if (err.response?.data === 3) {
+            setErrMsg('Voornaam ontbreekt');
+          }
+          else if (err.response?.data === 4) {
+            setErrMsg('Achternaam ontbreekt');
+          }
+          setErrMsg('Er ontbreken nog gegevens');
         } else {
-            setErrMsg('Register failed');
+            setErrMsg('Registreren gefaald, Probeer het later opnieuw');
         }
         //set focus on error display, so a screenreader can read info
         errRef.current.focus();
@@ -130,7 +149,7 @@ return (
             required
             placeholder="Email"
         />
-        <button>Registreren</button>
+        <button className="button">Registreren</button>
       </form>
       <div className="form-redirect">
           <p>Al een account?</p>

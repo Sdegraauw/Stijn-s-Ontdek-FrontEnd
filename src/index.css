@@ -23,6 +23,24 @@ main {
 .bold {
     font-weight: bold;
 }
+.offscreen {
+  display: none;
+}
+.button {
+  background-color: var(--yellow);
+  color: var(--dark-grey);
+  border-radius: 10px;
+  border: none;
+  font-size: 22px;
+  padding: 0.7rem;
+  margin-top: 0.8rem;
+}
+.button:hover {
+  background-color: var(--dark-yellow);
+}
+.button:active {
+  transform: scale(0.98);
+}
 /*///////////////////////////////////////////////////*/
 /*                  Specific classes                 */
 /*///////////////////////////////////////////////////*/
@@ -49,10 +67,32 @@ nav.navbar {
 .home-section {
   margin-top: 1.6rem;
 }
+.map-container {
+  position: relative;
+}
 .leaflet-container{
   width: 100%;
   height: 40rem;
   border-radius: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+.errorOverlay {
+  width: 100%;
+  height: 40rem;
+  background-color: rgba(66, 64, 67, 0.8);
+  border-radius: 0.5rem;
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.errorOverlay p, .errorOverlay a {
+  font-size: 2rem;
+  color: #FFFFFF !important;
+  margin: 0 5px;
 }
 /* End home */
 
@@ -84,21 +124,6 @@ form {
 }
 .form-section form input:focus {
   outline-color: var(--dark-grey);
-}
-.form-section form button {
-  background-color: var(--yellow);
-  color: var(--dark-grey);
-  border-radius: 10px;
-  border: none;
-  font-size: 22px;
-  padding: 0.7rem;
-  margin-top: 0.8rem;
-}
-.form-section form button:hover {
-  background-color: var(--dark-yellow);
-}
-.form-section form button:active {
-  transform: scale(0.98);
 }
 .form-section .form-redirect {
   display: flex;
