@@ -1,16 +1,13 @@
 import { useRef, useState, useEffect } from "react";
-import useAuth from '../hooks/useAuth';
 // import { useParams } from "react-router-dom";
 import axios from "../api/axios";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+// import { useLocation } from 'react-router-dom';
 
 const UPDATEUSER_URL = '/User';
 
 function UserDetails() {
-  // const { id } = 1;
-  // const { id } = useParams();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
   
   const firstNameRef = useRef();
   const lastNameRef = useRef();
@@ -32,7 +29,7 @@ function UserDetails() {
   // };
 
   useEffect(() => {
-    axios.get(`http://localhost:8082/api/User/1`)
+    axios.get(`http://localhost:8082/api/User/1`) // id from cookies ofzo
       .then((response) => {
         setFirstName(response.data.firstName);
         setLastName(response.data.lastName);
@@ -59,8 +56,8 @@ function UserDetails() {
 
       console.log(JSON.stringify(response?.data));
       console.log(response);
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
+      // const accessToken = response?.data?.accessToken;
+      // const roles = response?.data?.roles;
 
       // //save all of our info in auth object, which is saved in global context
       // setAuth({ firstName, lastName, user, email, roles, accessToken });
@@ -78,15 +75,27 @@ function UserDetails() {
       //navigate(from, { replace: true });
 
     } catch (err) {
+      console.log(err.response);
       if (!err?.response) {
           console.log(err);
           console.log(!err?.response)
           setErrMsg('No server response');
+      } else if (err.response?.status === 400) {
+            setErrMsg('Ingevulde velden zijn incorrect');
       } else if (err.response?.status === 401) {
-          setErrMsg('Unauthorized');
-      } else {
-          setErrMsg(err.response.data);
-          // setErrMsg('Update failed');
+          setErrMsg('Geen toegang');
+      } else if (err.response?.status === 409 && err.response?.data === 1) {
+          setErrMsg('Gebruikersnaam al in gebruik');
+      } else if (err.response?.status === 409 && err.response?.data === 2) {
+          setErrMsg('Email al in gebruik');
+      } else if (err.response?.status === 422 && err.response?.data === 1) {
+          setErrMsg('Gebruikersnaam niet ingevuld');
+      } else if (err.response?.status === 422 && err.response?.data === 2) {
+          setErrMsg('Email niet ingevuld');
+      } else if (err.response?.status === 422 && err.response?.data === 3) {
+          setErrMsg('Voornaam niet ingevuld');
+      } else if (err.response?.status === 422 && err.response?.data === 4) {
+          setErrMsg('Achternaam niet ingevuld');
       }
       //set focus on error display, so a screenreader can read info
       errRef.current.focus();
