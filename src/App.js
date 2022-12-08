@@ -17,6 +17,7 @@ import NavBar from "./Components/NavBar";
 import Account from "./Components/Account";
 import Station from "./Components/Station";
 import UserDetails from "./Components/UserDetails";
+import Verify from "./Components/Verify"
 
 const ROLES = {
   User: 2001,
@@ -36,6 +37,7 @@ function App() {
           <Route path="Register" element={<Register />} />
           <Route path="Unauthorized" element={<Unauthorized />} />
           <Route path="/Account" element={<Account />} />
+          <Route path="/Verify/:linkHash/:email" element={<Verify />} />
 
           {/* we want to protect these routes */}
           <Route path="Userdetails" element={<UserDetails />} />
