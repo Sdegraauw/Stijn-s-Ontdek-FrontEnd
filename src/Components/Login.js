@@ -51,18 +51,20 @@ const Login = () => {
         setAuth({ mail, roles, accessToken });
         setMail('');
         if (response?.status === 200) {
-          setSuccessMsg('Check your mail inbox!');
+          setSuccessMsg('Gelukt! Bekijk uw mail voor verdere instructies');
         }
       } catch (err) {
         if (!err?.response) {
-            setErrMsg('No server response');
+          setErrMsg('Kon geen verbinding maken, probeer het later opnieuw');
         } else if (err.response?.status === 400) {
-            //400 status is harcoded given by backend
-            setErrMsg('Missing username or password');
-        } else if (err.response?.status === 401) {
-            setErrMsg('Unauthorized');
+            setErrMsg('De ingevulde gegevens zijn te lang');
+        } else if (err.response?.status === 422) {
+          if (err.response?.data === 2) {
+            setErrMsg('Het email adres ontbreekt');
+          }
+          setErrMsg('Er ontbreken nog gegevens');
         } else {
-            setErrMsg('Login failed');
+            setErrMsg('Registreren gefaald, Probeer het later opnieuw');
         }
         //set focus on error display, so a screenreader can read info
         errRef.current.focus();
@@ -86,7 +88,7 @@ const Login = () => {
                 required
                 placeholder="Email"
             />
-            <button>Inloggen</button>
+            <button className="button">Inloggen</button>
         </form>
         <div className="form-redirect">
             <p>Nog geen account?</p>
