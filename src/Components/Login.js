@@ -38,10 +38,10 @@ const Login = () => {
       e.preventDefault();
       try {
         const response = await axios.post(LOGIN_URL, JSON.stringify({ mailAddress : mail }),
-          {
-              headers: { 'Content-Type': 'application/JSON' },
-              withCredentials: false
-          });
+        {
+            headers: { 'Content-Type': 'application/JSON' },
+            withCredentials: false
+        });
 
         console.log(JSON.stringify(response?.data));
         const accessToken = response?.data?.accessToken;
@@ -57,14 +57,16 @@ const Login = () => {
         if (!err?.response) {
           setErrMsg('Kon geen verbinding maken, probeer het later opnieuw');
         } else if (err.response?.status === 400) {
-            setErrMsg('De ingevulde gegevens zijn te lang');
+          setErrMsg('De ingevulde gegevens zijn te lang');
+        } else if (err.response?.status === 404) {
+          setErrMsg('Het email adres kon niet gevonden worden');
         } else if (err.response?.status === 422) {
           if (err.response?.data === 2) {
             setErrMsg('Het email adres ontbreekt');
           }
           setErrMsg('Er ontbreken nog gegevens');
         } else {
-            setErrMsg('Registreren gefaald, probeer het later opnieuw');
+            setErrMsg('Inloggen gefaald, probeer het later opnieuw');
         }
         //set focus on error display, so a screenreader can read info
         errRef.current.focus();
@@ -73,8 +75,16 @@ const Login = () => {
 
   return (
     <section className="form-section">
-        <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-        <p ref={successRef} className={successMsg ? "success-msg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+        {
+          errMsg && (
+            <div ref={errRef} className="error-msg">{errMsg}</div>
+          )
+        }
+        {
+          successMsg && (
+            <div ref={successRef} className="success-msg">{successMsg}</div>
+          )
+        }
         <h1>Inloggen</h1>
 
         <form onSubmit={handleSubmit}>

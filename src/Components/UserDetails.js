@@ -106,8 +106,16 @@ function UserDetails() {
 
   return (
     <section className="form-section">
-      <p ref={errRef} className={errMsg ? "error-msg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-      <p ref={successRef} className={successMsg ? "success-msg" : "offscreen"} aria-live="assertive">{successMsg}</p>
+      {
+        errMsg && (
+          <div ref={errRef} className="error-msg">{errMsg}</div>
+        )
+      }
+      {
+        successMsg && (
+          <div ref={successRef} className="success-msg">{successMsg}</div>
+        )
+      }
       <h1>Gegevens aanpassen</h1>
 
       <form onSubmit={handleSubmit}>
