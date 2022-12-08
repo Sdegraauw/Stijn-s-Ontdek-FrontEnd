@@ -95,7 +95,7 @@ const Register = () => {
           }
           setErrMsg('Er ontbreken nog gegevens');
         } else {
-            setErrMsg('Registreren gefaald, Probeer het later opnieuw');
+            setErrMsg('Registreren gefaald, probeer het later opnieuw');
         }
         //set focus on error display, so a screenreader can read info
         errRef.current.focus();

@@ -96,6 +96,8 @@ function UserDetails() {
           setErrMsg('Voornaam niet ingevuld');
       } else if (err.response?.status === 422 && err.response?.data === 4) {
           setErrMsg('Achternaam niet ingevuld');
+      } else {
+          setErrMsg('Aanpassen niet gelukt, probeer het later opnieuw');
       }
       //set focus on error display, so a screenreader can read info
       errRef.current.focus();
@@ -149,7 +151,7 @@ function UserDetails() {
             required
             placeholder="Email"
         />
-        <button>Aanpassen</button>
+        <button class="button">Aanpassen</button>
       </form>
   </section>
   );
