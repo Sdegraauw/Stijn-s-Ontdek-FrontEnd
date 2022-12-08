@@ -29,15 +29,16 @@ const Verify = () => {
     },[]);
     
     return (
-        <div>
+        <section>
+            <div className="success-msg">Gebruiker ingelogd</div>
+            <p>Hi {cookies.firstName}</p>
             <p>{error}</p>
             <p>linkHash: {linkHash}</p>
             <br/>
             <p>email: {email}</p>
             <br/>
             <p>back end link: http://localhost:8080/api/Authentication/verify?linkHash={linkHash}&email={email}</p>
-            <p>Hi {cookies.firstName}</p>
-        </div>
+        </section>
     );
 }
  

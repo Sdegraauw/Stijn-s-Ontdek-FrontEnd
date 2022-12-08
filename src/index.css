@@ -20,6 +20,9 @@ main {
   margin: 0 auto;
   max-width: 1280px;
 }
+main section {
+  margin-top: 1.6rem;
+}
 .bold {
     font-weight: bold;
 }
@@ -64,9 +67,6 @@ nav.navbar {
 /* End navbar */
 
 /* Home */
-.home-section {
-  margin-top: 1.6rem;
-}
 .map-container {
   position: relative;
 }
@@ -105,7 +105,6 @@ form {
 .form-section {
   width: 100%;
   margin: auto;
-  margin-top: 1.6rem;
   max-width: 420px;
   display: flex;
   flex-direction: column;
