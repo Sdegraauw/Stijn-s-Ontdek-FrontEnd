@@ -153,7 +153,7 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="home-section">
+        <section className="home-section">
             <div className="map-container">
                 {
                     errMsg && (
@@ -195,7 +195,7 @@ const Home = () => {
                     </div>
                 )
             }
-        </div>
+        </section>
     )
 }
 
