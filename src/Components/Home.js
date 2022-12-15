@@ -274,11 +274,11 @@ const HeatMapLayer = ({heatmapData, gradient, visible}) => {
         case 1:
             return "°C";
         case 2:
-            return "";
+            return "ppm";
         case 3:
-            return "";
+            return "ppm";
         case 4:
-            return "µm ";
+            return "ppm";
         case 5:
             return "%";
         case 6:
@@ -297,7 +297,7 @@ const HeatMapLayer = ({heatmapData, gradient, visible}) => {
         case 3:
             return "koolstofdioxide (CO2)";
         case 4:
-            return "Fijnstof";
+            return "Fijnstof (PPM)";
         case 5:
             return "Luchtvochtigheid";
         case 6:
