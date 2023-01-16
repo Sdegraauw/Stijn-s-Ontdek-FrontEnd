@@ -19,6 +19,6 @@ Dit start de app in de development mode.
 Open [http://localhost:3000](http://localhost:3000) om het in je browser te bekijken.
 
 
-### Documentatie
+## Documentatie
 
 Alle documentatie is terug te vinden in de Software-Documents repo.
