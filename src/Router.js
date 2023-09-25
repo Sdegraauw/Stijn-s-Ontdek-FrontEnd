@@ -24,6 +24,11 @@ import RegisterStationHeight from "./Components/RegisterStationHeight";
 import RegisterStationData from "./Components/RegisterStationData";
 import RegisterStationVisibility from "./Components/RegisterStationVisibility";
 
+const ROLES = {
+    User: 2001,
+    Admin: 5150,
+};
+
 function Router() {
     return (
         <Routes>
