@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import axios from '../Services/axios';
 import { Map, TileLayer, useMap, Popup, Marker, Polygon } from 'react-leaflet';
-import HeatmapLayer from './HeatmapLayer';
-import RadioButtonGroup from './RadioButtons';
+import HeatmapLayer from '../Components/HeatmapLayer';
+import RadioButtonGroup from '../Components/RadioButtons';
 
 
 const App = () => {
