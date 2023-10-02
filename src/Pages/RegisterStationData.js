@@ -1,5 +1,7 @@
+import { api } from "../App";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+
 export default function RegisterStationData() {
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
@@ -11,7 +13,7 @@ export default function RegisterStationData() {
     let answersValid = true;
 
     const postNaarBackend = async () => {
-        await fetch('http://localhost:8082/api/Station/registerStation', {
+        await api.get('/Station/registerStation', {
             method: 'POST',
             body: JSON.stringify({
                 userId: "1",

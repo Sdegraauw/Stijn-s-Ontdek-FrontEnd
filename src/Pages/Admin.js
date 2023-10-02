@@ -3,7 +3,6 @@ import useLogout from "../Hooks/useLogout";
 //import Users from './Users';
 
 const Admin = () => {
-
     const navigate = useNavigate();
     const logout = useLogout();
 
