@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { api } from "../App";
 
-function AllStations() {
+const AllStations = () => {
   const [stations, setStations] = useState(null);
   const [loading, setLoading] = useState(true);
 

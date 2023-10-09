@@ -3,7 +3,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { api } from '../App';
 
-export default function Station() {
+const Station = () => {
   const readValues = { id: 0, name: "", height: 0, locationName: "", longtitude: 0, latitude: 0, ispublic: false };
   const [station, setStation] = useState(readValues);
 
@@ -31,3 +31,4 @@ export default function Station() {
     </div>
   );
 }
+export default Station;

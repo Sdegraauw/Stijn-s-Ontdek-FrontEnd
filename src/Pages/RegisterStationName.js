@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-export default function () {
+const RegisterStationName = () => {
     const { state } = useLocation();
     const nameRef = useRef();
     const navigate = useNavigate();
@@ -63,3 +63,4 @@ export default function () {
         </div>
     );
 }
+export default RegisterStationName;
