@@ -79,6 +79,8 @@ const Home = () => {
     const [showDataStations, setShowDataStations] = useState(true);
     const [showRegions, setShowRegions] = useState(true);
 
+    const [latestTempMeasurements, setLatestTempMeasurements] = useState(true);
+
     function handleToggleTemp() {
         setShowTemp(!showTemp);
         setShowRegions(false);
@@ -132,9 +134,22 @@ const Home = () => {
             })
     }
 
+    function getLatestTempMeasurements(stationId) {
+        api.get('/measurement/' + stationId).then((response) => {
+            setLatestTempMeasurements(response.data);
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
+    }
+
     function getStationsData()
     {
-        api.get(`/Station/Stations`).then((response) => {setData(response.data); console.log(response.data);})
+        api.get(`/Station/Stations`).then((response) => {
+            setData(response.data); 
+            console.log(response.data);
+        })
         .catch(function (error) {
             handleAxiosError(error);
         })
@@ -205,7 +220,9 @@ const Home = () => {
                                   visible={showFijnstof}></HeatMapLayer>
                 </Map>
             </div>
-            <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} handleToggleTemp={handleToggleTemp} handleToggleFijnStof={handleToggleFijnStof} />
+            <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
+                              handleToggleTemp={handleToggleTemp} 
+                              handleToggleFijnStof={handleToggleFijnStof} />
         </section>
     )
 }
