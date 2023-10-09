@@ -3,26 +3,8 @@ import { api } from "../App";
 import { Map, TileLayer, useMap, Popup, Marker, Polygon } from 'react-leaflet';
 import HeatmapLayer from '../Components/HeatmapLayer';
 import RadioButtonGroup from '../Components/RadioButtons';
-
-
-const App = () => {
-    const [posts, setPost] = useState([]);
-    useEffect(() => {
-        api.get("/Translation")
-            .then((response) => response.json())
-
-            .then((data) => {
-                console.log(data);
-                setPost(data);
-            })
-
-            .catch((err) => {
-                console.log(err.message);
-            });
-    }, []);
-
-    return (null);
-};
+import MeetStationLayer from '../Components/MeetStationLayer';
+import RegionLayer from "../Components/RegionLayer";
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -53,7 +35,7 @@ function getGradient(typeID) {
     if (typeID === 4) return gradient_fijnstof;
     return gradient_default;
 }
-
+//colours regions
 /*const colors = {
     1: "red", 2: "green", 3: "blue", 4: "purple", 5: "cyan", 6: "brown", 7: '#F73D94', 8: "pink", 9: "gray", 10: "yellow",
     11: "red", 12: "green", 13: "blue", 14: "purple", 15: "cyan", 16: "brown", 17: '#F73D94', 18: "pink", 19: "gray", 20: "green",
@@ -215,40 +197,18 @@ const Home = () => {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
                     <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-                    <HeatMapLayer heatmapData={temperatureData} gradient={getGradient(1)} visible={showTemp}></HeatMapLayer>
-                    <HeatMapLayer heatmapData={fijnstofData} gradient={getGradient(4)} visible={showFijnstof}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={temperatureData}
+                                  gradient={getGradient(1)}
+                                  visible={showTemp}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={fijnstofData}
+                                  gradient={getGradient(4)}
+                                  visible={showFijnstof}></HeatMapLayer>
                 </Map>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} handleToggleTemp={handleToggleTemp} handleToggleFijnStof={handleToggleFijnStof} />
         </section>
     )
 }
-
-const RegionLayer = ({ data, visible }) => {
-    if (!visible) return (<></>);
-
-    return (
-        <>
-            {data.map(({ region, cordsList, averageData }) => (
-                <Polygon positions={cordsList} key={region.id} color={getRegionColor(region.id)} opacity={0.25} fillOpacity={0.2}>
-                    <Popup>
-                        <label className="bold">Algemene data {region.name}</label> <br />
-
-                        {averageData.map(({ id, name, data }) => (
-                            <div key={id}>
-                                <label>
-                                    {name}: {data} {getDataTypeSuffix(id)}
-                                </label>
-                            </div>
-
-                        ))}
-                    </Popup>
-                </Polygon>
-            ))}
-        </>)
-
-}
-
 
 const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
     if (!visible) return (<></>);
@@ -267,32 +227,6 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
         />
     )
 }
-
-const MeetStationLayer = ({ data, visible }) => {
-    if (!visible) return (<></>);
-
-    return (
-        <>
-            {data.map(({ id, latitude, longitude, name, sensors }) => (
-                <Marker key={id} position={[latitude, longitude]}>
-                    <Popup>
-                        <label className="bold">{name}</label>
-
-                        {sensors.map(({ id, typeId, data }) => (
-                            <div key={id}>
-                                <label>
-                                    {getDataType(typeId)}: {data} {getDataTypeSuffix(typeId)}
-                                </label>
-                            </div>
-
-                        ))}
-                    </Popup>
-                </Marker>
-            ))}
-        </>
-    )
-}
-
 
 function getDataTypeSuffix(typeId) {
     switch (typeId) {
