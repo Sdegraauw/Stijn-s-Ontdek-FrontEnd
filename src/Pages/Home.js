@@ -70,7 +70,7 @@ const Home = () => {
     const [showFijnstof, setShowFijnstof] = useState(false)
     const [showVochtigheid, setShowVochtigheid] = useState(false)
     const [showWindspeed, setShowWindspeed] = useState(false)
-
+    
     const [data, setData] = useState([]);
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
@@ -184,6 +184,7 @@ const Home = () => {
 
     useEffect(() => {
         try {
+            getLatestTempMeasurements();
             getStationsData();
             getAverageData();
             getHeatmapData();
@@ -218,6 +219,9 @@ const Home = () => {
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={latestTempMeasurements}
+                                  gradient={getGradient(1)}
+                                  visible={true}></HeatMapLayer>
                 </Map>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
