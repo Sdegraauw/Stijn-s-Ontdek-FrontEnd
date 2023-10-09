@@ -228,42 +228,4 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
     )
 }
 
-function getDataTypeSuffix(typeId) {
-    switch (typeId) {
-        case 1:
-            return "°C";
-        case 2:
-            return "ppm";
-        case 3:
-            return "ppm";
-        case 4:
-            return "ppm";
-        case 5:
-            return "%";
-        case 6:
-            return "km/h";
-        default:
-            return "Onbekend.";
-    }
-}
-
-function getDataType(typeId) {
-    switch (typeId) {
-        case 1:
-            return "Temperatuur";
-        case 2:
-            return "Stikstof (N2)";
-        case 3:
-            return "koolstofdioxide (CO2)";
-        case 4:
-            return "Fijnstof (PPM)";
-        case 5:
-            return "Luchtvochtigheid";
-        case 6:
-            return "Windsnelheid";
-        default:
-            return "Onbekend.";
-    }
-}
-
 export default Home
