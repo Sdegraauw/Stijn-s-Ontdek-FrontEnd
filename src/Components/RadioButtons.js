@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-function RadioButtonGroup(props) {
+const RadioButtonGroup = (props) => {
     const [selectedOption, setSelectedOption] = useState();
     function handleChange(event) {
         setSelectedOption(event.target.value);

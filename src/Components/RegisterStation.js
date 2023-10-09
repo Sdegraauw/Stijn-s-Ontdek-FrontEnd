@@ -2,7 +2,7 @@ import { useState } from "react";
 import React from "react";
 import { api } from "../App";
 
-function RegisterStation() {
+const RegisterStation = () => {
   // states for Registration
   /*  userId is currently forced to 1
       this needs to be changed once a logged in user is applicable */

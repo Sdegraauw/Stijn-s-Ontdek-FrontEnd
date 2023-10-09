@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function RegisterStationHeight() {
+const RegisterStationHeight = () => {
     const [direction, setDirection] = useState("N");
     const [height, setHeight] = useState();
     const [location, setLocation] = useState();
@@ -107,3 +107,4 @@ export default function RegisterStationHeight() {
         </div>
     );
 }
+export default RegisterStationHeight;

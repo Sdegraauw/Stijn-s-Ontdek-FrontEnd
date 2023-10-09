@@ -12,7 +12,7 @@ function GivePageId(){
     return PageId;
 }
 
-export default function About() {
+const About = () => {
 
     const [Translations, setTranslations] = useState([]);
     useEffect(() =>
@@ -64,3 +64,4 @@ export default function About() {
       </>
   );
 }
+export default About;

@@ -4,25 +4,6 @@ import { ReactComponent as Menu } from '../Assets/menu.svg';
 import { useState, useEffect } from "react";
 import { api } from "../App";
 
-const App = () => {
-  const [posts, setPost] = useState([]);
-  useEffect(() => {
-    api.get("/Translation")
-        .then((response) => response.json())
-
-      .then((data) => {
-        console.log(data);
-        setPost(data);
-      })
-
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  return (null);
-};
-
 function GiveLanguage() {
   const Language = "Nederlands"
   return Language;
@@ -33,7 +14,7 @@ function GivePageId() {
   return PageId;
 }
 
-function NavBar() {
+const NavBar = () => {
   return (
     <header className="navbar-section">
       <nav className="navbar navbar-expand-lg justify-content-between">

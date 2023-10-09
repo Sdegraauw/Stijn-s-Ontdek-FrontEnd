@@ -4,25 +4,6 @@ import useAuth from '../Hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { api } from "../App";
 
-const App = () => {
-  const [posts, setPost] = useState([]);
-  useEffect(() => {
-    api.get("http://localhost:8082/api/Translation")
-      .then((response) => response.json())
-
-      .then((data) => {
-        console.log(data);
-        setPost(data);
-      })
-
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  return (null);
-};
-
 function GiveLanguage() {
   const Language = "Nederlands"
   return Language;
