@@ -55,15 +55,17 @@ const Home = () => {
     const [fijnstofData, setFijnstofData] = useState([]);
     const [regionData, setRegionData] = useState([]);
 
-    const [showDataStations, setShowDataStations] = useState(true);
+    const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
 
     const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
 
     function handleToggleTemp() {
-        setShowTemp(!showTemp);
         setShowRegions(false);
+        setShowTemp(!showTemp);
         setShowFijnstof(false);
+
+        setShowDataStations(false);
     }
 
     function handleToggleStikstof() {
@@ -75,9 +77,11 @@ const Home = () => {
     }
 
     function handleToggleFijnStof() {
-        setShowFijnstof(!showFijnstof);
-        setShowTemp(false);
         setShowRegions(false);
+        setShowTemp(false);
+        setShowFijnstof(!showFijnstof);
+
+        setShowDataStations(true)
     }
 
     function handleToggleVochtigheid() {
@@ -94,8 +98,10 @@ const Home = () => {
 
     function handleToggleShowRegions() {
         setShowRegions(!showRegions);
+        setShowTemp(false);
         setShowFijnstof(false);
-        setShowTemp(false)
+
+        setShowDataStations(false);
     }
 
     function getHeatmapData()
@@ -200,7 +206,7 @@ const Home = () => {
                                   visible={showFijnstof}></HeatMapLayer> */}
                     <HeatMapLayer heatmapData={latestTempMeasurements}
                                   gradient={getGradient(1)}
-                                  visible={true}></HeatMapLayer>
+                                  visible={showTemp}></HeatMapLayer>
                 </Map>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
@@ -215,7 +221,7 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
 
     return (
         <HeatmapLayer
-            fitBoundsOnLoad
+            fitBoundsOnLoad={false}
             points={heatmapData}
             longitudeExtractor={marker => marker.longitude}
             latitudeExtractor={marker => marker.latitude}
