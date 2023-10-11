@@ -5,19 +5,16 @@ const MeetStationLayer = ({ data, visible }) => {
 
     return (
         <>
-            {data.map(({ id, latitude, longitude, name, sensors }) => (
-                <Marker key={id} position={[latitude, longitude]}>
+            {data.map((meting) => (
+                <Marker key={meting.id} position={[meting.latitude, meting.longitude]}>
                     <Popup>
-                        <label className="bold">{name}</label>
+                        <label className="bold">{meting.id}</label>
 
-                        {sensors.map(({ id, typeId, data }) => (
-                            <div key={id}>
-                                <label>
-                                    {getDataType(typeId)}: {data} {getDataTypeSuffix(typeId)}
-                                </label>
-                            </div>
-
-                        ))}
+                        <div key={meting.id}>
+                            <label>
+                                {meting.temperature}°C
+                            </label>
+                        </div>
                     </Popup>
                 </Marker>
             ))}
@@ -25,43 +22,4 @@ const MeetStationLayer = ({ data, visible }) => {
     )
 }
 
-function getDataTypeSuffix(typeId) {
-    switch (typeId) {
-        case 1:
-            return "°C";
-        case 2:
-            return "ppm";
-        case 3:
-            return "ppm";
-        case 4:
-            return "ppm";
-        case 5:
-            return "%";
-        case 6:
-            return "km/h";
-        default:
-            return "Onbekend.";
-    }
-}
-
-
-
-function getDataType(typeId) {
-    switch (typeId) {
-        case 1:
-            return "Temperatuur";
-        case 2:
-            return "Stikstof (N2)";
-        case 3:
-            return "koolstofdioxide (CO2)";
-        case 4:
-            return "Fijnstof (PPM)";
-        case 5:
-            return "Luchtvochtigheid";
-        case 6:
-            return "Windsnelheid";
-        default:
-            return "Onbekend.";
-    }
-}
 export default MeetStationLayer;

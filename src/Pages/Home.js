@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { Map, TileLayer, useMap, Popup, Marker, Polygon } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from '../Components/HeatmapLayer';
 import RadioButtonGroup from '../Components/RadioButtons';
 import MeetStationLayer from '../Components/MeetStationLayer';
@@ -58,7 +58,7 @@ const Home = () => {
     const [showDataStations, setShowDataStations] = useState(true);
     const [showRegions, setShowRegions] = useState(true);
 
-    const [latestTempMeasurements, setLatestTempMeasurements] = useState(true);
+    const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
 
     function handleToggleTemp() {
         setShowTemp(!showTemp);
@@ -114,7 +114,7 @@ const Home = () => {
     }
 
     function getLatestTempMeasurements() {
-        api.get('/measurement/latest').then((response) => {
+        api.get('/measurement/current').then((response) => {
             setLatestTempMeasurements(response.data);
             console.log(response.data);
         })
@@ -191,13 +191,13 @@ const Home = () => {
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                    <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-                    <HeatMapLayer heatmapData={temperatureData}
+                    <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
+                    {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
-                                  visible={showFijnstof}></HeatMapLayer>
+                                  visible={showFijnstof}></HeatMapLayer> */}
                     <HeatMapLayer heatmapData={latestTempMeasurements}
                                   gradient={getGradient(1)}
                                   visible={true}></HeatMapLayer>
