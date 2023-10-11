@@ -23,6 +23,7 @@ import RegisterStationName from "./Pages/RegisterStationName";
 import RegisterStationHeight from "./Pages/RegisterStationHeight";
 import RegisterStationData from "./Pages/RegisterStationData";
 import RegisterStationVisibility from "./Pages/RegisterStationVisibility";
+import Preview from "./Pages/PreviewAPI";
 
 const ROLES = {
     User: 2001,
@@ -41,6 +42,8 @@ function Router() {
                 <Route path="/Unauthorized" element={<Unauthorized />} />
                 <Route path="/Account" element={<Account />} />
                 <Route path="/Verify/:linkHash/:email" element={<Verify />} />
+
+                <Route path="/Preview" element={<Preview />} />
 
                 {/* we want to protect these routes */}
                 <Route path="/Userdetails" element={<UserDetails />} />
