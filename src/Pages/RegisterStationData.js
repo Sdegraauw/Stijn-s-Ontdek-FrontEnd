@@ -2,7 +2,7 @@ import { api } from "../App";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-export default function RegisterStationData() {
+const RegisterStationData = () => {
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
     const items = JSON.parse(decodeURIComponent(params.get('items')));
@@ -117,3 +117,4 @@ export default function RegisterStationData() {
         </div>
     );
 }
+export default RegisterStationData;

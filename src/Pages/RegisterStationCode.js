@@ -4,7 +4,7 @@ import { wait } from "@testing-library/user-event/dist/utils";
 import '../index.css';
 import { api } from "../App";
 
-export default function RegisterStationCode() {
+const RegisterStationCode = () => {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [registrationCode, setRegistrationCode] = useState();
@@ -131,4 +131,4 @@ export default function RegisterStationCode() {
         </div>
     );
 }
-
+export default RegisterStationCode;

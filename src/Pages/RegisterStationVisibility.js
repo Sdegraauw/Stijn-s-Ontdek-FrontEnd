@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-export default function RegisterStationVisibility() {
+const RegisterStationVisibility = () => {
     const [visibility, setVisibility] = useState();
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
@@ -80,3 +80,4 @@ export default function RegisterStationVisibility() {
         </div>
     );
 }
+export default RegisterStationVisibility;

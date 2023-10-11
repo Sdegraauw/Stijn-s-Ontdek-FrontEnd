@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import React from "react";
 import { api } from "../App";
 
-function EditStation() {
+const EditStation = () => {
   const inputvalues = {
     id: 0,
     name: '',

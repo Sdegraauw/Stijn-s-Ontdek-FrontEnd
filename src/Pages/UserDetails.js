@@ -3,25 +3,6 @@ import { useRef, useState, useEffect } from "react";
 import { api } from "../App";
 // import { useLocation } from 'react-router-dom';
 
-const App = () => {
-    const [posts, setPost] = useState([]);
-    useEffect(() => {
-        api.get("/Translation")
-            .then((response) => response.json())
-
-      .then((data) => {
-        console.log(data);
-        setPost(data);
-      })
-
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  return (null);
-};
-
 function GiveLanguage() {
   const Language = "Nederlands"
   return Language;
@@ -34,7 +15,7 @@ function GivePageId() {
 
 const UPDATEUSER_URL = '/User';
 
-function UserDetails() {
+const UserDetails = () => {
   // const location = useLocation();
   // const from = location.state?.from?.pathname || "/";
 

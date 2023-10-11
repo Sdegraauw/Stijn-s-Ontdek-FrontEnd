@@ -3,25 +3,6 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from "../App";
 
-const App = () => {
-  const [posts, setPost] = useState([]);
-  useEffect(() => {
-    api.get("/Translation")
-      .then((response) => response.json())
-
-      .then((data) => {
-        console.log(data);
-        setPost(data);
-      })
-
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  return (null);
-};
-
 function GiveLanguage() {
   const Language = "Nederlands"
   return Language;
