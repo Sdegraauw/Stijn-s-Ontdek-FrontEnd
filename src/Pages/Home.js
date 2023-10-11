@@ -2,9 +2,10 @@ import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
 import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from '../Components/HeatmapLayer';
-import RadioButtonGroup from '../Components/RadioButtons';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
+import RadioButtonGroup from '../Components/RadioButtons';
+import Checkbox from '../Components/Checkbox'
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -64,8 +65,6 @@ const Home = () => {
         setShowRegions(false);
         setShowTemp(!showTemp);
         setShowFijnstof(false);
-
-        setShowDataStations(false);
     }
 
     function handleToggleStikstof() {
@@ -80,8 +79,6 @@ const Home = () => {
         setShowRegions(false);
         setShowTemp(false);
         setShowFijnstof(!showFijnstof);
-
-        setShowDataStations(true)
     }
 
     function handleToggleVochtigheid() {
@@ -100,8 +97,6 @@ const Home = () => {
         setShowRegions(!showRegions);
         setShowTemp(false);
         setShowFijnstof(false);
-
-        setShowDataStations(false);
     }
 
     function getHeatmapData()
@@ -205,13 +200,14 @@ const Home = () => {
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer> */}
                     <HeatMapLayer heatmapData={latestTempMeasurements}
-                                  gradient={getGradient(1)}
+                                  gradient={gradient_default}
                                   visible={showTemp}></HeatMapLayer>
                 </Map>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
                               handleToggleTemp={handleToggleTemp} 
                               handleToggleFijnStof={handleToggleFijnStof} />
+            <Checkbox handleToggleShowDataStations={handleToggleShowDataStations}/>
         </section>
     )
 }
