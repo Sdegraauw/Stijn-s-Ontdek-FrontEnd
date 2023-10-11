@@ -114,7 +114,7 @@ const Home = () => {
     }
 
     function getLatestTempMeasurements() {
-        api.get('/measurement/current').then((response) => {
+        api.get('/measurement/latest').then((response) => {
             setLatestTempMeasurements(response.data);
             console.log(response.data);
         })
