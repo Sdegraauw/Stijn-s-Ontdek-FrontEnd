@@ -221,7 +221,7 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
             points={heatmapData}
             longitudeExtractor={marker => marker.longitude}
             latitudeExtractor={marker => marker.latitude}
-            gradient={gradient}
+            gradient={gradient} 
             intensityExtractor={marker => marker.value}
             radius={Number(RADIUS)}
             blur={Number(BLUR)}
