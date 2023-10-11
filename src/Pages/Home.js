@@ -17,8 +17,8 @@ function GivePageId() {
     return PageId;
 }
 
-const BLUR = 30;
-const RADIUS = 30;
+const BLUR = 50;
+const RADIUS = 50;
 
 //TODO: implement RegionCords en Region uit DB!
 
