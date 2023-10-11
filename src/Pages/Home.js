@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { Map, TileLayer, useMap, Popup, Marker, Polygon } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from '../Components/HeatmapLayer';
-import RadioButtonGroup from '../Components/RadioButtons';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
+import RadioButtonGroup from '../Components/RadioButtons';
+import Checkbox from '../Components/Checkbox'
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -16,8 +17,8 @@ function GivePageId() {
     return PageId;
 }
 
-const BLUR = 30;
-const RADIUS = 30;
+const BLUR = 50;
+const RADIUS = 50;
 
 //TODO: implement RegionCords en Region uit DB!
 
@@ -49,18 +50,20 @@ const Home = () => {
     const [showFijnstof, setShowFijnstof] = useState(false)
     const [showVochtigheid, setShowVochtigheid] = useState(false)
     const [showWindspeed, setShowWindspeed] = useState(false)
-
+    
     const [data, setData] = useState([]);
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
     const [regionData, setRegionData] = useState([]);
 
-    const [showDataStations, setShowDataStations] = useState(true);
+    const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
 
+    const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
+
     function handleToggleTemp() {
-        setShowTemp(!showTemp);
         setShowRegions(false);
+        setShowTemp(!showTemp);
         setShowFijnstof(false);
     }
 
@@ -73,9 +76,9 @@ const Home = () => {
     }
 
     function handleToggleFijnStof() {
-        setShowFijnstof(!showFijnstof);
-        setShowTemp(false);
         setShowRegions(false);
+        setShowTemp(false);
+        setShowFijnstof(!showFijnstof);
     }
 
     function handleToggleVochtigheid() {
@@ -92,8 +95,8 @@ const Home = () => {
 
     function handleToggleShowRegions() {
         setShowRegions(!showRegions);
+        setShowTemp(false);
         setShowFijnstof(false);
-        setShowTemp(false)
     }
 
     function getHeatmapData()
@@ -111,9 +114,22 @@ const Home = () => {
             })
     }
 
+    function getLatestTempMeasurements() {
+        api.get('/measurement/latest').then((response) => {
+            setLatestTempMeasurements(response.data);
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            handleAxiosError(error);
+        })
+    }
+
     function getStationsData()
     {
-        api.get(`/Station/Stations`).then((response) => {setData(response.data); console.log(response.data);})
+        api.get(`/Station/Stations`).then((response) => {
+            setData(response.data); 
+            console.log(response.data);
+        })
         .catch(function (error) {
             handleAxiosError(error);
         })
@@ -148,6 +164,7 @@ const Home = () => {
 
     useEffect(() => {
         try {
+            getLatestTempMeasurements();
             getStationsData();
             getAverageData();
             getHeatmapData();
@@ -175,16 +192,22 @@ const Home = () => {
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                    <MeetStationLayer data={data} visible={showDataStations}></MeetStationLayer>
-                    <HeatMapLayer heatmapData={temperatureData}
+                    <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
+                    {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
-                                  visible={showFijnstof}></HeatMapLayer>
+                                  visible={showFijnstof}></HeatMapLayer> */}
+                    <HeatMapLayer heatmapData={latestTempMeasurements}
+                                  gradient={gradient_default}
+                                  visible={showTemp}></HeatMapLayer>
                 </Map>
             </div>
-            <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} handleToggleTemp={handleToggleTemp} handleToggleFijnStof={handleToggleFijnStof} />
+            <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
+                              handleToggleTemp={handleToggleTemp} 
+                              handleToggleFijnStof={handleToggleFijnStof} />
+            <Checkbox handleToggleShowDataStations={handleToggleShowDataStations}/>
         </section>
     )
 }
@@ -194,11 +217,11 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
 
     return (
         <HeatmapLayer
-            fitBoundsOnLoad
+            fitBoundsOnLoad={false}
             points={heatmapData}
             longitudeExtractor={marker => marker.longitude}
             latitudeExtractor={marker => marker.latitude}
-            gradient={gradient}
+            gradient={gradient} 
             intensityExtractor={marker => marker.value}
             radius={Number(RADIUS)}
             blur={Number(BLUR)}
