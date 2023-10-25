@@ -5,19 +5,16 @@ const RegionLayer = ({ data, visible }) => {
 
     return (
         <>
-            {data.map(({ region, cordsList, averageData }) => (
-                <Polygon positions={cordsList} key={region.id} color={getRegionColor(region.id)} opacity={0.25} fillOpacity={0.2}>
+            {data.map(( neighbourhood ) => (
+                <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={getRegionColor(neighbourhood.id)} opacity={0.25} fillOpacity={0.2}>
                     <Popup>
-                        <label className="bold">Algemene data {region.name}</label> <br />
+                        <label className="bold">Algemene data { neighbourhood.name }</label> <br />
 
-                        {averageData.map(({ id, name, data }) => (
-                            <div key={id}>
-                                <label>
-                                    {name}: {data} {getDataTypeSuffix(id)}
-                                </label>
-                            </div>
-
-                        ))}
+                        <div>
+                            <label>
+                                { neighbourhood.avgTemp }
+                            </label>
+                        </div>
                     </Popup>
                 </Polygon>
             ))}

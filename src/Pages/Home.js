@@ -145,7 +145,7 @@ const Home = () => {
 
     function getRegionCords()
     {
-        api.get('/Region/regioninfo').then((response) => {
+        api.get('/neighbourhood/all').then((response) => {
             setRegionData(response.data);
             // Since this is the last called get request, enable settings when successfull
             setShowSettings(true);
