@@ -1,4 +1,5 @@
 import {Marker, Popup} from "react-leaflet";
+import { RoundToOneDecimal } from "../Lib/Utility";
 
 const MeetStationLayer = ({ data, visible }) => {
     if (!visible) return (<></>);
@@ -20,10 +21,6 @@ const MeetStationLayer = ({ data, visible }) => {
             ))}
         </>
     )
-}
-
-function RoundToOneDecimal(meting) {
-    return Math.round(meting * 10)/10;
 }
 
 export default MeetStationLayer;

@@ -1,4 +1,5 @@
 import {Polygon, Popup} from "react-leaflet";
+import { RoundToOneDecimal } from "../Lib/Utility";
 
 const RegionLayer = ({ data, visible }) => {
     if (!visible) return (<></>);
@@ -8,11 +9,12 @@ const RegionLayer = ({ data, visible }) => {
             {data.map(( neighbourhood ) => (
                 <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={getRegionColor(neighbourhood.id)} opacity={0.25} fillOpacity={0.2}>
                     <Popup>
-                        <label className="bold">Algemene data { neighbourhood.name }</label> <br />
+                        <label className="bold">{ neighbourhood.name }</label> <br />
 
                         <div>
                             <label>
-                                { neighbourhood.avgTemp }
+                                {/* TODO: Netter neerzetten */}
+                                { neighbourhood.avgTemp !== "NaN" ? "Gemiddelde wijktemperatuur: " + RoundToOneDecimal(neighbourhood.avgTemp) + " °C" : "Geen data beschikbaar" }
                             </label>
                         </div>
                     </Popup>
