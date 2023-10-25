@@ -1,12 +1,38 @@
 import {Polygon, Popup} from "react-leaflet";
+import {max, min} from "@popperjs/core/lib/utils/math";
 
 const RegionLayer = ({ data, visible }) => {
     if (!visible) return (<></>);
+    let mintemp= -15;
+    let tempDif = 55;
+
+    function setRegionColour(value){
+        let contrastValue = (value-mintemp)/tempDif;
+        console.log(contrastValue);//TODO remove
+        let red = Math.round(Red(contrastValue)*255);
+        let green = Math.round(Green(contrastValue)*255);
+        let blue = Math.round(Blue(contrastValue)*255);
+
+        let rgb = {red,green,blue}
+        return  "rgb("+rgb.red.toString()+","+
+            rgb.green.toString()+","+
+            rgb.blue.toString()+")";
+    }
+    function Red(contrastValue){
+        return (Math.pow(2,contrastValue)-1);
+    }
+    function Green(contrastValue){
+        console.log((-4*Math.sqrt(contrastValue))+(4*contrastValue));//TODO remove
+        return Math.abs((-4*Math.sqrt(contrastValue))+(4*contrastValue));
+    }
+    function Blue(contrastValue){
+        return (1-(Math.pow(2,contrastValue)-1));
+    }
 
     return (
         <>
             {data.map(({ region, cordsList, averageData }) => (
-                <Polygon positions={cordsList} key={region.id} color={getRegionColor(region.id)} opacity={0.25} fillOpacity={0.2}>
+                <Polygon positions={cordsList} key={region.id} color={setRegionColour(Math.floor(Math.random()*tempDif)+mintemp)} opacity={0.25} fillOpacity={0.2}>
                     <Popup>
                         <label className="bold">Algemene data {region.name}</label> <br />
 
@@ -46,15 +72,6 @@ function getRegionColor(regionId) {
     if (regionId <= 50) return colors[regionId];
     else return regionId[1];
 }
-
-//colours regions
-/*const colors = {
-    1: "red", 2: "green", 3: "blue", 4: "purple", 5: "cyan", 6: "brown", 7: '#F73D94', 8: "pink", 9: "gray", 10: "yellow",
-    11: "red", 12: "green", 13: "blue", 14: "purple", 15: "cyan", 16: "brown", 17: '#F73D94', 18: "pink", 19: "gray", 20: "green",
-    21: "red", 22: "green", 23: "blue", 24: "purple", 25: "cyan", 26: "brown", 27: '#F73D94', 28: "pink", 29: "gray", 30: "green",
-    31: "red", 32: "green", 33: "blue", 34: "purple", 35: "cyan", 36: "brown", 37: '#F73D94', 38: "pink", 39: "gray", 40: "green",
-    41: "red", 42: "green", 43: "blue", 44: "purple", 45: "red", 46: "green", 47: "blue", 48: "purple", 49: "red", 50: "green"
-}*/
 
 const colors = {
     1: "red", 2: "red", 3: "red", 4: "red", 5: "red", 6: "red", 7: 'red', 8: "red", 9: "red", 10: "red",
