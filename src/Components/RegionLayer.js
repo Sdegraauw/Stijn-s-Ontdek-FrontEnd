@@ -1,5 +1,5 @@
 import {Polygon, Popup} from "react-leaflet";
-import {max, min} from "@popperjs/core/lib/utils/math";
+import { RoundToOneDecimal } from "../Lib/Utility";
 
 const RegionLayer = ({ data, visible }) => {
     if (!visible) return (<></>);
@@ -29,19 +29,17 @@ const RegionLayer = ({ data, visible }) => {
 
     return (
         <>
-            {data.map(({ region, cordsList, averageData }) => (
-                <Polygon positions={cordsList} key={region.id} color={setRegionColour(Math.floor(Math.random()*tempDif)+mintemp)} opacity={0.25} fillOpacity={0.2}>
+            {data.map(( neighbourhood ) => (
+                <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={getRegionColor(neighbourhood.id)} opacity={0.25} fillOpacity={0.2}>
                     <Popup>
-                        <label className="bold">Algemene data {region.name}</label> <br />
+                        <label className="bold">{ neighbourhood.name }</label> <br />
 
-                        {averageData.map(({ id, name, data }) => (
-                            <div key={id}>
-                                <label>
-                                    {name}: {data} {getDataTypeSuffix(id)}
-                                </label>
-                            </div>
-
-                        ))}
+                        <div>
+                            <label>
+                                {/* TODO: Netter neerzetten */}
+                                { neighbourhood.avgTemp !== "NaN" ? "Gemiddelde wijktemperatuur: " + RoundToOneDecimal(neighbourhood.avgTemp) + " °C" : "Geen data beschikbaar" }
+                            </label>
+                        </div>
                     </Popup>
                 </Polygon>
             ))}

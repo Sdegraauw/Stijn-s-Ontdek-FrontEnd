@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
 import { Map, TileLayer } from 'react-leaflet';
-import HeatmapLayer from '../Components/HeatmapLayer';
+import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtons';
@@ -145,7 +145,7 @@ const Home = () => {
 
     function getRegionCords()
     {
-        api.get('/Region/regioninfo').then((response) => {
+        api.get('/neighbourhood/all').then((response) => {
             setRegionData(response.data);
             // Since this is the last called get request, enable settings when successfull
             setShowSettings(true);
