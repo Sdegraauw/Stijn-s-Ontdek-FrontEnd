@@ -8,7 +8,6 @@ const RegionLayer = ({ data, visible }) => {
 
     function setRegionColour(value){
         let contrastValue = (value-mintemp)/tempDif;
-        console.log(contrastValue);//TODO remove
         let red = Math.round(Red(contrastValue)*255);
         let green = Math.round(Green(contrastValue)*255);
         let blue = Math.round(Blue(contrastValue)*255);
@@ -22,8 +21,7 @@ const RegionLayer = ({ data, visible }) => {
         return (Math.pow(2,contrastValue)-1);
     }
     function Green(contrastValue){
-        console.log((-4*Math.sqrt(contrastValue))+(4*contrastValue));//TODO remove
-        return Math.abs((-4*Math.sqrt(contrastValue))+(4*contrastValue));
+        return Math.abs((-4*Math.pow(contrastValue,2))+(4*contrastValue));
     }
     function Blue(contrastValue){
         return (1-(Math.pow(2,contrastValue)-1));
