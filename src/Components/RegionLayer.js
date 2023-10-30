@@ -30,7 +30,7 @@ const RegionLayer = ({ data, visible }) => {
     return (
         <>
             {data.map(( neighbourhood ) => (
-                <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={setRegionColour(neighbourhood.avgTemp)} opacity={1} fillOpacity={neighbourhood.avgTemp == "NaN" ? .1 : .5}>
+                <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={setRegionColour(neighbourhood.avgTemp)} opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1} fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}>
                     <Popup>
                         <label className="bold">{ neighbourhood.name }</label> <br />
 
