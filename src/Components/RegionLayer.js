@@ -7,6 +7,8 @@ const RegionLayer = ({ data, visible }) => {
     let tempDif = 40;
 
     function setRegionColour(value){
+        if (isNaN(value)){return "rgb(100,100,100)"}
+
         let contrastValue = (value-mintemp)/tempDif;
         let red = Math.round(Red(contrastValue)*255);
         let green = Math.round(Green(contrastValue)*255);
