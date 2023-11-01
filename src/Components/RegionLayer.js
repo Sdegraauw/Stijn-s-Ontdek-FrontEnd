@@ -31,7 +31,7 @@ const RegionLayer = ({ data, visible }) => {
         return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
     }
     function Blue(contrastValue) {
-        return (1 - (Math.pow(2, contrastValue) - 1));
+        return ((Math.pow(2,1 - contrastValue) - 1));
     }
 
     return (
