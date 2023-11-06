@@ -1,19 +1,38 @@
 import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 
-const RegionLayer = ({ data, visible }) => {
+const RegionLayer = ({ data, visible, toggleRegion }) => {
+
     if (!visible) return (<></>);
     let mintemp = -10;
     let tempDif = 40;
+
+    if (toggleRegion === "relative") {
+        let maxtemp = Number.MIN_VALUE;
+        mintemp = Number.MAX_VALUE;
+        tempDif = 1;
+
+        data.map((neighbourhood) => {
+            if (!isNaN(neighbourhood.avgTemp)) {
+                if (neighbourhood.avgTemp < mintemp) {
+                    mintemp = neighbourhood.avgTemp;
+                }
+                if (neighbourhood.avgTemp > maxtemp) {
+                    maxtemp = neighbourhood.avgTemp;
+                }
+            }
+        });
+        if (maxtemp - mintemp != 0) {
+            tempDif = maxtemp - mintemp;
+        }
+    }
 
     function setRegionColour(value) {
         if (isNaN(value)) { return "rgb(100,100,100)" }
 
         let contrastValue = (value - mintemp) / tempDif;
-        if (contrastValue < 0)
-        {contrastValue = 0;}
-        else if (contrastValue > 1)
-        {contrastValue = 1;}
+        if (contrastValue < 0) { contrastValue = 0; }
+        else if (contrastValue > 1) { contrastValue = 1; }
 
         let red = Math.round(Red(contrastValue) * 255);
         let green = Math.round(Green(contrastValue) * 255);
@@ -31,7 +50,7 @@ const RegionLayer = ({ data, visible }) => {
         return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
     }
     function Blue(contrastValue) {
-        return ((Math.pow(2,1 - contrastValue) - 1));
+        return ((Math.pow(2, 1 - contrastValue) - 1));
     }
 
     return (

@@ -61,6 +61,8 @@ const Home = () => {
 
     const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
 
+    const [toggleRegion, setToggleRegion] = useState("relative");
+
     function handleToggleTemp() {
         setShowRegions(false);
         setShowTemp(!showTemp);
@@ -158,6 +160,15 @@ const Home = () => {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
+    function toggleRegionLayer() {
+        if (toggleRegion === "relative") {
+            setToggleRegion("absolute");
+        }
+        else {
+            setToggleRegion("relative");
+        }
+    }
+
     useEffect(() => {
         try {
             getLatestTempMeasurements();
@@ -186,7 +197,7 @@ const Home = () => {
             <Map center={[51.565120, 5.066322]} zoom={13}>
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
+                <RegionLayer data={regionData} visible={showRegions} toggleRegion={toggleRegion}></RegionLayer>
                 <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
                 {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
@@ -204,6 +215,7 @@ const Home = () => {
                     handleToggleTemp={handleToggleTemp}
                     handleToggleFijnStof={handleToggleFijnStof} />
                 <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
+                {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>Toggle region</button>}
             </div>
 
         </div>
