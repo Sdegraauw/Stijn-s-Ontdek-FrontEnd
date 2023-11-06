@@ -1,6 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
 import useLogout from "../Hooks/useLogout";
-//import Users from './Users';
 
 const Admin = () => {
     const navigate = useNavigate();

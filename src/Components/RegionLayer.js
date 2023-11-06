@@ -2,7 +2,9 @@ import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 
 const RegionLayer = ({ data, visible }) => {
-    if (!visible) return (<></>);
+    if (!visible) 
+        return (<></>);
+    
     let mintemp = -10;
     let tempDif = 40;
 
@@ -24,12 +26,15 @@ const RegionLayer = ({ data, visible }) => {
             rgb.green.toString() + "," +
             rgb.blue.toString() + ")";
     }
+
     function Red(contrastValue) {
         return (Math.pow(2, contrastValue) - 1);
     }
+
     function Green(contrastValue) {
         return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
     }
+
     function Blue(contrastValue) {
         return ((Math.pow(2,1 - contrastValue) - 1));
     }
@@ -52,24 +57,6 @@ const RegionLayer = ({ data, visible }) => {
             ))}
         </>)
 
-}
-function getDataTypeSuffix(typeId) {
-    switch (typeId) {
-        case 1:
-            return "°C";
-        case 2:
-            return "ppm";
-        case 3:
-            return "ppm";
-        case 4:
-            return "ppm";
-        case 5:
-            return "%";
-        case 6:
-            return "km/h";
-        default:
-            return "Onbekend.";
-    }
 }
 
 export default RegionLayer;
