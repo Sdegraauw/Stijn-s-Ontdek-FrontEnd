@@ -9,6 +9,8 @@ import Checkbox from '../Components/Checkbox';
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css"
 import RadioButtonGroup from "../Components/RadioButtonGroup";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
 
 
 function GiveLanguage() {
@@ -63,12 +65,9 @@ const Home = () => {
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
 
-    const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
-    const [historyTempMeasurements, setHistoryTempMeasurements] = useState([]);
-    const [combiTempMeasurements, setCombiTempMeasurements] = useState([])
-    //false = latest, true = history
-    const [toggleHistory, setToggleHistory] = useState(0);
+    const [tempMeasurements, setTempMeasurements] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
+    const [firstLoad, setFirstLoad] = useState(true);
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -123,31 +122,19 @@ const Home = () => {
     }
 
     function getLatestTempMeasurements() {
-        api.get('/measurement/latest').then((response) => {
-            setLatestTempMeasurements(response.data);
-            console.log(response.data);
-        })
-            .catch(function (error) {
-                handleAxiosError(error);
-            })
-    }
-
-    function getLastTempMeasurements() {
         api.get('/measurement/latest')
             .then((response) => {
-                setCombiTempMeasurements(response.data);
+                setTempMeasurements(response.data);
             })
             .catch(function (error) {
                 handleAxiosError(error);
             })
     }
 
-    function getHistoryTempMeasurements(dateTimeString) {
-        const dateTimeObject = new Date(dateTimeString);
-        const iso8601String = dateTimeObject.toISOString();
-        api.get(`/measurement/history?datetime=${iso8601String}`)
+    function getHistoryTempMeasurements() {
+        api.get(`/measurement/history?datetime=${dateTime.toISOString()}`)
             .then(resp => {
-                setCombiTempMeasurements(resp.data)
+                setTempMeasurements(resp.data)
             })
             .catch(function (error) {
                 handleAxiosError(error);
@@ -191,12 +178,14 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            //getLatestTempMeasurements();
+            if (!firstLoad)
+                return;
             getStationsData();
             getAverageData();
             getHeatmapData();
             getRegionCords();
-            getLastTempMeasurements();
+            getLatestTempMeasurements();
+            setFirstLoad(false);
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -204,6 +193,19 @@ const Home = () => {
             setErrMsg('Fout bij ophalen kaart-data.');
         }
     }, [])
+
+    useEffect(() => {
+        try {
+            if (firstLoad)
+                return;
+            getHistoryTempMeasurements();
+        }
+        catch (error) {
+            // Errors don't reach this catch, check function 'handleAxiosError'
+            console.log('error loading data.');
+            setErrMsg('Fout bij ophalen kaart-data.');
+        }
+    }, [dateTime])
 
     return (
         <section className="home-section">
@@ -220,14 +222,14 @@ const Home = () => {
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                    <MeetStationLayer data={combiTempMeasurements} visible={showDataStations}></MeetStationLayer>
+                    <MeetStationLayer data={tempMeasurements} visible={showDataStations}></MeetStationLayer>
                     {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer> */}
-                    <HeatMapLayer heatmapData={combiTempMeasurements}
+                    <HeatMapLayer heatmapData={tempMeasurements}
                         gradient={gradient_default}
                         visible={showTemp}></HeatMapLayer>
                 </Map>
@@ -238,44 +240,13 @@ const Home = () => {
                 handleToggleFijnStof={handleToggleFijnStof} />
             <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
 
-            {/* <RadioButtonGroup
-                options={[
-                    { key: "Huidig", onChange: handleToggleCurrent },
-                    { key: "Geschiedenis", onChange: handleToggleHistory }
-                ]}
-            /> */}
-            {/* <label>
-                <input
-                    type="radio"
-                    value="Huidig"
-                    name="historyToggle"
-                    checked={!toggleHistory}
-                    onChange={e => {
-                        handleChange(e);
-                        option.onChange();
-                    }}
-                />
-                Huidig
-            </label>
-
-            <label>
-                <input
-                    type="radio"
-                    value="Historie"
-                    name="historyToggle"
-                    checked={toggleHistory}
-                // onChange={e => {
-                //     handleChange(e);
-                //     option.onChange();
-                // }}
-                />
-                Historie
-            </label> */}
-
-            <Datetime
-                onChange={getHistoryTempMeasurements}
+            <ReactDatePicker
+                selected={dateTime}
+                onChange={(date) => setDateTime(date)}
+                showIcon
+                showTimeInput
+                dateFormat={"dd/MM/yyyy HH:mm"}
             />
-
         </section>
     )
 }
