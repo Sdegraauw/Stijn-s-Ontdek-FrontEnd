@@ -4,8 +4,12 @@ import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
-import RadioButtonGroup from '../Components/RadioButtons';
-import Checkbox from '../Components/Checkbox'
+import RadioButtons from '../Components/RadioButtons';
+import Checkbox from '../Components/Checkbox';
+import Datetime from 'react-datetime';
+import "react-datetime/css/react-datetime.css"
+import RadioButtonGroup from "../Components/RadioButtonGroup";
+
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -50,7 +54,7 @@ const Home = () => {
     const [showFijnstof, setShowFijnstof] = useState(false)
     const [showVochtigheid, setShowVochtigheid] = useState(false)
     const [showWindspeed, setShowWindspeed] = useState(false)
-    
+
     const [data, setData] = useState([]);
     const [temperatureData, setTemperatureData] = useState([]);
     const [fijnstofData, setFijnstofData] = useState([]);
@@ -60,6 +64,11 @@ const Home = () => {
     const [showRegions, setShowRegions] = useState(true);
 
     const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
+    const [historyTempMeasurements, setHistoryTempMeasurements] = useState([]);
+    const [combiTempMeasurements, setCombiTempMeasurements] = useState([])
+    //false = latest, true = history
+    const [toggleHistory, setToggleHistory] = useState(0);
+    const [dateTime, setDateTime] = useState(new Date());
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -99,12 +108,11 @@ const Home = () => {
         setShowFijnstof(false);
     }
 
-    function getHeatmapData()
-    {
+    function getHeatmapData() {
         api.get('/Heatmap/' + 1).then((response) => setTemperatureData(response.data))
-        .catch(function (error) {
-            handleAxiosError(error);
-        })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
 
         api.get('/Heatmap/' + 4).then(function (response) {
             setFijnstofData(response.data)
@@ -119,32 +127,51 @@ const Home = () => {
             setLatestTempMeasurements(response.data);
             console.log(response.data);
         })
-        .catch(function (error) {
-            handleAxiosError(error);
-        })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
     }
 
-    function getStationsData()
-    {
+    function getLastTempMeasurements() {
+        api.get('/measurement/latest')
+            .then((response) => {
+                setCombiTempMeasurements(response.data);
+            })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
+    }
+
+    function getHistoryTempMeasurements(dateTimeString) {
+        const dateTimeObject = new Date(dateTimeString);
+        const iso8601String = dateTimeObject.toISOString();
+        api.get(`/measurement/history?datetime=${iso8601String}`)
+            .then(resp => {
+                setCombiTempMeasurements(resp.data)
+            })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
+    }
+
+    function getStationsData() {
         api.get(`/Station/Stations`).then((response) => {
-            setData(response.data); 
+            setData(response.data);
             console.log(response.data);
         })
-        .catch(function (error) {
-            handleAxiosError(error);
-        })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
     }
 
-    function getAverageData()
-    {
+    function getAverageData() {
         api.get('/Sensor/average').then((response) => setAvgData(response.data))
-        .catch(function (error) {
-            handleAxiosError(error);
-        })
+            .catch(function (error) {
+                handleAxiosError(error);
+            })
     }
 
-    function getRegionCords()
-    {
+    function getRegionCords() {
         api.get('/neighbourhood/all').then((response) => {
             setRegionData(response.data);
             // Since this is the last called get request, enable settings when successfull
@@ -164,11 +191,12 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            getLatestTempMeasurements();
+            //getLatestTempMeasurements();
             getStationsData();
             getAverageData();
             getHeatmapData();
             getRegionCords();
+            getLastTempMeasurements();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -192,22 +220,62 @@ const Home = () => {
                     <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                    <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
+                    <MeetStationLayer data={combiTempMeasurements} visible={showDataStations}></MeetStationLayer>
                     {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer> */}
-                    <HeatMapLayer heatmapData={latestTempMeasurements}
-                                  gradient={gradient_default}
-                                  visible={showTemp}></HeatMapLayer>
+                    <HeatMapLayer heatmapData={combiTempMeasurements}
+                        gradient={gradient_default}
+                        visible={showTemp}></HeatMapLayer>
                 </Map>
             </div>
-            <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
-                              handleToggleTemp={handleToggleTemp} 
-                              handleToggleFijnStof={handleToggleFijnStof} />
-            <Checkbox handleToggleShowDataStations={handleToggleShowDataStations}/>
+            <RadioButtons
+                handleToggleShowRegions={handleToggleShowRegions}
+                handleToggleTemp={handleToggleTemp}
+                handleToggleFijnStof={handleToggleFijnStof} />
+            <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
+
+            {/* <RadioButtonGroup
+                options={[
+                    { key: "Huidig", onChange: handleToggleCurrent },
+                    { key: "Geschiedenis", onChange: handleToggleHistory }
+                ]}
+            /> */}
+            {/* <label>
+                <input
+                    type="radio"
+                    value="Huidig"
+                    name="historyToggle"
+                    checked={!toggleHistory}
+                    onChange={e => {
+                        handleChange(e);
+                        option.onChange();
+                    }}
+                />
+                Huidig
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    value="Historie"
+                    name="historyToggle"
+                    checked={toggleHistory}
+                // onChange={e => {
+                //     handleChange(e);
+                //     option.onChange();
+                // }}
+                />
+                Historie
+            </label> */}
+
+            <Datetime
+                onChange={getHistoryTempMeasurements}
+            />
+
         </section>
     )
 }
@@ -221,7 +289,7 @@ const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
             points={heatmapData}
             longitudeExtractor={marker => marker.longitude}
             latitudeExtractor={marker => marker.latitude}
-            gradient={gradient} 
+            gradient={gradient}
             intensityExtractor={marker => marker.value}
             radius={Number(RADIUS)}
             blur={Number(BLUR)}

@@ -8,12 +8,10 @@ const RegionLayer = ({ data, visible }) => {
 
     function setRegionColour(value) {
         if (isNaN(value)) { return "rgb(100,100,100)" }
-
+        console.log(new Date().toISOString())
         let contrastValue = (value - mintemp) / tempDif;
-        if (contrastValue < 0)
-        {contrastValue = 0;}
-        else if (contrastValue > 1)
-        {contrastValue = 1;}
+        if (contrastValue < 0) { contrastValue = 0; }
+        else if (contrastValue > 1) { contrastValue = 1; }
 
         let red = Math.round(Red(contrastValue) * 255);
         let green = Math.round(Green(contrastValue) * 255);
@@ -31,7 +29,7 @@ const RegionLayer = ({ data, visible }) => {
         return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
     }
     function Blue(contrastValue) {
-        return ((Math.pow(2,1 - contrastValue) - 1));
+        return ((Math.pow(2, 1 - contrastValue) - 1));
     }
 
     return (
