@@ -1,8 +1,8 @@
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, Tooltip } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
-import { useEffect, useState } from "react";
-import { CartesianGrid, Label, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { useEffect, useState, forwardRef } from "react";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css"
@@ -61,18 +61,25 @@ const MeetStationLayer = ({ data, visible }) => {
                         <label className="bold mt-2">Historische temperatuur data</label>
                         <ResponsiveContainer minWidth={250} minHeight={250}>
                             <LineChart data={ graphData }>
-                                <Line type="basis" dataKey="minTemp" name="Min" stroke="#0000ff" dot={ false } />
-                                <Line type="basis" dataKey="maxTemp" name="Max" stroke="#ff0000" dot={ false } />
-                                <Line type="basis" dataKey="avgTemp" name="Gemiddeld" stroke="#60f3f4" dot={ false } />
-                                <CartesianGrid stroke="#ccc" />
                                 <XAxis dataKey="timestamp" />
                                 <YAxis width={ 20 } />
+                                <CartesianGrid stroke="#ccc" />
+                                <Tooltip />
                                 <Legend />
+                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" />
+                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" />
+                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#60f3f4" />
                             </LineChart>
                         </ResponsiveContainer>
 
-                        <ReactDatePicker showIcon dateFormat="dd-MM-yyyy" selected={ startDate } onChange={ (date) => setStartDate(date) } />
-                        <ReactDatePicker showIcon dateFormat="dd-MM-yyyy" selected={ endDate } onChange={ (date) => setEndDate(date) } />
+                        <div className="container-fluid row m-0 p-0">
+                            <div className="col-6">
+                                <ReactDatePicker showIcon dateFormat="dd-MM-yyyy" selected={ startDate } onChange={ (date) => setStartDate(date) } />
+                            </div>
+                            <div className="col-6">
+                                <ReactDatePicker showIcon dateFormat="dd-MM-yyyy" selected={ endDate } onChange={ (date) => setEndDate(date) } />
+                            </div>
+                        </div>
                     </Popup>
                 </Marker>
             ))}
