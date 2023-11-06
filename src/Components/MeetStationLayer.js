@@ -12,6 +12,9 @@ const MeetStationLayer = ({ data, visible }) => {
     const [startDate, setStartDate] = useState(new Date());
     const [graphData, setGraphData] = useState([]);
     const [selectedStation, setSelectedStation] = useState(null);
+    const [showMinTemp, setShowMinTemp] = useState(false);
+    const [showMaxTemp, setShowMaxTemp] = useState(false);
+    const [showGemTemp, setShowGemTemp] = useState(false);
 
     useEffect(() => {
         if (selectedStation === null) return;
@@ -43,6 +46,15 @@ const MeetStationLayer = ({ data, visible }) => {
         setSelectedStation(e.target.options.id);
     }
 
+    const handleLegendChange = (e) => {
+        if (e.dataKey === "minTemp")
+            setShowMinTemp(!showMinTemp);
+        if (e.dataKey === "maxTemp")
+            setShowMaxTemp(!showMaxTemp);
+        if (e.dataKey === "avgTemp")
+            setShowGemTemp(!showGemTemp);
+    }
+
     if (!visible) return (<></>);
 
     return (
@@ -65,10 +77,10 @@ const MeetStationLayer = ({ data, visible }) => {
                                 <YAxis width={ 20 } />
                                 <CartesianGrid stroke="#ccc" />
                                 <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" />
-                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" />
-                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#60f3f4" />
+                                <Legend onClick={ handleLegendChange } />
+                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={ showMinTemp } />
+                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={ showMaxTemp } />
+                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#60f3f4" hide={ showGemTemp } />
                             </LineChart>
                         </ResponsiveContainer>
 
