@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { Map, TileLayer } from 'react-leaflet';
-import HeatmapLayer from 'react-leaflet-heatmap-layer';
+import { MapContainer, TileLayer, MapLayer } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtons';
 import Checkbox from '../Components/Checkbox'
+
+import { addressPoints } from "../Assets/realworld.10000";
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -162,6 +163,18 @@ const Home = () => {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
+    const [maxMag, setMaxMag] = useState(0);
+    function getMaxMag() {
+        let maxMag = 0
+        addressPoints.forEach(feature => {
+            if(feature.properties.mag > maxMag) {
+                maxMag = feature.properties.mag;
+            }
+        })
+        console.log(maxMag);
+        setMaxMag(maxMag);
+    }
+
     useEffect(() => {
         try {
             getLatestTempMeasurements();
@@ -169,6 +182,7 @@ const Home = () => {
             getAverageData();
             getHeatmapData();
             getRegionCords();
+            getMaxMag();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -188,45 +202,23 @@ const Home = () => {
                         </div>
                     )
                 }
-                <Map center={[51.565120, 5.066322]} zoom={13}>
-                    <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <MapContainer center={[51.565120, 5.066322]} zoom={13}>
+                    <TileLayer 
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                    />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
                     <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
-                    {/* <HeatMapLayer heatmapData={temperatureData}
-                                  gradient={getGradient(1)}
-                                  visible={showTemp}></HeatMapLayer>
-                    <HeatMapLayer heatmapData={fijnstofData}
-                                  gradient={getGradient(4)}
-                                  visible={showFijnstof}></HeatMapLayer> */}
-                    <HeatMapLayer heatmapData={latestTempMeasurements}
+                    {/* <HeatMapLayer heatmapData={latestTempMeasurements}
                                   gradient={gradient_default}
-                                  visible={showTemp}></HeatMapLayer>
-                </Map>
+                                  visible={showTemp}></HeatMapLayer>*/}
+                </MapContainer>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
                               handleToggleTemp={handleToggleTemp} 
                               handleToggleFijnStof={handleToggleFijnStof} />
             <Checkbox handleToggleShowDataStations={handleToggleShowDataStations}/>
         </section>
-    )
-}
-
-const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
-    if (!visible) return (<></>);
-
-    return (
-        <HeatmapLayer
-            fitBoundsOnLoad={false}
-            points={heatmapData}
-            longitudeExtractor={marker => marker.longitude}
-            latitudeExtractor={marker => marker.latitude}
-            gradient={gradient} 
-            intensityExtractor={marker => marker.value}
-            radius={Number(RADIUS)}
-            blur={Number(BLUR)}
-            max={Number.parseFloat(0.4)}
-        />
     )
 }
 
