@@ -4,7 +4,7 @@ import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
-import RadioButtons from '../Components/RadioButtons';
+import RadioButtonGroup from '../Components/RadioButtons';
 import Checkbox from '../Components/Checkbox';
 
 import ReactDatePicker from "react-datepicker";
@@ -222,24 +222,24 @@ const Home = () => {
                     handleToggleFijnStof={handleToggleFijnStof} />
                 <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                 <ReactDatePicker
-                ref={calRef}
-                locale={nl}
-                selected={dateTime}
-                onChange={(date) => setDateTime(date)}
-                showIcon
-                showTimeInput
-                dateFormat={"dd/MM/yyyy HH:mm"}
-            >
-                <button
-                    className="btn btn-secondary"
-                    onClick={() => {
-                        setDateTime(new Date());
-                        calRef.current.setOpen(false);
-                    }}
+                    ref={calRef}
+                    locale={nl}
+                    selected={dateTime}
+                    onChange={(date) => setDateTime(date)}
+                    showIcon
+                    showTimeInput
+                    dateFormat={"dd/MM/yyyy HH:mm"}
                 >
-                    Momenteel
-                </button>
-            </ReactDatePicker>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                            setDateTime(new Date());
+                            calRef.current.setOpen(false);
+                        }}
+                    >
+                        Momenteel
+                    </button>
+                </ReactDatePicker>
             </div>
         </div>
     )
