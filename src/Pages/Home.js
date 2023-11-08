@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { api } from "../App";
 import { MapContainer, TileLayer, MapLayer } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
@@ -6,7 +6,8 @@ import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtons';
 import Checkbox from '../Components/Checkbox'
 
-import { addressPoints } from "../Assets/realworld.10000";
+import HeatmapLayer from "../Components/HeatmapLayer";
+import tempData from '../Assets/preview-temp-data.json';
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -163,18 +164,6 @@ const Home = () => {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
-    const [maxMag, setMaxMag] = useState(0);
-    function getMaxMag() {
-        let maxMag = 0
-        addressPoints.forEach(feature => {
-            if(feature.properties.mag > maxMag) {
-                maxMag = feature.properties.mag;
-            }
-        })
-        console.log(maxMag);
-        setMaxMag(maxMag);
-    }
-
     useEffect(() => {
         try {
             getLatestTempMeasurements();
@@ -182,7 +171,6 @@ const Home = () => {
             getAverageData();
             getHeatmapData();
             getRegionCords();
-            getMaxMag();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -209,9 +197,7 @@ const Home = () => {
                     />
                     <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
                     <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
-                    {/* <HeatMapLayer heatmapData={latestTempMeasurements}
-                                  gradient={gradient_default}
-                                  visible={showTemp}></HeatMapLayer>*/}
+                    {showTemp && latestTempMeasurements != null && <HeatmapLayer data={latestTempMeasurements}></HeatmapLayer>}
                 </MapContainer>
             </div>
             <RadioButtonGroup handleToggleShowRegions={handleToggleShowRegions} 
