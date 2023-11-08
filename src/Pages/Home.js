@@ -6,8 +6,10 @@ import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtons from '../Components/RadioButtons';
 import Checkbox from '../Components/Checkbox';
+
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
+import nl from 'date-fns/locale/nl';
 
 
 function GiveLanguage() {
@@ -223,6 +225,7 @@ const Home = () => {
 
             <ReactDatePicker
                 ref={calRef}
+                locale={nl}
                 selected={dateTime}
                 onChange={(date) => setDateTime(date)}
                 showIcon
