@@ -6,9 +6,6 @@ import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtons from '../Components/RadioButtons';
 import Checkbox from '../Components/Checkbox';
-import Datetime from 'react-datetime';
-import "react-datetime/css/react-datetime.css"
-import RadioButtonGroup from "../Components/RadioButtonGroup";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 
@@ -67,7 +64,7 @@ const Home = () => {
 
     const [tempMeasurements, setTempMeasurements] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
-    const [firstLoad, setFirstLoad] = useState(true);
+    const calRef = useRef();
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -121,18 +118,8 @@ const Home = () => {
             })
     }
 
-    function getLatestTempMeasurements() {
-        api.get('/measurement/latest')
-            .then((response) => {
-                setTempMeasurements(response.data);
-            })
-            .catch(function (error) {
-                handleAxiosError(error);
-            })
-    }
-
-    function getHistoryTempMeasurements() {
-        api.get(`/measurement/history?datetime=${dateTime.toISOString()}`)
+    function getTempMeasurements() {
+        api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
             .then(resp => {
                 setTempMeasurements(resp.data)
             })
@@ -178,14 +165,10 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            if (!firstLoad)
-                return;
             getStationsData();
             getAverageData();
             getHeatmapData();
             getRegionCords();
-            getLatestTempMeasurements();
-            setFirstLoad(false);
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -196,9 +179,7 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            if (firstLoad)
-                return;
-            getHistoryTempMeasurements();
+            getTempMeasurements();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -241,12 +222,23 @@ const Home = () => {
             <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
 
             <ReactDatePicker
+                ref={calRef}
                 selected={dateTime}
                 onChange={(date) => setDateTime(date)}
                 showIcon
                 showTimeInput
                 dateFormat={"dd/MM/yyyy HH:mm"}
-            />
+            >
+                <button
+                    className="btn btn-secondary"
+                    onClick={() => {
+                        setDateTime(new Date());
+                        calRef.current.setOpen(false);
+                    }}
+                >
+                    Momenteel
+                </button>
+            </ReactDatePicker>
         </section>
     )
 }
