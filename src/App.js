@@ -10,7 +10,6 @@ export const api = axios.create({
 function App() {
   return (
     <>
-      <NavBar />
       <Router />
     </>
   );
