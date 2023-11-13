@@ -4,7 +4,6 @@ const RadioButtonGroup = (props) => {
     const [selectedOption, setSelectedOption] = useState("regio");
     function handleChange(event) {
         setSelectedOption(event.target.value);
-        console.log(selectedOption)
     }
     return (
         <div>

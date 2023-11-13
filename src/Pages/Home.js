@@ -1,37 +1,26 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { Map, TileLayer } from 'react-leaflet';
-import HeatmapLayer from 'react-leaflet-heatmap-layer';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtonGroup';
 import Checkbox from '../Components/Checkbox';
-
+import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-
-
-const BLUR = 50;
-const RADIUS = 50;
-
-const gradient_default = {
-    0.1: '#89BDE0', 0.2: '#96E3E6', 0.4: '#82CEB6',
-    0.6: '#FAF3A5', 0.8: '#F5D98B', '1.0': '#DE9A96'
-};
 
 const Home = () => {
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
 
     const [regionData, setRegionData] = useState([]);
-    const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
-    
+    const [tempMeasurements, setTempMeasurements] = useState([]);
+
     const [showTemp, setShowTemp] = useState(false)
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
 
-    const [tempMeasurements, setTempMeasurements] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
 
@@ -87,81 +76,63 @@ const Home = () => {
         try {
             getTempMeasurements();
             getRegionCords();
-
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
-            console.log('error loading data.');
             setErrMsg('Fout bij ophalen kaart-data.');
         }
     }, [dateTime])
 
     return (
-        <div className="map-container">
-            {
-                errMsg && (
-                    <div className="error-overlay">
-                        <p ref={errRef} aria-live="assertive">{errMsg}</p>
-                        <button className="button" onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
-                    </div>
-                )
-            }
-            <Map center={[51.565120, 5.066322]} zoom={13}>
-                <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
-                <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                <HeatMapLayer heatmapData={ tempMeasurements }
-                    gradient={ gradient_default }
-                    visible={ showTemp }></HeatMapLayer>
-            </Map>
+        <section className="home-section">
+            <div className="map-container">
+                {
+                    errMsg && (
+                        <div className="errorOverlay">
+                            <p ref={errRef} aria-live="assertive">{errMsg}</p>
+                            <button className="button" onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
+                        </div>
+                    )
+                }
+                <MapContainer center={[51.565120, 5.066322]} zoom={13}>
+                    <TileLayer 
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                    />
+                    <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
+                    <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
+                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements }></HeatmapLayer> }
+                </MapContainer>
 
-            <div className="legend">
-                <RadioButtonGroup
-                    handleToggleShowRegions={handleToggleShowRegions}
-                    handleToggleTemp={handleToggleTemp}
-                />
-                <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
-                <ReactDatePicker
-                    ref={calRef}
-                    locale={nl}
-                    selected={dateTime}
-                    onChange={(date) => setDateTime(date)}
-                    showIcon
-                    showTimeInput
-                    dateFormat={"dd/MM/yyyy HH:mm"}
-                >
-                    <button
-                        className="btn btn-secondary"
-                        onClick={() => {
-                            setDateTime(new Date());
-                            calRef.current.setOpen(false);
-                        }}
+				<div className="legend">
+                    { showRegions && <button className="btn btn-secondary" onClick={ toggleRegionLayer }>Toggle region</button> }
+                    <RadioButtonGroup
+                        handleToggleShowRegions={ handleToggleShowRegions }
+                        handleToggleTemp={ handleToggleTemp }
+                    />
+                    <Checkbox handleToggleShowDataStations={ handleToggleShowDataStations } />
+                    <ReactDatePicker
+                        ref={calRef}
+                        locale={nl}
+                        selected={dateTime}
+                        onChange={(date) => setDateTime(date)}
+                        showIcon
+                        showTimeInput
+                        dateFormat={"dd/MM/yyyy HH:mm"}
                     >
-                        Momenteel
-                    </button>
-                </ReactDatePicker>
-                {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>Toggle region</button>}
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => {
+                                setDateTime(new Date());
+                                calRef.current.setOpen(false);
+                            }}
+                        >
+                            Momenteel
+                        </button>
+                    </ReactDatePicker>
+                </div>
             </div>
-        </div>
-    )
-}
-
-const HeatMapLayer = ({ heatmapData, gradient, visible }) => {
-    if (!visible) return (<></>);
-
-    return (
-        <HeatmapLayer
-            fitBoundsOnLoad={false}
-            points={heatmapData}
-            longitudeExtractor={marker => marker.longitude}
-            latitudeExtractor={marker => marker.latitude}
-            gradient={gradient}
-            intensityExtractor={marker => marker.value}
-            radius={Number(RADIUS)}
-            blur={Number(BLUR)}
-            max={Number.parseFloat(0.4)}
-        />
+        </section>
     )
 }
 

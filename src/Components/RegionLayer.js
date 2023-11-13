@@ -2,8 +2,11 @@ import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 
 const RegionLayer = ({ data, visible, toggleRegion }) => {
+    if (!visible)
+        return (<></>);
+    
+    console.log(data);
 
-    if (!visible) return (<></>);
     let mintemp = -10;
     let tempDif = 40;
 
@@ -22,25 +25,33 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
                 }
             }
         });
-        if (maxtemp - mintemp != 0) {
+
+        if (maxtemp - mintemp !== 0) {
             tempDif = maxtemp - mintemp;
         }
     }
 
+    console.log(mintemp);
+    console.log(tempDif);
+
     function setRegionColour(value) {
-        if (isNaN(value)) { return "rgb(100,100,100)" }
+        if (isNaN(value))
+            return "rgb(100,100,100)";
+
         let contrastValue = (value - mintemp) / tempDif;
-        if (contrastValue < 0) { contrastValue = 0; }
-        else if (contrastValue > 1) { contrastValue = 1; }
+
+        if (contrastValue < 0)
+            contrastValue = 0;
+        else if (contrastValue > 1)
+            contrastValue = 1;
 
         let red = Math.round(Red(contrastValue) * 255);
         let green = Math.round(Green(contrastValue) * 255);
         let blue = Math.round(Blue(contrastValue) * 255);
 
-        let rgb = { red, green, blue }
-        return "rgb(" + rgb.red.toString() + "," +
-            rgb.green.toString() + "," +
-            rgb.blue.toString() + ")";
+        return "rgb(" + red.toString() + "," +
+            green.toString() + "," +
+            blue.toString() + ")";
     }
 
     function Red(contrastValue) {
@@ -57,20 +68,22 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
 
     return (
         <>
-            {data.map((neighbourhood) => (
-                <Polygon positions={neighbourhood.coordinates} key={neighbourhood.id} color={setRegionColour(neighbourhood.avgTemp)} opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1} fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}>
-                    <Popup>
-                        <label className="bold">{neighbourhood.name}</label> <br />
+            { 
+                data.map((neighbourhood) => (
+                    <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={ setRegionColour(neighbourhood.avgTemp) } opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 } fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }>
+                        <Popup>
+                            <label className="bold">{ neighbourhood.name }</label> <br />
 
-                        <div>
-                            <label>
-                                {/* TODO: Netter neerzetten */}
-                                {neighbourhood.avgTemp !== "NaN" ? "Gemiddelde wijktemperatuur: " + RoundToOneDecimal(neighbourhood.avgTemp) + " °C" : "Geen data beschikbaar"}
-                            </label>
-                        </div>
-                    </Popup>
-                </Polygon>
-            ))}
+                            <div>
+                                <label>
+                                    {/* TODO: Netter neerzetten */}
+                                    {neighbourhood.avgTemp !== "NaN" ? "Gemiddelde wijktemperatuur: " + RoundToOneDecimal(neighbourhood.avgTemp) + " °C" : "Geen data beschikbaar"}
+                                </label>
+                            </div>
+                        </Popup>
+                    </Polygon>
+                )) 
+            }
         </>)
 
 }
