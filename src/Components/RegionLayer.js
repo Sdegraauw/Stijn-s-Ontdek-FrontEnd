@@ -4,13 +4,13 @@ import { RoundToOneDecimal } from "../Lib/Utility";
 const RegionLayer = ({ data, visible, toggleRegion }) => {
     if (!visible)
         return (<></>);
-    
+
     console.log(data);
 
     let mintemp = -10;
     let tempDif = 40;
 
-    if (toggleRegion === "relative") {
+    if (toggleRegion === "relatief") {
         let maxtemp = Number.MIN_VALUE;
         mintemp = Number.MAX_VALUE;
         tempDif = 1;
@@ -68,11 +68,11 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
 
     return (
         <>
-            { 
+            {
                 data.map((neighbourhood) => (
-                    <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={ setRegionColour(neighbourhood.avgTemp) } opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 } fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }>
+                    <Polygon positions={neighbourhood.coordinates} key={neighbourhood.id} color={setRegionColour(neighbourhood.avgTemp)} opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1} fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}>
                         <Popup>
-                            <label className="bold">{ neighbourhood.name }</label> <br />
+                            <label className="bold">{neighbourhood.name}</label> <br />
 
                             <div>
                                 <label>
@@ -82,7 +82,7 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
                             </div>
                         </Popup>
                     </Polygon>
-                )) 
+                ))
             }
         </>)
 

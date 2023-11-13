@@ -24,7 +24,7 @@ const Home = () => {
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
 
-    const [toggleRegion, setToggleRegion] = useState("relative");
+    const [toggleRegion, setToggleRegion] = useState("relatief");
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -64,11 +64,11 @@ const Home = () => {
     }
 
     function toggleRegionLayer() {
-        if (toggleRegion === "relative") {
-            setToggleRegion("absolute");
+        if (toggleRegion === "relatief") {
+            setToggleRegion("absoluut");
         }
         else {
-            setToggleRegion("relative");
+            setToggleRegion("relatief");
         }
     }
 
@@ -105,7 +105,7 @@ const Home = () => {
                 </MapContainer>
 
                 <div className="legend">
-                    {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>Toggle region</button>}
+                    {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
                         handleToggleTemp={handleToggleTemp}
