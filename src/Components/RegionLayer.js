@@ -5,8 +5,6 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
     if (!visible)
         return (<></>);
     
-    console.log(data);
-
     let mintemp = -10;
     let tempDif = 40;
 
@@ -30,9 +28,6 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
             tempDif = maxtemp - mintemp;
         }
     }
-
-    console.log(mintemp);
-    console.log(tempDif);
 
     function setRegionColour(value) {
         if (isNaN(value))
