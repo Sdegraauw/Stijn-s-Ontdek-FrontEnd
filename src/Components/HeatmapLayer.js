@@ -1,7 +1,8 @@
 import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
+import { useEffect, useRef } from 'react';
 
-const HeatmapLayer = ({data}) => {
+const HeatmapLayer = ({ data }) => {
 
     let maxTemp = 0;
     data.forEach(meting => {
@@ -29,13 +30,18 @@ const HeatmapLayer = ({data}) => {
         '.7': 'yellow',
         '.9': 'red'
       }
-      var radius_current = 0.012
+      var radius_current = 0.0095
+      // Gradient color should taper off exponentially towards the bottom and top
       var gradient_current = {
         '.05': 'blue',
-        '.7': 'green',
-        '.78': 'yellow',
-        '.96': 'orange',
-        '.99': 'red'
+        '.5': 'green',
+        '.6': 'yellow',
+        '.8': 'gold',
+        '.9': 'orange',
+        '.95': 'darkorange',
+        '.99': 'orangered',
+        '.995': 'red',
+        '1': 'firebrick'
       }
 
       var tempConfig = {
@@ -58,12 +64,18 @@ const HeatmapLayer = ({data}) => {
         // which field name in your data represents the data value - default "value"
         valueField: 'temp'
       };
-
+    
+    
+    // const mapRef = useRef();
+    // useEffect(() => {
+    //   mapRef.current = useMap();
+    // }, [])
     const map = useMap();
 
     var tempHeatmapLayer = new HeatmapOverlay(tempConfig);
     tempHeatmapLayer.setData(changedDataFormat);
 
+    //mapRef.addLayer(tempHeatmapLayer);
     map.addLayer(tempHeatmapLayer);
 }
 
