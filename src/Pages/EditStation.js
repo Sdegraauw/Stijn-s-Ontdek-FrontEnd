@@ -23,14 +23,12 @@ const EditStation = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setStation({ ...station, [name]: value });
-    console.log(station);
   };
 
   const checkboxHandler = (event) => {
     setIsChecked(!isChecked);
     const { name, checked } = event.target;
     setStation({ ...station, [name]: checked });
-    console.log(station);
   };
 
   useEffect(() => {
@@ -55,12 +53,9 @@ const EditStation = () => {
 
       api.put('/Station/', currentStation)
         .then((response) => {
-          console.log(response);
         })
         .catch((error) => {
           if (error.response) {
-            console.error(error.response.data);
-            console.error(error.response.status);
             console.error(error.response.headers);
           } else if (error.request) {
             console.error(error.request);

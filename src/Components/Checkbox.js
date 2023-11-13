@@ -1,4 +1,3 @@
-import { divIcon } from 'leaflet';
 import React, { useState } from 'react';
 
 const Checkbox = (props) => {

@@ -1,18 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Menu } from '../Assets/menu.svg';
-import { useState, useEffect } from "react";
-import { api } from "../App";
-
-function GiveLanguage() {
-  const Language = "Nederlands"
-  return Language;
-}
-
-function GivePageId() {
-  const PageId = "NavBar"
-  return PageId;
-}
 
 const NavBar = () => {
   return (
