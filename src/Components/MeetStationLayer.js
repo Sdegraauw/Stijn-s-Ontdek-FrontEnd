@@ -65,7 +65,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                     <Popup>
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
-                        <div onClick key={meting.id}>
+                        <div key={meting.id}>
                             <label>Temperatuur: { RoundToOneDecimal(meting.temperature) } °C</label>
                             <br />
                             <label>Luchtvochtigheid: { RoundToOneDecimal(meting.humidity) }%</label>
