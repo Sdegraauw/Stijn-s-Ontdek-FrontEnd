@@ -5,7 +5,12 @@ import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtons';
-import Checkbox from '../Components/Checkbox'
+import Checkbox from '../Components/Checkbox';
+
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"
+import nl from 'date-fns/locale/nl';
+
 
 function GiveLanguage() {
     const Language = "Nederlands"
@@ -59,7 +64,9 @@ const Home = () => {
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
 
-    const [latestTempMeasurements, setLatestTempMeasurements] = useState([]);
+    const [tempMeasurements, setTempMeasurements] = useState([]);
+    const [dateTime, setDateTime] = useState(new Date());
+    const calRef = useRef();
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -113,11 +120,11 @@ const Home = () => {
             })
     }
 
-    function getLatestTempMeasurements() {
-        api.get('/measurement/latest').then((response) => {
-            setLatestTempMeasurements(response.data);
-            console.log(response.data);
-        })
+    function getTempMeasurements() {
+        api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
+            .then(resp => {
+                setTempMeasurements(resp.data)
+            })
             .catch(function (error) {
                 handleAxiosError(error);
             })
@@ -160,7 +167,6 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            getLatestTempMeasurements();
             getStationsData();
             getAverageData();
             getHeatmapData();
@@ -172,6 +178,17 @@ const Home = () => {
             setErrMsg('Fout bij ophalen kaart-data.');
         }
     }, [])
+
+    useEffect(() => {
+        try {
+            getTempMeasurements();
+        }
+        catch (error) {
+            // Errors don't reach this catch, check function 'handleAxiosError'
+            console.log('error loading data.');
+            setErrMsg('Fout bij ophalen kaart-data.');
+        }
+    }, [dateTime])
 
     return (
         <div className="map-container">
@@ -186,17 +203,17 @@ const Home = () => {
             <Map center={[51.565120, 5.066322]} zoom={13}>
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                <MeetStationLayer data={latestTempMeasurements} visible={showDataStations}></MeetStationLayer>
+                <RegionLayer data={ regionData } visible={ showRegions }></RegionLayer>
+                <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
                 {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer> */}
-                <HeatMapLayer heatmapData={latestTempMeasurements}
-                    gradient={gradient_default}
-                    visible={showTemp}></HeatMapLayer>
+                <HeatMapLayer heatmapData={ tempMeasurements }
+                    gradient={ gradient_default }
+                    visible={ showTemp }></HeatMapLayer>
             </Map>
 
             <div className="legend">
@@ -204,8 +221,26 @@ const Home = () => {
                     handleToggleTemp={handleToggleTemp}
                     handleToggleFijnStof={handleToggleFijnStof} />
                 <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
+                <ReactDatePicker
+                    ref={calRef}
+                    locale={nl}
+                    selected={dateTime}
+                    onChange={(date) => setDateTime(date)}
+                    showIcon
+                    showTimeInput
+                    dateFormat={"dd/MM/yyyy HH:mm"}
+                >
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => {
+                            setDateTime(new Date());
+                            calRef.current.setOpen(false);
+                        }}
+                    >
+                        Momenteel
+                    </button>
+                </ReactDatePicker>
             </div>
-
         </div>
     )
 }

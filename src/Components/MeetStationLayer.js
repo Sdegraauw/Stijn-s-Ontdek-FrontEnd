@@ -7,7 +7,7 @@ import ReactDatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css"
 
-const MeetStationLayer = ({ data, visible }) => {
+const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [startDate, setStartDate] = useState(new Date());
     const [graphData, setGraphData] = useState([]);
@@ -60,15 +60,19 @@ const MeetStationLayer = ({ data, visible }) => {
     return (
         <>
             {data.map((meting) => (
-                <Marker key={meting.id} id={meting.id} position={[meting.latitude, meting.longitude]} onclick={onClick}>
+                <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } onclick={onClick}>
                     <Popup>
-                        <label className="bold">Station ID: {meting.id}</label>
-
+                        <label className="bold d-block fs-6">Station ID: { meting.id }</label>
+                        
                         <div key={meting.id}>
-                            <label>Temperatuur: {RoundToOneDecimal(meting.temperature)} °C</label>
+                            <label>Temperatuur: { RoundToOneDecimal(meting.temperature) } °C</label>
                             <br />
-                            <label>Luchtvochtigheid: {RoundToOneDecimal(meting.humidity)}%</label>
+                            <label>Luchtvochtigheid: { RoundToOneDecimal(meting.humidity) }%</label>
                         </div>
+
+                        <label className="fst-italic mt-1">Meting van: { selectedDate.toLocaleString('nl-NL') }</label>
+
+                        <hr></hr>
 
                         <label className="bold mt-2">Historische temperatuur data</label>
                         <ResponsiveContainer minWidth={250} minHeight={250}>
