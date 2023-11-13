@@ -203,17 +203,17 @@ const Home = () => {
             <Map center={[51.565120, 5.066322]} zoom={13}>
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <RegionLayer data={regionData} visible={showRegions}></RegionLayer>
-                <MeetStationLayer data={tempMeasurements} visible={showDataStations}></MeetStationLayer>
+                <RegionLayer data={ regionData } visible={ showRegions }></RegionLayer>
+                <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
                 {/* <HeatMapLayer heatmapData={temperatureData}
                                   gradient={getGradient(1)}
                                   visible={showTemp}></HeatMapLayer>
                     <HeatMapLayer heatmapData={fijnstofData}
                                   gradient={getGradient(4)}
                                   visible={showFijnstof}></HeatMapLayer> */}
-                <HeatMapLayer heatmapData={tempMeasurements}
-                    gradient={gradient_default}
-                    visible={showTemp}></HeatMapLayer>
+                <HeatMapLayer heatmapData={ tempMeasurements }
+                    gradient={ gradient_default }
+                    visible={ showTemp }></HeatMapLayer>
             </Map>
 
             <div className="legend">
