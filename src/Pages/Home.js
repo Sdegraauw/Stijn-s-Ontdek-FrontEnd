@@ -112,6 +112,7 @@ const Home = () => {
                     />
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
+                        className="outline-none border-0"
                         ref={calRef}
                         locale={nl}
                         selected={dateTime}
