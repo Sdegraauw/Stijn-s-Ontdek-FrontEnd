@@ -3,18 +3,17 @@
 /*///////////////////////////////////////////////////*/
 /* Declare color variables for global use */
 :root {
-  --yellow: #FECB3D;
-  --dark-yellow: #F1C13A;
+  --yellow: #fecb3d;
+  --dark-yellow: #f1c13a;
   --dark-grey: #424043;
-  --red: #F42D21;
+  --red: #f42d21;
   --light-red: #dc3545;
-  --green: #33A567;
+  --green: #33a567;
 }
 
 body {
-  font-family: "Roboto", "Segoe UI", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    "sans-serif" !important;
+  font-family: "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif" !important;
 }
 
 /* Setting general spacing for all content in main */
@@ -115,21 +114,48 @@ nav.navbar {
   position: relative;
 }
 
-.leaflet-container {
-  width: 100%;
-  height: 40rem;
-  border-radius: 0.5rem;
-  position: relative;
+.map-container .legend {
+  position: absolute;
+  bottom: 0%;
+  left: 0%;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: white;
+  font-weight: 300;
+  padding: 8px;
+  border-radius: 8px;
   z-index: 1;
+  margin-left: 12px;
+  margin-bottom: 12px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 750ms;
 }
 
-.errorOverlay {
-  width: 100%;
-  height: 40rem;
+.map-container .legend:hover {
+  background-color: var(--yellow);
+  box-shadow: 2px 2px 2px rgb(0, 0, 0, 0.1);
+}
+
+.layout-container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.leaflet-container {
+  width: 100vw;
+  height: calc(100vh - 56px);
+  outline: none;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.error-overlay {
+  width: 100vw;
+  height: calc(100vh - 56px);
   background-color: rgba(66, 64, 67, 0.8);
-  border-radius: 0.5rem;
   position: absolute;
-  z-index: 999;
+  z-index: 50;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +165,7 @@ nav.navbar {
 .errorOverlay p,
 .errorOverlay a {
   font-size: 2rem;
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   margin: 0 5px;
 }
 
@@ -167,7 +193,7 @@ form {
 }
 
 .form-section form input {
-  background-color: #F5F3F3;
+  background-color: #f5f3f3;
   border: none;
   border-radius: 10px;
   padding: 1rem 1.2rem;
@@ -236,9 +262,9 @@ form {
 /*                       Fonts                       */
 /*///////////////////////////////////////////////////*/
 @font-face {
-  font-family: 'Roboto';
-  src: url('./Assets/Roboto-Regular.woff2') format('woff2'),
-    url('./Assets/Roboto-Regular.woff') format('woff');
+  font-family: "Roboto";
+  src: url("./Assets/Roboto-Regular.woff2") format("woff2"),
+    url("./Assets/Roboto-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
