@@ -88,9 +88,9 @@ const Home = () => {
             <div className="map-container">
                 {
                     errMsg && (
-                        <div className="errorOverlay">
+                        <div className="error-overlay">
                             <p ref={errRef} aria-live="assertive">{errMsg}</p>
-                            <button className="button" onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
+                            <button className="error-button " onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
                         </div>
                     )
                 }

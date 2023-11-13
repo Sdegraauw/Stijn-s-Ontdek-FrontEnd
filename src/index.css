@@ -34,7 +34,7 @@ main section {
   display: none;
 }
 
-.button {
+.error-button {
   background-color: var(--yellow);
   color: var(--dark-grey);
   border-radius: 10px;
@@ -44,7 +44,7 @@ main section {
   margin-top: 0.8rem;
 }
 
-.button:hover {
+.error-button:hover {
   background-color: var(--dark-yellow);
 }
 
@@ -162,8 +162,8 @@ nav.navbar {
   flex-direction: column;
 }
 
-.errorOverlay p,
-.errorOverlay a {
+.error-overlay p,
+.error-overlay a {
   font-size: 2rem;
   color: #ffffff !important;
   margin: 0 5px;
