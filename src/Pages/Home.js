@@ -76,11 +76,9 @@ const Home = () => {
         try {
             getTempMeasurements();
             getRegionCords();
-
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
-            console.log('error loading data.');
             setErrMsg('Fout bij ophalen kaart-data.');
         }
     }, [dateTime])
