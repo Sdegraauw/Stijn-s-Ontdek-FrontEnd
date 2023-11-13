@@ -4,13 +4,9 @@ import { RoundToOneDecimal } from "../Lib/Utility";
 const RegionLayer = ({ data, visible, toggleRegion }) => {
     if (!visible)
         return (<></>);
-    
-    console.log(data);
 
     let mintemp = -10;
     let tempDif = 40;
-
-    console.log(toggleRegion === 'relative')
 
     if (toggleRegion === 'relative') {
         let maxtemp = Number.MIN_VALUE;
@@ -21,11 +17,9 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
             if (!isNaN(neighbourhood.avgTemp)) {
                 if (neighbourhood.avgTemp < mintemp) {
                     mintemp = neighbourhood.avgTemp;
-                    console.log("mintemp:"+mintemp)
                 }
                 if (neighbourhood.avgTemp > maxtemp) {
                     maxtemp = neighbourhood.avgTemp;
-                    console.log("maxtemp:"+maxtemp)
                 }
             }
         });
@@ -34,9 +28,6 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
             tempDif = maxtemp - mintemp;
         }
     }
-
-    console.log(mintemp);
-    console.log(tempDif);
 
     function setRegionColour(value) {
         if (isNaN(value))
@@ -74,7 +65,7 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
         <>
             { 
                 data.map((neighbourhood) => (
-                    <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } color={ setRegionColour(neighbourhood.avgTemp) } opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 } fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }>
+                    <Polygon positions={ neighbourhood.coordinates } key={ neighbourhood.id } pathOptions={{color:setRegionColour(neighbourhood.avgTemp)}} opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 } fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }>
                         <Popup>
                             <label className="bold">{ neighbourhood.name }</label> <br />
 
