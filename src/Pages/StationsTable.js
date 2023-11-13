@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { api } from "../App";
 
 const AllStations = () => {
-  const [stations, setStations] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

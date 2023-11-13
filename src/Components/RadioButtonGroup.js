@@ -18,10 +18,6 @@ const RadioButtonGroup = (props) => {
                 Temperatuur
             </label>
             <br />
-            <label>
-                <input type="radio" value="fijnstof" checked={selectedOption === 'fijnstof'} onChange={e => { handleChange(e); props.handleToggleFijnStof() }} />
-                Fijnstof
-            </label>
         </div>
     );
 }

@@ -1,24 +1,9 @@
 import { useRef, useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
 import { api } from "../App";
-// import { useLocation } from 'react-router-dom';
-
-function GiveLanguage() {
-  const Language = "Nederlands"
-  return Language;
-}
-
-function GivePageId() {
-  const PageId = "UserDetails"
-  return PageId;
-}
 
 const UPDATEUSER_URL = '/User';
 
 const UserDetails = () => {
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
-
   const firstNameRef = useRef();
   const lastNameRef = useRef();
   const userNameRef = useRef();

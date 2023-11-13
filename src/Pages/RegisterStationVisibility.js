@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const RegisterStationVisibility = () => {
     const [visibility, setVisibility] = useState();
     const navigate = useNavigate();
@@ -9,7 +9,6 @@ const RegisterStationVisibility = () => {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [answers, setAnswers] = useState(items);
-    let answersValid = true;
 
     const handleRadioChange = (event) => {
         setVisibility(event.target.value);
