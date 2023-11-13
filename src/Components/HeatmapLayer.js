@@ -22,23 +22,26 @@ const HeatmapLayer = ({data}) => {
         })
       }
 
+      var radius_preview = 0.015;
       var gradient_preview = {
         '.05': 'blue',
         '.4': 'green',
         '.7': 'yellow',
         '.9': 'red'
       }
+      var radius_current = 0.012
       var gradient_current = {
         '.05': 'blue',
-        '.4': 'green',
-        '.7': 'yellow',
-        '.9': 'orange'
+        '.7': 'green',
+        '.78': 'yellow',
+        '.96': 'orange',
+        '.99': 'red'
       }
 
       var tempConfig = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
-        "radius": 0.015,
+        "radius": radius_current,
         "maxOpacity": .8,
         // scales the radius based on map zoom
         "scaleRadius": true,
