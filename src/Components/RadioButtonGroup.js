@@ -1,28 +1,25 @@
 import React, { useState } from 'react';
 
-export default function RadioButtonGroup(props) {
-    const [selectedOption, setSelectedOption] = useState(props.options[0].key);
-
+const RadioButtonGroup = (props) => {
+    const [selectedOption, setSelectedOption] = useState("regio");
     function handleChange(event) {
-        setSelectedOption(event.target.key);
+        setSelectedOption(event.target.value);
+        console.log(selectedOption)
     }
-
     return (
         <div>
-            {props.options.map(option => (
-                <label key={option.key}>
-                    <input
-                        type="radio"
-                        value={option.key}
-                        checked={selectedOption === option.key}
-                        onChange={e => {
-                            handleChange(e);
-                            option.onChange(e);
-                        }}
-                    />
-                    {option.key}
-                </label>
-            ))}
+            <label>
+                <input type="radio" value="regio" checked={selectedOption === 'regio'} onChange={e => { handleChange(e); props.handleToggleShowRegions() }} />
+                Regio's
+            </label>
+            <br />
+            <label>
+                <input type="radio" value="temperatuur" checked={selectedOption === 'temperatuur'} onChange={e => { handleChange(e); props.handleToggleTemp() }} />
+                Temperatuur
+            </label>
+            <br />
         </div>
     );
 }
+
+export default RadioButtonGroup;

@@ -4,7 +4,7 @@ import { Map, TileLayer } from 'react-leaflet';
 import HeatmapLayer from 'react-leaflet-heatmap-layer';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
-import RadioButtonGroup from '../Components/RadioButtons';
+import RadioButtonGroup from '../Components/RadioButtonGroup';
 import Checkbox from '../Components/Checkbox';
 
 import ReactDatePicker from "react-datepicker";
@@ -34,6 +34,8 @@ const Home = () => {
     const [tempMeasurements, setTempMeasurements] = useState([]);
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
+
+    const [toggleRegion, setToggleRegion] = useState("relative");
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -72,6 +74,15 @@ const Home = () => {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
+    function toggleRegionLayer() {
+        if (toggleRegion === "relative") {
+            setToggleRegion("absolute");
+        }
+        else {
+            setToggleRegion("relative");
+        }
+    }
+
     useEffect(() => {
         try {
             getTempMeasurements();
@@ -98,7 +109,7 @@ const Home = () => {
             <Map center={[51.565120, 5.066322]} zoom={13}>
                 <TileLayer attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                <RegionLayer data={ regionData } visible={ showRegions }></RegionLayer>
+                <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
                 <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
                 <HeatMapLayer heatmapData={ tempMeasurements }
                     gradient={ gradient_default }
@@ -130,6 +141,7 @@ const Home = () => {
                         Momenteel
                     </button>
                 </ReactDatePicker>
+                {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>Toggle region</button>}
             </div>
         </div>
     )

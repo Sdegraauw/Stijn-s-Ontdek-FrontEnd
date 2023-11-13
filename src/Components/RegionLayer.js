@@ -1,12 +1,31 @@
 import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 
-const RegionLayer = ({ data, visible }) => {
-    if (!visible) 
-        return (<></>);
-    
+const RegionLayer = ({ data, visible, toggleRegion }) => {
+
+    if (!visible) return (<></>);
     let mintemp = -10;
     let tempDif = 40;
+
+    if (toggleRegion === "relative") {
+        let maxtemp = Number.MIN_VALUE;
+        mintemp = Number.MAX_VALUE;
+        tempDif = 1;
+
+        data.map((neighbourhood) => {
+            if (!isNaN(neighbourhood.avgTemp)) {
+                if (neighbourhood.avgTemp < mintemp) {
+                    mintemp = neighbourhood.avgTemp;
+                }
+                if (neighbourhood.avgTemp > maxtemp) {
+                    maxtemp = neighbourhood.avgTemp;
+                }
+            }
+        });
+        if (maxtemp - mintemp != 0) {
+            tempDif = maxtemp - mintemp;
+        }
+    }
 
     function setRegionColour(value) {
         if (isNaN(value)) { return "rgb(100,100,100)" }
