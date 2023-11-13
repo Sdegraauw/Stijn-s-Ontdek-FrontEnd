@@ -95,22 +95,22 @@ const Home = () => {
                     )
                 }
                 <MapContainer center={[51.565120, 5.066322]} zoom={13}>
-                    <TileLayer 
+                    <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
-                    <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements }></HeatmapLayer> }
+                    <RegionLayer data={regionData} visible={showRegions} toggleRegion={toggleRegion} />
+                    <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime} />
+                    {showTemp && tempMeasurements != null && <HeatmapLayer data={tempMeasurements} />}
                 </MapContainer>
 
-				<div className="legend">
-                    { showRegions && <button className="btn btn-secondary" onClick={ toggleRegionLayer }>Toggle region</button> }
+                <div className="legend">
+                    {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>Toggle region</button>}
                     <RadioButtonGroup
-                        handleToggleShowRegions={ handleToggleShowRegions }
-                        handleToggleTemp={ handleToggleTemp }
+                        handleToggleShowRegions={handleToggleShowRegions}
+                        handleToggleTemp={handleToggleTemp}
                     />
-                    <Checkbox handleToggleShowDataStations={ handleToggleShowDataStations } />
+                    <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
                         ref={calRef}
                         locale={nl}
