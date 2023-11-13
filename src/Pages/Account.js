@@ -1,24 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { api } from "../App";
-
-function GiveLanguage() {
-  const Language = "Nederlands"
-  return Language;
-}
-
-function GivePageId() {
-  const PageId = "Account"
-  return PageId;
-}
 
 export default function Account() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errMsg, setErrMsg] = useState(null);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getData = async () => {

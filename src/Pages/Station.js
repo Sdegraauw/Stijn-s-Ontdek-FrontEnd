@@ -1,4 +1,4 @@
-import { useLocation, useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import React from 'react';
 import { useState, useEffect } from "react";
 import { api } from '../App';
