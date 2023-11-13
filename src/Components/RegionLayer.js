@@ -10,7 +10,9 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
     let mintemp = -10;
     let tempDif = 40;
 
-    if (toggleRegion === "relative") {
+    console.log(toggleRegion === 'relative')
+
+    if (toggleRegion === 'relative') {
         let maxtemp = Number.MIN_VALUE;
         mintemp = Number.MAX_VALUE;
         tempDif = 1;
@@ -19,9 +21,11 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
             if (!isNaN(neighbourhood.avgTemp)) {
                 if (neighbourhood.avgTemp < mintemp) {
                     mintemp = neighbourhood.avgTemp;
+                    console.log("mintemp:"+mintemp)
                 }
                 if (neighbourhood.avgTemp > maxtemp) {
                     maxtemp = neighbourhood.avgTemp;
+                    console.log("maxtemp:"+maxtemp)
                 }
             }
         });
