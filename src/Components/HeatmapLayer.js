@@ -1,6 +1,5 @@
 import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
-import { useEffect, useRef } from 'react';
 
 const HeatmapLayer = ({ data, visible }) => {
     let maxTemp = 0;
@@ -22,16 +21,16 @@ const HeatmapLayer = ({ data, visible }) => {
       })
     }
 
-    var radius_preview = 0.015;
-    var gradient_preview = {
+    const radius_preview = 0.014;
+    const gradient_preview = {
       '.05': 'blue',
       '.4': 'green',
       '.7': 'yellow',
       '.9': 'red'
     }
-    var radius_current = 0.0095
+    const radius_current = 0.0095
     // Gradient color should taper off exponentially towards the bottom and top
-    var gradient_current = {
+    const gradient_current = {
       '.05': 'blue',
       '.5': 'green',
       '.6': 'yellow',
@@ -43,7 +42,7 @@ const HeatmapLayer = ({ data, visible }) => {
       '1': 'firebrick'
     }
 
-    var tempConfig = {
+    const tempConfig = {
       // radius should be small ONLY if scaleRadius is true (or small radius is intended)
       // if scaleRadius is false it will be the constant radius used in pixels
       "radius": radius_preview,
