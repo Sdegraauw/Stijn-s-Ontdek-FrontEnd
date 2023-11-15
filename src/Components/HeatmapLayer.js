@@ -69,33 +69,14 @@ const HeatmapLayer = ({ data, visible }) => {
     heatmapLayer.setData(changedDataFormat);
 
     if (visible) {
-      heatmapLayer.addTo(map);
+      map.addLayer(heatmapLayer);
     }
-
     if (!visible) {
       map.eachLayer(function (layer) {
         if (layer._heatmap)
           layer.remove();
       })
     }
-
-    // useEffect(() => {
-    //   var tempHeatmapLayer = new HeatmapOverlay(tempConfig);
-    //   tempHeatmapLayer.setData(changedDataFormat);
-
-    //   if (visible == true) {
-    //     map.addLayer(tempHeatmapLayer);
-    //   }
-    //   else {
-    //     let count = 0;
-    //     map.eachLayer(function (layer) {
-    //       count += 1;
-    //       if (count > 68) {
-    //         layer.remove();
-    //       }
-    //     })
-    //   }
-    // }, [visible])
 }
 
 export default HeatmapLayer;
