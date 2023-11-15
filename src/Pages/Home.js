@@ -90,8 +90,9 @@ const Home = () => {
                         </div>
                     )
                 }
-                <MapContainer center={[51.575120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
-                    <TileLayer
+
+                <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11} closePopupOnClick={false}>
+                    <TileLayer 
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
