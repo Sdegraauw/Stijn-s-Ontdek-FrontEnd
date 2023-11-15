@@ -17,7 +17,8 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const [showGemTemp, setShowGemTemp] = useState(false);
 
     useEffect(() => {
-        if (selectedStation === null) return;
+        if (selectedStation === null)
+            return;
 
         const options = { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" };
         api.get("/measurement/history/average/" + selectedStation, {
@@ -36,7 +37,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         });
     }, [selectedStation, startDate, endDate]);
 
-    const onClick = (e) => {
+    const handleClick = (e) => {
         if (startDate.getTime() === endDate.getTime()) {
             let date = startDate;
             date.setMonth(date.getMonth() - 1);
@@ -60,7 +61,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     return (
         <>
             {data.map((meting) => (
-                <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } onclick={onClick}>
+                <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } eventHandlers={{ click: handleClick }}>
                     <Popup>
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
@@ -92,11 +93,11 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                             <div className="row gy-2">
                                 <div className="col">
                                     <label className="me-2">Start datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ startDate } onChange={(date) => setStartDate(date)} />
                                 </div>
                                 <div className="col">
                                     <label className="me-2">Eind datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={endDate} onChange={(date) => setEndDate(date)} />
+                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ endDate } onChange={(date) => setEndDate(date)} />
                                 </div>
                             </div>
                         </div>
