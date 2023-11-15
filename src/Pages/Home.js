@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { FeatureGroup, LayerGroup, LayersControl, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtonGroup';
@@ -83,6 +83,15 @@ const Home = () => {
         }
     }, [dateTime])
 
+
+    const [editableFG, setEditableFG] = useState(null);
+
+    const onFeatureGroupReady = reactFGref => {
+        // store the featureGroup ref for future access to content
+        setEditableFG(reactFGref.leafletElement._layers);
+    };
+
+
     return (
         <section className="home-section">
             <div className="map-container">
@@ -94,14 +103,14 @@ const Home = () => {
                         </div>
                     )
                 }
-                <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
-                    <TileLayer 
+                <MapContainer center={[51.575120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
+                    <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
                     />
-                    <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
+                    { showRegions && <RegionLayer data={ regionData } toggleRegion={ toggleRegion }></RegionLayer> }
                     <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements } visible={ showTemp }></HeatmapLayer> }
+                    { tempMeasurements != null && <HeatmapLayer data={ tempMeasurements } visible={ showTemp } ></HeatmapLayer> }
                 </MapContainer>
 
 				<div className="legend">
