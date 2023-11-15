@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { wait } from "@testing-library/user-event/dist/utils";
 import '../index.css';
 import { api } from "../App";

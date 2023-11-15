@@ -1,5 +1,4 @@
 import React from "react";
-import NavBar from "./Components/NavBar";
 import Router from "./Router";
 import axios from "axios";
 

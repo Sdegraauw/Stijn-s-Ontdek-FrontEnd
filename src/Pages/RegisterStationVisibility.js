@@ -18,10 +18,6 @@ const RegisterStationVisibility = () => {
     const handleClick = () => {
         setErrorMessage(null);
 
-        answers.map(a => {
-            console.log(a);
-        })
-
         if (visibility === undefined) {
             setErrorMessage("Vul een status in.");
         } else {

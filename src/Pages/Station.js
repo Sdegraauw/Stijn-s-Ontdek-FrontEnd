@@ -16,7 +16,7 @@ const Station = () => {
         setStation({ id, name, height, locationName, longitude, latitude, ispublic })
         console.log(resp.data);
       })
-  }, []);
+  }, [id]);
 
   return (
     <div className="Station">
