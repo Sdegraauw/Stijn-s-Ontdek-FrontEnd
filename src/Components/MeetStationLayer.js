@@ -1,4 +1,4 @@
-import { Marker, Popup, Tooltip } from "react-leaflet";
+import { Marker, Popup} from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
 import { useEffect, useState } from "react";
@@ -62,7 +62,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         <>
             {data.map((meting) => (
                 <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } eventHandlers={{ click: handleClick }}>
-                    <Popup>
+                    <Popup eventhandler={null}>
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
                         <div key={meting.id}>
@@ -81,7 +81,6 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                                 <XAxis dataKey="timestamp" />
                                 <YAxis width={20} />
                                 <CartesianGrid stroke="#ccc" />
-                                <Tooltip />
                                 <Legend onClick={handleLegendChange} />
                                 <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} />
                                 <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} />
