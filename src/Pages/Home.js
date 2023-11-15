@@ -24,7 +24,7 @@ const Home = () => {
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
 
-    const [toggleRegion, setToggleRegion] = useState("relative");
+    const [toggleRegion, setToggleRegion] = useState("relatief");
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -45,11 +45,11 @@ const Home = () => {
     }
 
     function toggleRegionLayer() {
-        if (toggleRegion === "relative") {
-            setToggleRegion("absolute");
+        if (toggleRegion === "relatief") {
+            setToggleRegion("absoluut");
         }
         else {
-            setToggleRegion("relative");
+            setToggleRegion("relatief");
         }
     }
 
@@ -84,7 +84,7 @@ const Home = () => {
             <div className="map-container">
                 {
                     errMsg && (
-                        <div className="errorOverlay">
+                        <div className="error-overlay">
                             <p ref={errRef} aria-live="assertive">{errMsg}</p>
                             <button className="button" onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
                         </div>
@@ -93,21 +93,22 @@ const Home = () => {
                 <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
                     <TileLayer 
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
-                    <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements }></HeatmapLayer> }
+                    <RegionLayer data={regionData} visible={showRegions} toggleRegion={toggleRegion} />
+                    <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime} />
+                    {showTemp && tempMeasurements != null && <HeatmapLayer data={tempMeasurements} />}
                 </MapContainer>
 
-				<div className="legend">
-                    { showRegions && <button className="btn btn-secondary" onClick={ toggleRegionLayer }>Toggle region</button> }
+                <div className="legend">
+                    {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
                     <RadioButtonGroup
-                        handleToggleShowRegions={ handleToggleShowRegions }
-                        handleToggleTemp={ handleToggleTemp }
+                        handleToggleShowRegions={handleToggleShowRegions}
+                        handleToggleTemp={handleToggleTemp}
                     />
-                    <Checkbox handleToggleShowDataStations={ handleToggleShowDataStations } />
+                    <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
+                        className="outline-none border-0"
                         ref={calRef}
                         locale={nl}
                         selected={dateTime}
