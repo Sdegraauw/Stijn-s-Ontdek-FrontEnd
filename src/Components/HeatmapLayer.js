@@ -22,13 +22,13 @@ const HeatmapLayer = ({data}) => {
         })
       }
 
-      var radius_preview = 0.015;
-      var gradient_preview = {
-        '.05': 'blue',
-        '.4': 'green',
-        '.7': 'yellow',
-        '.9': 'red'
-      }
+      // var radius_preview = 0.015;
+      // var gradient_preview = {
+      //   '.05': 'blue',
+      //   '.4': 'green',
+      //   '.7': 'yellow',
+      //   '.9': 'red'
+      // }
       var radius_current = 0.012
       var gradient_current = {
         '.05': 'blue',

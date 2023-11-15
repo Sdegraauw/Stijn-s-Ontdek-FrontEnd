@@ -8,7 +8,7 @@ const url = '/Authentication/verify';
 const Verify = () => {
     const { linkHash, email } = useParams();
     const [error, setError] = useState(null);
-    const [cookies, setCookies, removeCookies] = useCookies();
+    const [cookies, setCookies] = useCookies();
     useEffect(() => {
         const getData = async () => {
             try {

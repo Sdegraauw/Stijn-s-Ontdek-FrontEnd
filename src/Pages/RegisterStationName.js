@@ -7,8 +7,7 @@ const RegisterStationName = () => {
 
     const params = new URLSearchParams(window.location.search);
     const items = JSON.parse(decodeURIComponent(params.get('items')));
-    const [strings, setStrings] = useState([items]);
-
+    const [strings] = useState([items]);
 
     const [errorMessage, setErrorMessage] = useState(null);
 
