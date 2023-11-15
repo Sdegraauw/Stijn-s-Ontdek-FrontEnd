@@ -34,7 +34,7 @@ main section {
   display: none;
 }
 
-.error-button {
+.button {
   background-color: var(--yellow);
   color: var(--dark-grey);
   border-radius: 10px;
@@ -44,7 +44,7 @@ main section {
   margin-top: 0.8rem;
 }
 
-.error-button:hover {
+.button:hover {
   background-color: var(--dark-yellow);
 }
 
