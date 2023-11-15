@@ -13,7 +13,7 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
         mintemp = Number.MAX_VALUE;
         tempDif = 1;
 
-        data.map((neighbourhood) => {
+        data.forEach((neighbourhood) => {
             if (!isNaN(neighbourhood.avgTemp)) {
                 if (neighbourhood.avgTemp < mintemp) {
                     mintemp = neighbourhood.avgTemp;

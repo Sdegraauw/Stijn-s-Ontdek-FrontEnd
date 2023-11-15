@@ -37,7 +37,7 @@ const EditStation = () => {
       const { id, name, locationName, height, longitude, latitude, ispublic} = resp.data
       setStation({ id, name, height, locationName, longitude, latitude, ispublic })
     })
-  }, []);
+  }, [stationId]);
 
   const handleSubmit = e => {
     e.preventDefault();

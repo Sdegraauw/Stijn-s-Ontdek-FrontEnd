@@ -40,26 +40,7 @@ const Home = () => {
         setShowTemp(false);
     }
 
-    function getTempMeasurements() {
-        api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
-            .then(resp => {
-                setTempMeasurements(resp.data)
-            })
-            .catch(function () {
-                handleAxiosError();
-            })
-    }
-
-    function getRegionData() {
-        api.get('/neighbourhood/all').then((response) => {
-            setRegionData(response.data);
-        })
-            .catch(function () {
-                handleAxiosError();
-            })
-    }
-
-    function handleAxiosError() {
+    function handleAxiosError(error) {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
@@ -74,8 +55,23 @@ const Home = () => {
 
     useEffect(() => {
         try {
-            getTempMeasurements();
-            getRegionData();
+            // Get measurements data
+            api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
+                .then(resp => {
+                    setTempMeasurements(resp.data)
+                })
+                .catch(function (error) {
+                    handleAxiosError(error);
+                });
+            
+            // Get neighbourhood data
+            api.get('/neighbourhood/all')
+                .then((response) => {
+                    setRegionData(response.data);
+                })
+                .catch(function (error) {
+                    handleAxiosError(error);
+                });
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'

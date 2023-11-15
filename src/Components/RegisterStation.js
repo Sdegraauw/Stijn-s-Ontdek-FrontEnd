@@ -38,7 +38,7 @@ const RegisterStation = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(validate(inputs));
-    if (error == false) {
+    if (error === false) {
       setSubmitted(true);
       api
         .post("/Station", inputs)

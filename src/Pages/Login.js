@@ -1,18 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import useAuth from '../Hooks/useAuth';
 //import '../SignUpIn.css'
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { api } from "../App";
-
-function GiveLanguage() {
-  const Language = "Nederlands"
-  return Language;
-}
-
-function GivePageId() {
-  const PageId = "Login"
-  return PageId;
-}
 
 const LOGIN_URL = '/Authentication/login';
 
@@ -20,10 +10,6 @@ const Login = () => {
 
   //after successfull login, set new auth state to global context (so the whole app?)
   const { setAuth } = useAuth();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
   const mailRef = useRef();
   const errRef = useRef();
