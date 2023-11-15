@@ -101,7 +101,7 @@ const Home = () => {
                     />
                     <RegionLayer data={ regionData } visible={ showRegions } toggleRegion={ toggleRegion }></RegionLayer>
                     <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements }></HeatmapLayer> }
+                    { showTemp && tempMeasurements != null && <HeatmapLayer data={ tempMeasurements } visible={ showTemp }></HeatmapLayer> }
                 </MapContainer>
 
 				<div className="legend">

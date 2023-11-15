@@ -2,7 +2,7 @@ import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 import { useEffect, useRef } from 'react';
 
-const HeatmapLayer = ({ data }) => {
+const HeatmapLayer = ({ data, visible }) => {
 
     let maxTemp = 0;
     data.forEach(meting => {
@@ -66,17 +66,14 @@ const HeatmapLayer = ({ data }) => {
       };
     
     
-    // const mapRef = useRef();
-    // useEffect(() => {
-    //   mapRef.current = useMap();
-    // }, [])
-    const map = useMap();
+    const map = useRef(useMap());
 
-    var tempHeatmapLayer = new HeatmapOverlay(tempConfig);
-    tempHeatmapLayer.setData(changedDataFormat);
+    useEffect(() => {
+      var tempHeatmapLayer = new HeatmapOverlay(tempConfig);
+      tempHeatmapLayer.setData(changedDataFormat);
 
-    //mapRef.addLayer(tempHeatmapLayer);
-    map.addLayer(tempHeatmapLayer);
+      map.addLayer(tempHeatmapLayer);
+    }, [visible])
 }
 
 export default HeatmapLayer;
