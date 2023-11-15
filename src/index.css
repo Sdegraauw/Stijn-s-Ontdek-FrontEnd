@@ -146,7 +146,15 @@ nav.navbar {
 }
 
 .legend-info {
-  width: 100px;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-display: row;
+  z-index:2 ;
+}
+
+.legend-rectangle {
+  width: 10px;
   height: 10px;
 }
 

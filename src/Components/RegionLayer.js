@@ -1,5 +1,5 @@
 import { Polygon, Popup } from "react-leaflet";
-import { RoundToOneDecimal } from "../Lib/Utility";
+import { RoundToOneDecimal, ContrastToColour } from "../Lib/Utility";
 
 const RegionLayer = ({ data, visible, toggleRegion }) => {
     if (!visible)
@@ -40,25 +40,7 @@ const RegionLayer = ({ data, visible, toggleRegion }) => {
         else if (contrastValue > 1)
             contrastValue = 1;
 
-        let red = Math.round(Red(contrastValue) * 255);
-        let green = Math.round(Green(contrastValue) * 255);
-        let blue = Math.round(Blue(contrastValue) * 255);
-
-        return "rgb(" + red.toString() + "," +
-            green.toString() + "," +
-            blue.toString() + ")";
-    }
-
-    function Red(contrastValue) {
-        return (Math.pow(2, contrastValue) - 1);
-    }
-
-    function Green(contrastValue) {
-        return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
-    }
-
-    function Blue(contrastValue) {
-        return ((Math.pow(2, 1 - contrastValue) - 1));
+        return ContrastToColour(contrastValue);
     }
 
     return (

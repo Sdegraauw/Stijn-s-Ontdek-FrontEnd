@@ -9,6 +9,8 @@ import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
+import {ContrastToColour} from "../Lib/Utility";
+import {Rectangle} from "recharts";
 
 const Home = () => {
     const errRef = useRef();
@@ -129,7 +131,13 @@ const Home = () => {
                     </ReactDatePicker>
                 </div>
                 <div className="legend-container p-1">
-                    <div className="legend-info"></div>
+                    <div className="legend-info">
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0)} width={50} height={50}/>
+                        <Rectangle className="legend-rectangle"  color={ContrastToColour(0.2)} width={50} height={50}/>
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.4)} width={50} height={50}/>
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.6)} width={50} height={50}/>
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(1)} width={50} height={50}/>
+                    </div>
                 </div>
             </div>
         </section>
