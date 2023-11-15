@@ -83,15 +83,6 @@ const Home = () => {
         }
     }, [dateTime])
 
-
-    const [editableFG, setEditableFG] = useState(null);
-
-    const onFeatureGroupReady = reactFGref => {
-        // store the featureGroup ref for future access to content
-        setEditableFG(reactFGref.leafletElement._layers);
-    };
-
-
     return (
         <section className="home-section">
             <div className="map-container">
