@@ -1,6 +1,6 @@
 import { api } from "../App";
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterStationData = () => {
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ const RegisterStationData = () => {
 
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const [answers, setAnswers] = useState(items);
+    const [answers] = useState(items);
     let answersValid = true;
 
     const postNaarBackend = async () => {
@@ -30,23 +30,17 @@ const RegisterStationData = () => {
             },
         })
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
     };
 
 
     const checkValues = () => {
         console.log(answers);
         if (answers.length === 6) {
-            answers.map(a => {
-                if (a == null) {
-                    answersValid = false;
-                }
-            });
+            // answers.map(a => {
+            //     if (a == null) {
+            //         answersValid = false;
+            //     }
+            // });
         }
         else {
             answersValid = false;
@@ -55,12 +49,7 @@ const RegisterStationData = () => {
 
     const handleClick = () => {
         setErrorMessage(null);
-
-        answers.map(a => {
-            console.log(a);
-        })
         checkValues();
-
 
         if (answersValid) {
             postNaarBackend();

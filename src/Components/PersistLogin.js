@@ -28,13 +28,7 @@ const PersistLogin = () => {
         !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
         return () => isMounted = false;
-    }, [])
-
-    //can be removed later, just for logging/checking the isLoading state
-    useEffect(() => {
-        console.log(`isLoading: ${isLoading}`)
-        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-    }, [isLoading])
+    }, [auth?.accessToken, refresh])
 
     return (
         <>

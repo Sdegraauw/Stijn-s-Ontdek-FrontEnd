@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import useAuth from '../Hooks/useAuth';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { api } from "../App";
 
 const REGISTER_URL = '/Authentication/register';
@@ -9,10 +9,6 @@ const Register = () => {
 
   //after successfull login, set new auth state to global context (so the whole app?)
   const { setAuth } = useAuth();
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
 
   const firstnameRef = useRef();
   const surnameRef = useRef();

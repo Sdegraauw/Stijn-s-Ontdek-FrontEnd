@@ -23,7 +23,6 @@ export default function Account() {
         setLoading(false);
       }
     };
-    const log = console.log(data);
     getData();
   }, []);
 
