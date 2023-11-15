@@ -3,7 +3,6 @@ import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 import { useEffect, useRef } from 'react';
 
 const HeatmapLayer = ({ data, visible }) => {
-
     let maxTemp = 0;
     data.forEach(meting => {
       if(meting.temperature > maxTemp) {
@@ -65,20 +64,19 @@ const HeatmapLayer = ({ data, visible }) => {
       valueField: 'val'
     };
     
-    
     const map = useMap();
-
-    var tempHeatmapLayer = new HeatmapOverlay(tempConfig);
-    tempHeatmapLayer.setData(changedDataFormat);
-
-    
+    const heatmapLayer = new HeatmapOverlay(tempConfig);
+    heatmapLayer.setData(changedDataFormat);
 
     if (visible) {
-      map.addLayer(tempHeatmapLayer);
+      heatmapLayer.addTo(map);
     }
 
     if (!visible) {
-      map.removeLayer(tempHeatmapLayer);
+      map.eachLayer(function (layer) {
+        if (layer._heatmap)
+          layer.remove();
+      })
     }
 
     // useEffect(() => {
