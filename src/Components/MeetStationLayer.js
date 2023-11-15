@@ -1,7 +1,7 @@
 import { Marker, Popup, Tooltip } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
-import { useEffect, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
 
@@ -15,6 +15,8 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const [showMinTemp, setShowMinTemp] = useState(false);
     const [showMaxTemp, setShowMaxTemp] = useState(false);
     const [showGemTemp, setShowGemTemp] = useState(false);
+    const errRef = useRef();
+    const [errorMessage,setErrorMessage] = useState('');
 
     useEffect(() => {
         if (selectedStation === null)
@@ -34,8 +36,12 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                 maxTemp: meting.maxTemp
             }));
             setGraphData(data);
-        });
+        }).catch(handleError);
     }, [selectedStation, startDate, endDate]);
+
+    function handleError(){
+        setErrorMessage('Het ophalen van de gegevens is mislukt')
+    }
 
     const handleClick = (e) => {
         if (startDate.getTime() === endDate.getTime()) {
@@ -76,16 +82,22 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                         <hr></hr>
 
                         <label className="bold mt-2">Historische temperatuur data</label>
+                        {
+                            errorMessage && (
+                                <div>
+                                    <p className={'text-danger'} ref={errRef} aria-live="assertive">{errorMessage}</p>
+                                </div>
+                            )
+                        }
                         <ResponsiveContainer minWidth={250} minHeight={250}>
                             <LineChart data={graphData}>
                                 <XAxis dataKey="timestamp" />
                                 <YAxis width={20} />
                                 <CartesianGrid stroke="#ccc" />
-                                <Tooltip />
                                 <Legend onClick={handleLegendChange} />
-                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} />
-                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} />
-                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#60f3f4" hide={showGemTemp} />
+                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} dot={false} />
+                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false}/>
+                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false}/>
                             </LineChart>
                         </ResponsiveContainer>
 

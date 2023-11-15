@@ -45,21 +45,21 @@ const Home = () => {
             .then(resp => {
                 setTempMeasurements(resp.data)
             })
-            .catch(function (error) {
-                handleAxiosError(error);
+            .catch(function () {
+                handleAxiosError();
             })
     }
 
-    function getRegionCords() {
+    function getRegionData() {
         api.get('/neighbourhood/all').then((response) => {
             setRegionData(response.data);
         })
-            .catch(function (error) {
-                handleAxiosError(error);
+            .catch(function () {
+                handleAxiosError();
             })
     }
 
-    function handleAxiosError(error) {
+    function handleAxiosError() {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
@@ -75,7 +75,7 @@ const Home = () => {
     useEffect(() => {
         try {
             getTempMeasurements();
-            getRegionCords();
+            getRegionData();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
