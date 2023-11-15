@@ -45,25 +45,25 @@ const Home = () => {
             .then(resp => {
                 setTempMeasurements(resp.data)
             })
-            .catch(function (error) {
-                handleAxiosError(error);
+            .catch(function () {
+                handleAxiosError();
             })
     }
 
-    function getRegionCords() {
+    function getRegionData() {
         api.get('/neighbourhood/all').then((response) => {
             setRegionData(response.data);
         })
-            .catch(function (error) {
-                handleAxiosError(error);
+            .catch(function () {
+                handleAxiosError();
             })
     }
 
-    function handleAxiosError(error) {
+    function handleAxiosError() {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
 
-    function toggleRegionLayer() {
+    function toggleRegionColourMode() {
         if (toggleRegion === "relative") {
             setToggleRegion("absolute");
         }
@@ -75,7 +75,7 @@ const Home = () => {
     useEffect(() => {
         try {
             getTempMeasurements();
-            getRegionCords();
+            getRegionData();
         }
         catch (error) {
             // Errors don't reach this catch, check function 'handleAxiosError'
@@ -105,7 +105,7 @@ const Home = () => {
                 </MapContainer>
 
 				<div className="legend">
-                    { showRegions && <button className="btn btn-secondary" onClick={ toggleRegionLayer }>Toggle region</button> }
+                    { showRegions && <button className="btn btn-secondary" onClick={ toggleRegionColourMode }>Toggle region</button> }
                     <RadioButtonGroup
                         handleToggleShowRegions={ handleToggleShowRegions }
                         handleToggleTemp={ handleToggleTemp }
