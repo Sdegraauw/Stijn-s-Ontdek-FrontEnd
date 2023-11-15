@@ -68,7 +68,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         <>
             {data.map((meting) => (
                 <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } eventHandlers={{ click: handleClick }}>
-                    <Popup eventhandler={null}>
+                    <Popup closeOnClick={false}>
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
                         <div key={meting.id}>
