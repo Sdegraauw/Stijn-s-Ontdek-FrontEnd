@@ -91,7 +91,7 @@ const Home = () => {
                     )
                 }
                 <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
-                    <TileLayer 
+                    <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
@@ -100,7 +100,7 @@ const Home = () => {
                     {showTemp && tempMeasurements != null && <HeatmapLayer data={tempMeasurements} />}
                 </MapContainer>
 
-                <div className="legend">
+                <div className="layer-control">
                     {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
@@ -127,6 +127,9 @@ const Home = () => {
                             Momenteel
                         </button>
                     </ReactDatePicker>
+                </div>
+                <div className="legend-container p-1">
+                    <div className="legend-info"></div>
                 </div>
             </div>
         </section>
