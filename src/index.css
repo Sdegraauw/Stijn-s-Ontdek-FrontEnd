@@ -114,7 +114,7 @@ nav.navbar {
   position: relative;
 }
 
-.legend {
+.layer-control {
   position: absolute;
   bottom: 0%;
   left: 0%;
@@ -131,9 +131,23 @@ nav.navbar {
   transition-duration: 750ms;
 }
 
-.legend:hover {
+.layer-control:hover {
   background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 2px 2px 2px rgb(0, 0, 0, 0.1);
+}
+
+.legend-container {
+  right: 0;
+  top: 0;
+  margin: 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  position: absolute;
+  z-index: 1;
+}
+
+.legend-info {
+  width: 100px;
+  height: 10px;
 }
 
 .layout-container {
