@@ -2,9 +2,9 @@ name: Build and Test
 
 on:
   push:
-    branches: [ s3nj23-dev ]
+    branches: [ s3nj23_dev ]
   pull_request:
-    branches: [ s3nj23-dev ]
+    branches: [ s3nj23_dev ]
     
 jobs:
   build:
