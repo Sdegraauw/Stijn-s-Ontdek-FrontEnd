@@ -1,7 +1,7 @@
 import { Marker, Popup, Tooltip } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
-import {Suspense, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
 
