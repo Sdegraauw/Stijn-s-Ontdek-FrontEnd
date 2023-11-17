@@ -3,24 +3,14 @@ import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 import { useEffect, useRef } from 'react';
 
 const HeatmapLayer = ({ data, visible }) => {
-    let maxTemp = 0;
+    console.log(data)
+
+    let maxval = 0;
     data.forEach(meting => {
-      if(meting.temperature > maxTemp) {
-        maxTemp = meting.temperature;
+      if(meting.val > maxval) {
+        maxval = meting.val;
       }
     })
-
-    const changedDataFormat = {
-      max : maxTemp,
-      data : data.map(meting => {
-        return {
-          lat : meting.latitude,
-          lng : meting.longitude,
-          val : meting.temperature,
-          count : 1
-        }
-      })
-    }
 
     var radius_preview = 0.015;
     var gradient_preview = {
@@ -66,7 +56,7 @@ const HeatmapLayer = ({ data, visible }) => {
     
     const map = useMap();
     const heatmapLayer = new HeatmapOverlay(tempConfig);
-    heatmapLayer.setData(changedDataFormat);
+    heatmapLayer.setData(data);
 
     if (visible) {
       map.addLayer(heatmapLayer);

@@ -9,6 +9,8 @@ import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
+import GenerelizedRadioButton from "../Components/GenerelizedRadioButton";
+import HeatMapTranslater from "../Components/HeatMapTranslater";
 
 const Home = () => {
     const errRef = useRef();
@@ -19,7 +21,8 @@ const Home = () => {
 
     const [showTemp, setShowTemp] = useState(false)
     const [showDataStations, setShowDataStations] = useState(false);
-    const [showRegions, setShowRegions] = useState(true);
+    const [showRegions, setShowRegions] = useState(false);
+    const [heatmapType,setHeatmapType] = useState('temperature')
 
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
@@ -98,15 +101,12 @@ const Home = () => {
                     />
                     { showRegions && <RegionLayer data={ regionData } toggleRegion={ toggleRegion }></RegionLayer> }
                     <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { tempMeasurements != null && <HeatmapLayer data={ tempMeasurements } visible={ showTemp } ></HeatmapLayer> }
+                    { tempMeasurements != null && <HeatMapTranslater data={ tempMeasurements } visible={ true } type={heatmapType}></HeatMapTranslater> }
                 </MapContainer>
 
                 <div className="legend">
                     {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
-                    <RadioButtonGroup
-                        handleToggleShowRegions={handleToggleShowRegions}
-                        handleToggleTemp={handleToggleTemp}
-                    />
+                    <GenerelizedRadioButton data={tempMeasurements} handleChange={setHeatmapType}/>
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
                         className="outline-none border-0"
