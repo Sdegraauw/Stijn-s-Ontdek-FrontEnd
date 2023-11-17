@@ -9,7 +9,7 @@ import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-import GenerelizedRadioButton from "../Components/GenerelizedRadioButton";
+import GenerelizedRadioButton from "../Components/FieldNameRadioButton";
 import HeatMapTranslater from "../Components/HeatMapTranslater";
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
 
-    const [showTemp, setShowTemp] = useState(false)
+    const [showTemp, setShowTemp] = useState(true)
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(false);
     const [heatmapType,setHeatmapType] = useState('temperature')
@@ -101,7 +101,7 @@ const Home = () => {
                     />
                     { showRegions && <RegionLayer data={ regionData } toggleRegion={ toggleRegion }></RegionLayer> }
                     <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { tempMeasurements != null && <HeatMapTranslater data={ tempMeasurements } visible={ true } type={heatmapType}></HeatMapTranslater> }
+                    { tempMeasurements && <HeatMapTranslater data={ tempMeasurements } visible={ showTemp } type={heatmapType}></HeatMapTranslater> }
                 </MapContainer>
 
                 <div className="legend">
