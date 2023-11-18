@@ -1,6 +1,5 @@
 import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
-import { useEffect, useRef } from 'react';
 
 const HeatmapLayer = ({ data, visible }) => {
 
