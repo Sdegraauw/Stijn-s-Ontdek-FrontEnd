@@ -2,7 +2,6 @@ import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 
 const RegionLayer = ({ data, toggleRegion }) => {
-
     let mintemp = -10;
     let tempDif = 40;
 

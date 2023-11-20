@@ -13,8 +13,8 @@ const RadioButtonGroup = (props) => {
             </label>
             <br />
             <label>
-                <input type="radio" value="temperatuur" checked={selectedOption === 'temperatuur'} onChange={e => { handleChange(e); props.handleToggleTemp() }} />
-                Temperatuur
+                <input type="radio" value="hittenkaart" checked={selectedOption === 'hittenkaart'} onChange={e => { handleChange(e); props.handleToggleTemp() }} />
+                Hittenkaart
             </label>
             <br />
         </div>
