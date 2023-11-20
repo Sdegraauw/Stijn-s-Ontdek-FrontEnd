@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { FeatureGroup, LayerGroup, LayersControl, MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer} from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtonGroup';
 import Checkbox from '../Components/Checkbox';
-import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
@@ -27,8 +26,6 @@ const Home = () => {
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
 
-    const [toggleRegion, setToggleRegion] = useState("relatief");
-
     function handleToggleTemp() {
         setShowRegions(false);
         setShowTemp(!showTemp);
@@ -44,15 +41,6 @@ const Home = () => {
 
     function handleAxiosError(error) {
         setErrMsg('Het ophalen van de gegevens is mislukt');
-    }
-
-    function toggleRegionLayer() {
-        if (toggleRegion === "relatief") {
-            setToggleRegion("absoluut");
-        }
-        else {
-            setToggleRegion("relatief");
-        }
     }
 
     useEffect(() => {
@@ -98,13 +86,12 @@ const Home = () => {
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    { showRegions && <RegionLayer data={ regionData } toggleRegion={ toggleRegion }></RegionLayer> }
+                    { showRegions && <RegionLayer data={ regionData }></RegionLayer> }
                     <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
                     { tempMeasurements && <HeatMapTranslater data={ tempMeasurements } visible={ showTemp } type={heatmapType}/> }
                 </MapContainer>
 
                 <div className="legend">
-                    {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
                         handleToggleTemp={handleToggleTemp}/>

@@ -9,12 +9,12 @@ const RadioButtonGroup = (props) => {
         <div>
             <label>
                 <input type="radio" value="regio" checked={selectedOption === 'regio'} onChange={e => { handleChange(e); props.handleToggleShowRegions() }} />
-                Regio's
+                Wijken
             </label>
             <br />
             <label>
                 <input type="radio" value="hittenkaart" checked={selectedOption === 'hittenkaart'} onChange={e => { handleChange(e); props.handleToggleTemp() }} />
-                Hittenkaart
+                Heatmap
             </label>
             <br />
         </div>
