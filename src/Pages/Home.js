@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { MapContainer, TileLayer } from 'react-leaflet';
+import { FeatureGroup, LayerGroup, LayersControl, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtonGroup';
@@ -9,8 +9,8 @@ import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-import {ContrastToColour} from "../Lib/Utility";
-import {Rectangle} from "recharts";
+import { ContrastToColour } from "../Lib/Utility";
+import { Rectangle } from "recharts";
 
 const Home = () => {
     const errRef = useRef();
@@ -65,7 +65,7 @@ const Home = () => {
                 .catch(function (error) {
                     handleAxiosError(error);
                 });
-            
+
             // Get neighbourhood data
             api.get('/neighbourhood/all')
                 .then((response) => {
@@ -92,14 +92,15 @@ const Home = () => {
                         </div>
                     )
                 }
-                <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11}>
+
+                <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11} closePopupOnClick={false}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <RegionLayer data={regionData} visible={showRegions} toggleRegion={toggleRegion} />
-                    <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime} />
-                    {showTemp && tempMeasurements != null && <HeatmapLayer data={tempMeasurements} />}
+                    {showRegions && <RegionLayer data={regionData} toggleRegion={toggleRegion}></RegionLayer>}
+                    <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>
+                    {tempMeasurements != null && <HeatmapLayer data={tempMeasurements} visible={showTemp} ></HeatmapLayer>}
                 </MapContainer>
 
                 <div className="layer-control">
@@ -132,11 +133,11 @@ const Home = () => {
                 </div>
                 <div className="legend-container p-1">
                     <div className="legend-info">
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0)} width={50} height={50}/>
-                        <Rectangle className="legend-rectangle"  color={ContrastToColour(0.2)} width={50} height={50}/>
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.4)} width={50} height={50}/>
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.6)} width={50} height={50}/>
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(1)} width={50} height={50}/>
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0)} width={50} height={50} />
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.2)} width={50} height={50} />
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.4)} width={50} height={50} />
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.6)} width={50} height={50} />
+                        <Rectangle className="legend-rectangle" color={ContrastToColour(1)} width={50} height={50} />
                     </div>
                 </div>
             </div>
