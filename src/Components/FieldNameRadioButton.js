@@ -15,8 +15,7 @@ const Radiobutton = ({data, handleChange, current}) =>{
 
     const results = [];
     fieldNames.forEach(fieldName => {
-        console.log(fieldName);
-        if (fieldName === "Temperature" || fieldName === 'Humidity') {
+        if (fieldName === 'Temperature' || fieldName === 'Humidity') {
             results.push(
                 <div>
                     <label>
