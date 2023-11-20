@@ -2,21 +2,21 @@ import React, {useState} from "react";
 
 const Radiobutton = ({data, handleChange, current}) =>{
     const [selectedOption, setSelectedOption] = useState(current.charAt(0).toUpperCase() + current.substring(1));
+
     if (data === null || data === undefined || data[0] === null || data[0] === undefined){
         return <></>
     }
 
     let fieldNames = Object.keys(data[0]);
 
-    for (let i = 0; i<fieldNames.length; i++){
+    for (let i = 0; i < fieldNames.length; i++){
         fieldNames[i] = fieldNames[i].charAt(0).toUpperCase() + fieldNames[i].substring(1);
     }
 
     const results = [];
     fieldNames.forEach(fieldName => {
-        if (fieldName === 'Timestamp' || fieldName === 'Id'|| fieldName === 'Longitude'|| fieldName === 'Latitude'){
-        }
-        else {
+        console.log(fieldName);
+        if (fieldName === "Temperature" || fieldName === 'Humidity') {
             results.push(
                 <div>
                     <label>
@@ -25,15 +25,19 @@ const Radiobutton = ({data, handleChange, current}) =>{
                                    handleChange(fieldName.toLowerCase());
                                    setSelectedOption(fieldName);
                                }}/>
-                        {fieldName}
+                            { fieldName }
                     </label>
                     <br/>
-                </div>)
+                </div>
+            )
         }
     })
+    console.log(fieldNames);
 
-return(<div>
-    {results}
-</div>)
+    return (
+        <div>
+            {results}
+        </div>
+    )
 }
 export default Radiobutton;
