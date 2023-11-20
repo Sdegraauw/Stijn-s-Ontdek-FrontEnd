@@ -108,6 +108,7 @@ const Home = () => {
                         showIcon
                         showTimeInput
                         dateFormat={"dd/MM/yyyy HH:mm"}
+                        maxDate={dateTime}
                     >
                         <button
                             className="btn btn-secondary"
