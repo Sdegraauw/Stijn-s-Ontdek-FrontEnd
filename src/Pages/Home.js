@@ -109,7 +109,7 @@ const Home = () => {
                         handleToggleShowRegions={handleToggleShowRegions}
                         handleToggleTemp={handleToggleTemp}/>
                     {showTemp && <div className={'heatmapRadio'}>
-                        <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} visible={showTemp}/>
+                        <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} current={heatmapType}/>
                     </div>}
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker

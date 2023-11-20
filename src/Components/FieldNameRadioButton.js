@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 
-const Radiobutton = ({data, handleChange}) =>{
-
-    const [selectedOption, setSelectedOption] = useState('Temperature');
+const Radiobutton = ({data, handleChange, current}) =>{
+    const [selectedOption, setSelectedOption] = useState(current.charAt(0).toUpperCase() + current.substring(1));
     if (data === null || data === undefined || data[0] === null || data[0] === undefined){
         return <></>
     }
