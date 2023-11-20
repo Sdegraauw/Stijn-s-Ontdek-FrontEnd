@@ -9,13 +9,9 @@ const Radiobutton = ({data, handleChange, current}) =>{
 
     let fieldNames = Object.keys(data[0]);
 
-    for (let i = 0; i < fieldNames.length; i++){
-        fieldNames[i] = fieldNames[i].charAt(0).toUpperCase() + fieldNames[i].substring(1);
-    }
-
     const results = [];
     fieldNames.forEach(fieldName => {
-        if (fieldName === 'Temperature' || fieldName === 'Humidity') {
+        if (fieldName !== 'id' && fieldName !== 'latitude' && fieldName !== 'longitude' && fieldName !== 'timestamp') {
             results.push(
                 <div>
                     <label>
@@ -24,7 +20,7 @@ const Radiobutton = ({data, handleChange, current}) =>{
                                    handleChange(fieldName.toLowerCase());
                                    setSelectedOption(fieldName);
                                }}/>
-                            { fieldName }
+                            { fieldName.charAt(0).toUpperCase() + fieldName.substring(1) }
                     </label>
                     <br/>
                 </div>
