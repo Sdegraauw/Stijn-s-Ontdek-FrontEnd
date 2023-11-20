@@ -5,21 +5,31 @@ const Translater = ({ data, visible, type }) => {
         return <></>
     }
 
+    let maxval = 0;
+    data.forEach(meting => {
+        if(meting[type] > maxval) {
+            maxval = meting[type];
+        }
+    })
+
     console.log(data)
     const changedDataFormat = ()=> {
-        return(
-        data.map(meting => {
-            console.log(meting[type])
-            return {
-                lat : meting.latitude,
-                lng : meting.longitude,
-                val : meting[type],
-                count : 1
-            }
-        }))
+        return{
+            max:maxval,
+            min:0,
+            data:(
+                data.map(meting => {
+                    console.log(meting[type])
+                    return {
+                        lat : meting.latitude,
+                        lng : meting.longitude,
+                        val : meting[type],
+                        count : 1
+                    }
+                }))
+        }
     }
     let endData = changedDataFormat();
-    console.log(endData);
     return (<>{ <HeatmapLayer data={endData} visible={visible}></HeatmapLayer> }</>)
 }
 export default Translater;

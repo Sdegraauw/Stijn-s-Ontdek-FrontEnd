@@ -2,14 +2,6 @@ import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 
 const HeatmapLayer = ({ data, visible }) => {
-
-    let maxval = 0;
-        data.forEach(meting => {
-            if(meting.val > maxval) {
-                maxval = meting.val;
-            }
-        })
-
     var radius_preview = 0.015;
     var gradient_preview = {
       '.05': 'blue',
@@ -55,7 +47,10 @@ const HeatmapLayer = ({ data, visible }) => {
     const map = useMap();
     const heatmapLayer = new HeatmapOverlay(tempConfig);
     console.log(data)
-    heatmapLayer.setData(data);
+    try {
+        heatmapLayer.setData(data);
+    }
+    catch (e){console.log(e)}
 
     if (visible) {
       map.addLayer(heatmapLayer);

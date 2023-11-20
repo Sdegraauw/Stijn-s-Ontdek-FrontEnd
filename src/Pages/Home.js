@@ -9,7 +9,7 @@ import HeatmapLayer from "../Components/HeatmapLayer";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-import GenerelizedRadioButton from "../Components/FieldNameRadioButton";
+import FieldNameRadioButton from "../Components/FieldNameRadioButton";
 import HeatMapTranslater from "../Components/HeatMapTranslater";
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
 
-    const [showTemp, setShowTemp] = useState(true)
+    const [showTemp, setShowTemp] = useState(false)
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(false);
     const [heatmapType,setHeatmapType] = useState('temperature')
@@ -33,7 +33,6 @@ const Home = () => {
         setShowRegions(false);
         setShowTemp(!showTemp);
     }
-
     function handleToggleShowDataStations() {
         setShowDataStations(!showDataStations);
     }
@@ -106,7 +105,7 @@ const Home = () => {
 
                 <div className="legend">
                     {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
-                    <GenerelizedRadioButton data={tempMeasurements} handleChange={setHeatmapType}/>
+                    <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType}/>
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
                         className="outline-none border-0"
