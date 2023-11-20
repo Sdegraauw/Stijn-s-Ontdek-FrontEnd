@@ -50,13 +50,17 @@ const HeatmapLayer = ({ data, visible }) => {
     heatmapLayer.setData(data);
 
     if (visible) {
-      map.addLayer(heatmapLayer);
+        map.eachLayer(function (layer) {
+            if (layer._heatmap)
+                layer.remove();
+        })
+        map.addLayer(heatmapLayer);
     }
     if (!visible) {
-      map.eachLayer(function (layer) {
+        map.eachLayer(function (layer) {
         if (layer._heatmap)
           layer.remove();
-      })
+        })
     }
 }
 

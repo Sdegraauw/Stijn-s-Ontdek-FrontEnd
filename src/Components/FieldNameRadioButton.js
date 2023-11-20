@@ -6,11 +6,15 @@ const Radiobutton = ({data, handleChange}) =>{
         return <></>
     }
 
-    const fieldNames = Object.keys(data[0]);
+    let fieldNames = Object.keys(data[0]);
+
+    for (let i = 0; i<fieldNames.length; i++){
+        fieldNames[i] = fieldNames[i].charAt(0).toUpperCase() + fieldNames[i].substring(1);
+    }
 
     const results = [];
     fieldNames.forEach(fieldName => {
-        if (fieldName === 'timestamp' || fieldName === 'id'|| fieldName === 'longitude'|| fieldName === 'latitude'){
+        if (fieldName === 'Timestamp' || fieldName === 'Id'|| fieldName === 'Longitude'|| fieldName === 'Latitude'){
         }
         else {
             results.push(
@@ -18,7 +22,7 @@ const Radiobutton = ({data, handleChange}) =>{
                     <label>
                         <input type="radio" value={fieldName} checked={selectedOption === fieldName}
                                onChange={e => {
-                                   handleChange(fieldName);
+                                   handleChange(fieldName.toLowerCase());
                                    setSelectedOption(fieldName);
                                }}/>
                         {fieldName}
