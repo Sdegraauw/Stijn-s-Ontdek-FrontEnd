@@ -105,6 +105,7 @@ const Home = () => {
 
                 <div className="legend">
                     {showRegions && <button className="btn btn-secondary" onClick={toggleRegionLayer}>{toggleRegion}</button>}
+                    <RadioButtonGroup/>
                     <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType}/>
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
