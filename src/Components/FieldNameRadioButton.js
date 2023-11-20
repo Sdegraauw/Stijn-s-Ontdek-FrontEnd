@@ -10,18 +10,22 @@ const Radiobutton = ({data, handleChange}) =>{
 
     const results = [];
     fieldNames.forEach(fieldName => {
-        results.push(
-            <div>
-                <label>
-                    <input type="radio" value={fieldName} checked={selectedOption === fieldName}
-                           onChange={e => {
-                               handleChange(fieldName);
-                               setSelectedOption(fieldName);
-                           }}/>
-                    {fieldName}
-                </label>
-                <br/>
-            </div>)
+        if (fieldName === 'timestamp' || fieldName === 'id'|| fieldName === 'longitude'|| fieldName === 'latitude'){
+        }
+        else {
+            results.push(
+                <div>
+                    <label>
+                        <input type="radio" value={fieldName} checked={selectedOption === fieldName}
+                               onChange={e => {
+                                   handleChange(fieldName);
+                                   setSelectedOption(fieldName);
+                               }}/>
+                        {fieldName}
+                    </label>
+                    <br/>
+                </div>)
+        }
     })
 
 return(<div>

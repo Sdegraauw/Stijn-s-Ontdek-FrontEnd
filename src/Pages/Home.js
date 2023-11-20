@@ -19,7 +19,7 @@ const Home = () => {
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
 
-    const [showTemp, setShowTemp] = useState(false)
+    const [showTemp, setShowTemp] = useState(true)
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(false);
     const [heatmapType,setHeatmapType] = useState('temperature')

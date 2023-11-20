@@ -47,10 +47,7 @@ const HeatmapLayer = ({ data, visible }) => {
     const map = useMap();
     const heatmapLayer = new HeatmapOverlay(tempConfig);
     console.log(data)
-    try {
-        heatmapLayer.setData(data);
-    }
-    catch (e){console.log(e)}
+    heatmapLayer.setData(data);
 
     if (visible) {
       map.addLayer(heatmapLayer);

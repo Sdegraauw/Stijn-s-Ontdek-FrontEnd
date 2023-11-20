@@ -19,7 +19,6 @@ const Translater = ({ data, visible, type }) => {
             min:0,
             data:(
                 data.map(meting => {
-                    console.log(meting[type])
                     return {
                         lat : meting.latitude,
                         lng : meting.longitude,
@@ -30,6 +29,6 @@ const Translater = ({ data, visible, type }) => {
         }
     }
     let endData = changedDataFormat();
-    return (<>{ <HeatmapLayer data={endData} visible={visible}></HeatmapLayer> }</>)
+    return (<HeatmapLayer data={endData} visible={visible}></HeatmapLayer>)
 }
 export default Translater;
