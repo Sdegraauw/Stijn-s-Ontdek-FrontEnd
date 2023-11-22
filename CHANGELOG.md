@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 -   Kalender is in te stellen naar toekomstige datum (SCRUM-145)
+-   Startdatum instelbaar na Einddatum + Einddatum instelbaar voor Startdatum (SCRUM-144)
 
 ## [0.3.1] - 2023-11-15
 

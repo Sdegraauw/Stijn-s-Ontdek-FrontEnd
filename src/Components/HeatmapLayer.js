@@ -12,7 +12,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
     data = {
         max: maxval,
         min: 0,
-        data: 
+        data:
             data.map(meting => {
                 return {
                     lat: meting.latitude,
@@ -57,7 +57,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
         // which field name in your data represents the data value - default "value"
         valueField: 'val'
     };
-    
+
     const map = useMap();
     const heatmapLayer = new HeatmapOverlay(tempConfig);
     heatmapLayer.setData(data);
