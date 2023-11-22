@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
 import { ContrastToColour } from "../Lib/Utility";
 import { Rectangle } from "recharts";
+import Legend from "../Components/Legend";
 
 const Home = () => {
     const errRef = useRef();
@@ -27,6 +28,8 @@ const Home = () => {
     const calRef = useRef();
 
     const [toggleRegion, setToggleRegion] = useState("relatief");
+
+    const [legendLayer, setLegendLayer] = useState("region");
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -54,6 +57,17 @@ const Home = () => {
             setToggleRegion("relatief");
         }
     }
+
+    useEffect(() => {
+
+        if (showTemp) {
+            setLegendLayer("heatmap");
+        }
+        else {
+            setLegendLayer("region");
+        }
+
+    }, [showTemp, showRegions])
 
     useEffect(() => {
         try {
@@ -131,15 +145,7 @@ const Home = () => {
                         </button>
                     </ReactDatePicker>
                 </div>
-                <div className="legend-container p-1">
-                    <div className="legend-info">
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0)} width={50} height={50} />
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.2)} width={50} height={50} />
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.4)} width={50} height={50} />
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(0.6)} width={50} height={50} />
-                        <Rectangle className="legend-rectangle" color={ContrastToColour(1)} width={50} height={50} />
-                    </div>
-                </div>
+                <Legend temperatures={tempMeasurements} legendLayer={legendLayer} />
             </div>
         </section>
     )

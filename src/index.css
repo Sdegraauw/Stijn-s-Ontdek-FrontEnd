@@ -137,25 +137,41 @@ nav.navbar {
 }
 
 .legend-container {
+  display: flex;
+  flex-direction: row;
   right: 0;
   top: 0;
   margin: 12px;
   background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
+  padding: 8px;
   z-index: 1;
-}
-
-.legend-info {
-  width: fit-content;
+  border-radius: 8px;
   height: fit-content;
-  display: flex;
-  flex-display: row;
-  z-index:2 ;
 }
 
-.legend-rectangle {
-  width: 10px;
+.legend-item {
+  display: flex;
+  flex-direction: column;
+  width: 60px;
+}
+
+.legend-color {
+  margin-right: 0.25rem;
+  width: full;
   height: 10px;
+  border-radius: 2px;
+}
+
+.legend-label {
+  display: flex;
+  font-size: 13px;
+  justify-content: center;
+}
+
+.legend-label p {
+  margin: 0;
+  color: white;
 }
 
 .layout-container {
