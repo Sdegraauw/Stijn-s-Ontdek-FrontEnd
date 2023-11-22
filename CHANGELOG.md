@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED]
 
+## [0.3.2] - 2023-11-22
+
+### Fixed
+-   Kalender is in te stellen naar toekomstige datum (SCRUM-145)
+
 ## [0.3.1] - 2023-11-15
 
 ### Added

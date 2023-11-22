@@ -110,7 +110,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                                         dateFormat="dd-MM-yyyy" 
                                         selected={ startDate } 
                                         onChange={(date) => setStartDate(date)} 
-                                        maxDate={ new Date() }
+                                        maxDate={ endDate }
                                     />
                                 </div>
                                 <div className="col">
@@ -121,6 +121,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                                         selected={ endDate } 
                                         onChange={(date) => setEndDate(date)} 
                                         maxDate={ new Date() }
+                                        minDate={ startDate }
                                     />
                                 </div>
                             </div>
