@@ -8,8 +8,8 @@ import Checkbox from '../Components/Checkbox';
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-import { ContrastToColour } from "../Lib/Utility";
-import { Rectangle } from "recharts";
+import HeatmapLayer from "../Components/HeatmapLayer";
+import FieldNameRadioButton from "../Components/FieldNameRadioButton";
 import Legend from "../Components/Legend";
 
 const Home = () => {
@@ -107,7 +107,7 @@ const Home = () => {
                     {tempMeasurements && <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />}
                 </MapContainer>
 
-                <div className="legend">
+                <div className="layer-control">
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
                         handleToggleTemp={handleToggleTemp} />

@@ -135,7 +135,7 @@ nav.navbar {
   margin-left: 10px;
 }
 
-.legend:hover {
+.layer-control:hover {
   background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 2px 2px 2px rgb(0, 0, 0, 0.1);
 }
