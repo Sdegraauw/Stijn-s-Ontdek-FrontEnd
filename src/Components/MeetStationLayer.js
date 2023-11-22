@@ -105,11 +105,23 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                             <div className="row gy-2">
                                 <div className="col">
                                     <label className="me-2">Start datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ startDate } onChange={(date) => setStartDate(date)} />
+                                    <ReactDatePicker 
+                                        className="border border-secondary" 
+                                        dateFormat="dd-MM-yyyy" 
+                                        selected={ startDate } 
+                                        onChange={(date) => setStartDate(date)} 
+                                        maxDate={ new Date() }
+                                    />
                                 </div>
                                 <div className="col">
                                     <label className="me-2">Eind datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ endDate } onChange={(date) => setEndDate(date)} />
+                                    <ReactDatePicker 
+                                        className="border border-secondary" 
+                                        dateFormat="dd-MM-yyyy" 
+                                        selected={ endDate } 
+                                        onChange={(date) => setEndDate(date)} 
+                                        maxDate={ new Date() }
+                                    />
                                 </div>
                             </div>
                         </div>
