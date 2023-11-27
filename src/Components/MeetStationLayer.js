@@ -1,4 +1,4 @@
-import { Marker, Popup, Tooltip } from "react-leaflet";
+import { Marker, Popup} from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
 import {useEffect, useRef, useState} from "react";
@@ -68,13 +68,13 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         <>
             {data.map((meting) => (
                 <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } eventHandlers={{ click: handleClick }}>
-                    <Popup>
+                    <Popup closeOnClick={false}>
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
                         <div key={meting.id}>
-                            <label>Temperatuur: { RoundToOneDecimal(meting.temperature) } °C</label>
+                            <label>{meting.temperature ? "Temperatuur: "+ RoundToOneDecimal(meting.temperature)+ " °C": ''}</label>
                             <br />
-                            <label>Luchtvochtigheid: { RoundToOneDecimal(meting.humidity) }%</label>
+                            <label>{meting.humidity ? "Luchtvochtigheid: "+ RoundToOneDecimal(meting.humidity) + " %": ''}</label>
                         </div>
 
                         <label className="fst-italic mt-1">Meting van: { selectedDate.toLocaleString('nl-NL') }</label>
