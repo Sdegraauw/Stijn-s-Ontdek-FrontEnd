@@ -41,6 +41,30 @@ const HeatmapLayer = ({ data, visible, type }) => {
         '1': 'firebrick'
     }
 
+    const rainbow_gradient = {
+        '.2'    : '#5568B8',
+        // '.35'    : '#4E79C5',
+        '.35' : '#4D8AC6',
+        // '.15': '#4E96BC',
+        // '.2': '#549EB3',
+        // '.25': '#59A5A9',
+        // '.3': '#60AB9E',
+        '.4': '#69B190',
+        // '.4': '#77B77D',
+        // '.5'    : '#8CBC68',           // green
+        // '.6': '#A6BE54',            
+        // '.6'    : '#BEBC48',              
+        '.6'    : '#D1B541',           // yellow         
+        '.8'   : '#DDAA3C',               // yellow
+        // '.9'   : '#E49C39',              
+        '.85'   : '#E78C35',              // pumpkin orange
+        // '.85'    : '#E67932',          // orange
+        '.94'   : '#E4632D',              // dark orange
+        '.96'   : '#DF4828',              // orange red
+        '.98'   : '#DA2222',              // red
+        '1'     : '#B8221E'               // red brown
+    }
+
     var colorDictionary = {
         ".05": "rgb(206,255,255)",
         ".30": "rgb(198,247,214)",
@@ -121,12 +145,14 @@ const HeatmapLayer = ({ data, visible, type }) => {
         "0.96": "rgb(82,26,19)",
     }
 
+    
+
     const tempConfig = {
         // radius should be small ONLY if scaleRadius is true (or small radius is intended)
         // if scaleRadius is false it will be the constant radius used in pixels
         "radius": radius_preview,
-        "maxOpacity": .8,
-        // "minOpacity": .3,
+        "maxOpacity": .85,
+        "minOpacity": .08,
         // scales the radius based on map zoom
         "scaleRadius": true,
         // if set to false the heatmap uses the global maximum for colorization
@@ -134,7 +160,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
         //   (there will always be a red spot with useLocalExtremas true)
         "useLocalExtrema": false,
         // enter n keys between 0 and 1 here for gradient color customization
-        "gradient": gradient_current,
+        "gradient": rainbow_gradient,
         // which field name in your data represents the latitude - default "lat"
         latField: 'lat',
         // which field name in your data represents the longitude - default "lng"
