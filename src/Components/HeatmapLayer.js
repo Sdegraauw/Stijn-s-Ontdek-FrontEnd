@@ -5,26 +5,32 @@ const HeatmapLayer = ({ data, visible, type }) => {
     let maxval = Number.MIN_VALUE;
     let minval = Number.MAX_VALUE;
     data.forEach(meting => {
-        if (meting[type] > maxval) {
-            maxval = meting[type];
-        }
-        if (meting[type] < minval) {
-            minval = meting[type];
+        if (meting[type]){
+            if (meting[type] > maxval) {
+                maxval = meting[type];
+            }
+            if (meting[type] < minval) {
+                minval = meting[type];
+            }
         }
     });
-
-    data = {
-        max: maxval,
-        min: minval,
-        data:
-            data.map(meting => {
-                return {
+    const heatmapReadyData = [];
+    data.map(meting => {
+        if (meting[type]){
+            heatmapReadyData.push(
+                {
                     lat: meting.latitude,
                     lng: meting.longitude,
                     val: meting[type],
                     count: 1
-                }
-            })
+                });
+        }
+    })
+
+    data = {
+        max: maxval,
+        min: minval-((maxval-minval)*0.5),
+        data:heatmapReadyData
     };
 
     const radius_preview = 0.015;
@@ -49,19 +55,26 @@ const HeatmapLayer = ({ data, visible, type }) => {
         // '.2': '#549EB3',
         // '.25': '#59A5A9',
         // '.3': '#60AB9E',
-        '.4': '#69B190',
+        //'.4': '#69B190',
+        '.5': '#69B190',
         // '.4': '#77B77D',
         // '.5'    : '#8CBC68',           // green
         // '.6': '#A6BE54',            
         // '.6'    : '#BEBC48',              
-        '.6'    : '#D1B541',           // yellow         
-        '.8'   : '#DDAA3C',               // yellow
+        //'.6'    : '#D1B541',
+        '.7'    : '#D1B541',// yellow
+        //'.8'   : '#DDAA3C',               // yellow
+        '.83'   : '#DDAA3C',
         // '.9'   : '#E49C39',              
-        '.85'   : '#E78C35',              // pumpkin orange
+        //'.85'   : '#E78C35',              // pumpkin orange
+        '.86'   : '#E78C35',
         // '.85'    : '#E67932',          // orange
-        '.94'   : '#E4632D',              // dark orange
-        '.96'   : '#DF4828',              // orange red
-        '.98'   : '#DA2222',              // red
+        //'.94'   : '#E4632D',              // dark orange
+        '.96'   : '#E4632D',
+        //'.96'   : '#DF4828',              // orange red
+        '.965'   : '#DF4828',
+        '.975'   : '#DA2222',              // red
+        '.995'   : '#DA2222',
         '1'     : '#B8221E'               // red brown
     }
 
