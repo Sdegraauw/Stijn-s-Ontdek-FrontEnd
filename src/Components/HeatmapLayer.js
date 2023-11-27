@@ -2,16 +2,20 @@ import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 
 const HeatmapLayer = ({ data, visible, type }) => {
-    let maxval = 0;
+    let maxval = Number.MIN_VALUE;
+    let minval = Number.MAX_VALUE;
     data.forEach(meting => {
         if (meting[type] > maxval) {
             maxval = meting[type];
+        }
+        if (meting[type] < minval) {
+            minval = meting[type];
         }
     });
 
     data = {
         max: maxval,
-        min: 0,
+        min: minval,
         data: 
             data.map(meting => {
                 return {

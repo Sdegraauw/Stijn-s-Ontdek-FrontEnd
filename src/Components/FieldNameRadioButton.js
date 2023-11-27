@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 
 const Radiobutton = ({data, handleChange, current}) =>{
-    const [selectedOption, setSelectedOption] = useState(current.charAt(0).toUpperCase() + current.substring(1));
+    const [selectedOption, setSelectedOption] = useState(current);
 
     if (data === null || data === undefined || data[0] === null || data[0] === undefined){
         return <></>
