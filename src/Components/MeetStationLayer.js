@@ -72,9 +72,9 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                         <label className="bold d-block fs-6">Station ID: { meting.id }</label>
                         
                         <div key={meting.id}>
-                            <label>Temperatuur: { RoundToOneDecimal(meting.temperature) } °C</label>
+                            <label>{meting.temperature ? "Temperatuur: "+ RoundToOneDecimal(meting.temperature)+ " °C": ''}</label>
                             <br />
-                            <label>Luchtvochtigheid: { RoundToOneDecimal(meting.humidity) }%</label>
+                            <label>{meting.humidity ? "Luchtvochtigheid: "+ RoundToOneDecimal(meting.humidity) + " %": ''}</label>
                         </div>
 
                         <label className="fst-italic mt-1">Meting van: { selectedDate.toLocaleString('nl-NL') }</label>
