@@ -1,5 +1,6 @@
 import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
+import {spectralColors} from '../Lib/Utility.js';
 
 const HeatmapLayer = ({ data, visible, type }) => {
     let maxval = Number.MIN_VALUE;
@@ -36,34 +37,17 @@ const HeatmapLayer = ({ data, visible, type }) => {
     const radius_preview = 0.015;
     // Gradient color should taper off exponentially towards the bottom and top
     const rainbow_gradient = {
-        '.2'    : '#5568B8',
-        // '.35'    : '#4E79C5',
-        '.35' : '#4D8AC6',
-        // '.15': '#4E96BC',
-        // '.2': '#549EB3',
-        // '.25': '#59A5A9',
-        // '.3': '#60AB9E',
-        //'.4': '#69B190',
-        '.5': '#69B190',
-        // '.4': '#77B77D',
-        // '.5'    : '#8CBC68',           // green
-        // '.6': '#A6BE54',            
-        // '.6'    : '#BEBC48',              
-        //'.6'    : '#D1B541',
-        '.7'    : '#D1B541',// yellow
-        //'.8'   : '#DDAA3C',               // yellow
-        '.83'   : '#DDAA3C',
-        // '.9'   : '#E49C39',              
-        //'.85'   : '#E78C35',              // pumpkin orange
-        '.86'   : '#E78C35',
-        // '.85'    : '#E67932',          // orange
-        //'.94'   : '#E4632D',              // dark orange
-        '.96'   : '#E4632D',
-        //'.96'   : '#DF4828',              // orange red
-        '.965'   : '#DF4828',
-        '.975'   : '#DA2222',              // red
-        '.995'   : '#DA2222',
-        '1'     : '#B8221E'               // red brown
+        '.2': spectralColors.coldBlue,
+        '.35': spectralColors.warmBlue,
+        '.5': spectralColors.green,
+        '.7': spectralColors.coldYellow,
+        '.83': spectralColors.warmYellow,
+        '.86': spectralColors.coldOrange,
+        '.96': spectralColors.mediumOrange,
+        '.965': spectralColors.warmOrange,
+        '.975': spectralColors.coldRed,
+        '.995': spectralColors.mediumRed,
+        '1': spectralColors.warmRed
     }
 
     const tempConfig = {
