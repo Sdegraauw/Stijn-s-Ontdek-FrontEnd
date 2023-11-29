@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 ### Fixed
 
-
-
 ## [UNRELEASED]
+
+## [0.3.2] - 2023-11-29
+
+### Changed
+- Kleuren van de heatmap en region layer zijn aangepast naar een kleurblind vriendelijk palet en zijn in lib geplaatst (SCRUM-146)
 
 ## [0.3.1] - 2023-11-15
 
