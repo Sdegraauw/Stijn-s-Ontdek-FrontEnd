@@ -1,5 +1,6 @@
 import { Polygon, Popup } from "react-leaflet";
-import { RoundToOneDecimal, ContrastToColour } from "../Lib/Utility";
+import { RoundToOneDecimal } from "../Lib/Utility";
+import { spectralColors } from '../Lib/Utility.js';
 
 const RegionLayer = ({ data }) => {
     let mintemp = Number.MAX_VALUE;
@@ -22,17 +23,17 @@ const RegionLayer = ({ data }) => {
     }
 
     var colorDictionary = {
-        0: "rgb(206,255,255)",
-        1: "rgb(198,247,214)",
-        2: "rgb(162,244,155)",
-        3: "rgb(187,228,83)",
-        4: "rgb(213,206,4)",
-        5: "rgb(231,181,3)",
-        6: "rgb(241,153,3)",
-        7: "rgb(246,121,11)",
-        8: "rgb(249,73,2)",
-        9: "rgb(228,5,21)",
-        10: "rgb(168,0,3)",
+        0: spectralColors.coldBlue,
+        1: spectralColors.warmBlue,
+        2: spectralColors.green,
+        3: spectralColors.coldYellow,
+        4: spectralColors.warmYellow,
+        5: spectralColors.coldOrange,
+        6: spectralColors.mediumOrange,
+        7: spectralColors.warmOrange,
+        8: spectralColors.coldRed,
+        9: spectralColors.mediumRed,
+        10: spectralColors.warmRed,
     }
 
     function setRegionColour(value) {
