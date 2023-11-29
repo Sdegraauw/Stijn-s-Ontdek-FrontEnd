@@ -1,5 +1,6 @@
 import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
+import {spectralColors} from '../Lib/Utility.js';
 
 const RegionLayer = ({ data }) => {
     let mintemp = Number.MAX_VALUE;
@@ -21,44 +22,34 @@ const RegionLayer = ({ data }) => {
         tempDif = maxtemp - mintemp;
     }
 
+    var colorDictionary = {
+        0: spectralColors.coldBlue,
+        1: spectralColors.warmBlue,
+        2: spectralColors.green,
+        3: spectralColors.coldYellow,
+        4: spectralColors.warmYellow,
+        5: spectralColors.coldOrange,
+        6: spectralColors.mediumOrange,
+        7: spectralColors.warmOrange,
+        8: spectralColors.coldRed,
+        9: spectralColors.mediumRed,
+        10: spectralColors.warmRed,
+    }
+
     function setRegionColour(value) {
         if (isNaN(value))
-            return "rgb(100,100,100)";
+            return "rgb(136,136,136)";
 
         let contrastValue = (value - mintemp) / tempDif;
-
-        if (contrastValue < 0)
-            contrastValue = 0;
-        else if (contrastValue > 1)
-            contrastValue = 1;
-
-        let red = Math.round(Red(contrastValue) * 255);
-        let green = Math.round(Green(contrastValue) * 255);
-        let blue = Math.round(Blue(contrastValue) * 255);
-
-        return "rgb(" + red.toString() + "," +
-            green.toString() + "," +
-            blue.toString() + ")";
-    }
-
-    function Red(contrastValue) {
-        return (Math.pow(2, contrastValue) - 1);
-    }
-
-    function Green(contrastValue) {
-        return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
-    }
-
-    function Blue(contrastValue) {
-        return ((Math.pow(2, 1 - contrastValue) - 1));
+        let colorIndex = Math.round(contrastValue * (Object.keys(colorDictionary).length - 1));
+        return colorDictionary[colorIndex];;
     }
 
     return (
         <>
             {
                 data.map((neighbourhood) => (
-
-                    <Polygon positions={neighbourhood.coordinates } key={neighbourhood.id} pathOptions={{color:setRegionColour(neighbourhood.avgTemp)}} opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 } fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }>
+                    <Polygon positions={neighbourhood.coordinates} key={neighbourhood.id} pathOptions={{ color: setRegionColour(neighbourhood.avgTemp) }} opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1} fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}>
                         <Popup>
                             <label className="bold">{neighbourhood.name}</label> <br />
 
