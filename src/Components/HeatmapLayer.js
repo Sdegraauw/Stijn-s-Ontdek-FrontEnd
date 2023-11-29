@@ -1,12 +1,12 @@
 import { useMap } from 'react-leaflet';
 import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
-import {spectralColors} from '../Lib/Utility.js';
+import { spectralColors } from '../Lib/Utility.js';
 
 const HeatmapLayer = ({ data, visible, type }) => {
     let maxval = Number.MIN_VALUE;
     let minval = Number.MAX_VALUE;
     data.forEach(meting => {
-        if (meting[type]){
+        if (meting[type]) {
             if (meting[type] > maxval) {
                 maxval = meting[type];
             }
@@ -15,6 +15,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
             }
         }
     });
+
     const heatmapReadyData = [];
     data.map(meting => {
         if (meting[type]){
@@ -26,7 +27,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
                     count: 1
                 });
         }
-    })
+    });
 
     data = {
         max: maxval,

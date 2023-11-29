@@ -14,10 +14,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED]
 
-## [0.3.2] - 2023-11-29
+## [0.3.3] - 2023-11-29
 
 ### Changed
 - Kleuren van de heatmap en region layer zijn aangepast naar een kleurblind vriendelijk palet en zijn in lib geplaatst (SCRUM-146)
+
+## [0.3.2] - 2023-11-22
+
+### Fixed
+-   Kalender is in te stellen naar toekomstige datum (SCRUM-145)
+-   Startdatum instelbaar na Einddatum + Einddatum instelbaar voor Startdatum (SCRUM-144)
 
 ## [0.3.1] - 2023-11-15
 

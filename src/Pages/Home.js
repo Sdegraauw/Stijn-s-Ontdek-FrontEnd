@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { api } from "../App";
-import { MapContainer, TileLayer} from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import MeetStationLayer from '../Components/MeetStationLayer';
 import RegionLayer from "../Components/RegionLayer";
 import RadioButtonGroup from '../Components/RadioButtonGroup';
@@ -53,7 +53,7 @@ const Home = () => {
                 .catch(function (error) {
                     handleAxiosError(error);
                 });
-            
+
             // Get neighbourhood data
             api.get('/neighbourhood/all')
                 .then((response) => {
@@ -82,21 +82,21 @@ const Home = () => {
                 }
 
                 <MapContainer center={[51.565120, 5.066322]} zoom={13} maxZoom={15} minZoom={11} closePopupOnClick={false}>
-                    <TileLayer 
+                    <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    { showRegions && <RegionLayer data={ regionData }></RegionLayer> }
-                    <MeetStationLayer data={ tempMeasurements } visible={ showDataStations } selectedDate={ dateTime }></MeetStationLayer>
-                    { tempMeasurements && <HeatmapLayer data={ tempMeasurements } visible={ showTemp } type={ heatmapType } /> }
+                    {showRegions && <RegionLayer data={regionData}></RegionLayer>}
+                    <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>
+                    {tempMeasurements && <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />}
                 </MapContainer>
 
                 <div className="legend">
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
-                        handleToggleTemp={handleToggleTemp}/>
+                        handleToggleTemp={handleToggleTemp} />
                     {showTemp && <div className={'heatmapRadio'}>
-                        <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} current={heatmapType}/>
+                        <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} current={heatmapType} />
                     </div>}
                     <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                     <ReactDatePicker
@@ -108,6 +108,7 @@ const Home = () => {
                         showIcon
                         showTimeInput
                         dateFormat={"dd/MM/yyyy HH:mm"}
+                        maxDate={new Date()}
                     >
                         <button
                             className="btn btn-secondary"

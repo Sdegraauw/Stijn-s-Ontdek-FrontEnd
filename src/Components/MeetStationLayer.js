@@ -1,7 +1,7 @@
-import { Marker, Popup} from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
 import { api } from "../App";
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
 
@@ -16,7 +16,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const [showMaxTemp, setShowMaxTemp] = useState(false);
     const [showGemTemp, setShowGemTemp] = useState(false);
     const errRef = useRef();
-    const [errorMessage,setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
         if (selectedStation === null)
@@ -39,7 +39,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         }).catch(handleError);
     }, [selectedStation, startDate, endDate]);
 
-    function handleError(){
+    function handleError() {
         setErrorMessage('Het ophalen van de gegevens is mislukt')
     }
 
@@ -62,22 +62,35 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
             setShowGemTemp(!showGemTemp);
     }
 
+    const handleStartDateChange = (date) => {
+        if (date.getDate() === endDate.getDate()) {
+            date.setDate(date.getDate() - 1)
+        }
+        setStartDate(date);
+    }
+    const handleEndDateChange = (date) => {
+        if (date.getDate() === startDate.getDate()) {
+            date.setDate(date.getDate() + 1)
+        }
+        setEndDate(date);
+    }
+
     if (!visible) return (<></>);
 
     return (
         <>
             {data.map((meting) => (
-                <Marker key={ meting.id } id={ meting.id } position={ [meting.latitude, meting.longitude] } eventHandlers={{ click: handleClick }}>
+                <Marker key={meting.id} id={meting.id} position={[meting.latitude, meting.longitude]} eventHandlers={{ click: handleClick }}>
                     <Popup closeOnClick={false}>
-                        <label className="bold d-block fs-6">Station ID: { meting.id }</label>
-                        
+                        <label className="bold d-block fs-6">Station ID: {meting.id}</label>
+
                         <div key={meting.id}>
                             <label>{meting.temperature ? "Temperatuur: "+ RoundToOneDecimal(meting.temperature)+ " °C": ''}</label>
                             <br />
                             <label>{meting.humidity ? "Luchtvochtigheid: "+ RoundToOneDecimal(meting.humidity) + " %": ''}</label>
                         </div>
 
-                        <label className="fst-italic mt-1">Meting van: { selectedDate.toLocaleString('nl-NL') }</label>
+                        <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
 
                         <hr></hr>
 
@@ -96,8 +109,8 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                                 <CartesianGrid stroke="#ccc" />
                                 <Legend onClick={handleLegendChange} />
                                 <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} dot={false} />
-                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false}/>
-                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false}/>
+                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false} />
+                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false} />
                             </LineChart>
                         </ResponsiveContainer>
 
@@ -105,11 +118,24 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                             <div className="row gy-2">
                                 <div className="col">
                                     <label className="me-2">Start datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ startDate } onChange={(date) => setStartDate(date)} />
+                                    <ReactDatePicker
+                                        className="border border-secondary"
+                                        dateFormat="dd-MM-yyyy"
+                                        selected={startDate}
+                                        onChange={handleStartDateChange}
+                                        maxDate={endDate}
+                                    />
                                 </div>
                                 <div className="col">
                                     <label className="me-2">Eind datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ endDate } onChange={(date) => setEndDate(date)} />
+                                    <ReactDatePicker
+                                        className="border border-secondary"
+                                        dateFormat="dd-MM-yyyy"
+                                        selected={endDate}
+                                        onChange={handleEndDateChange}
+                                        minDate={startDate}
+                                        maxDate={new Date()}
+                                    />
                                 </div>
                             </div>
                         </div>
