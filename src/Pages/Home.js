@@ -29,8 +29,6 @@ const Home = () => {
 
     const [toggleRegion, setToggleRegion] = useState("relatief");
 
-    const [legendLayer, setLegendLayer] = useState("region");
-
     function handleToggleTemp() {
         setShowRegions(false);
         setShowTemp(!showTemp);
@@ -47,17 +45,6 @@ const Home = () => {
     function handleAxiosError(error) {
         setErrMsg('Het ophalen van de gegevens is mislukt');
     }
-
-    useEffect(() => {
-
-        if (showTemp) {
-            setLegendLayer("heatmap");
-        }
-        else {
-            setLegendLayer("region");
-        }
-
-    }, [showTemp, showRegions])
 
     useEffect(() => {
         try {
@@ -136,7 +123,7 @@ const Home = () => {
                         </button>
                     </ReactDatePicker>
                 </div>
-                <Legend temperatures={tempMeasurements} legendLayer={legendLayer} />
+                <Legend temperatures={tempMeasurements} />
             </div>
         </section>
     )

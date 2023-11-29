@@ -1,59 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { spectralColors } from '../Lib/Utility';
 
-const Legend = ({ temperatures, legendLayer }) => {
+const Legend = ({ temperatures }) => {
     const [temperatureRanges, setTemperatureRanges] = useState([]);
-    const [temperatureColors, setTemperatureColors] = useState([]);
-
-    console.log(legendLayer);
-
-    // useEffect(() => {
-    //     if (legendLayer === "heatmap") {
-    //         setTemperatureColors(heatMapColors);
-    //     } else {
-    //         setTemperatureColors(regionColors);
-    //     }
-
-    // }, [legendLayer])
-
-    const regionColors = [
-        { color: '#0247FE' },
-        { color: '#AED581' },
-        { color: '#F1E13C' },
-        { color: '#F8AB2C' },
-        { color: '#FF8A65' },
-        { color: '#C83433' },
-    ];
-
-    const heatMapColors = [
-        { color: 'blue' },
-        { color: 'green' },
-        { color: 'gold' },
-        { color: 'darkorange' },
-        { color: 'orangered' },
-        { color: 'red' },
-    ];
 
     useEffect(() => {
-        console.log(legendLayer);
-        if (legendLayer === "heatmap") {
-            setTemperatureColors(regionColors);
-        } else {
-            setTemperatureColors(heatMapColors);
-        }
 
-        const minTemp = Math.min(...temperatures.map(measurement => measurement.temperature));
-        const maxTemp = Math.max(...temperatures.map(measurement => measurement.temperature));
+        //Null values are filtered out to prevent inconsistent legend
+        const filteredTemps = temperatures.filter((measurement) => measurement.temperature !== null);
 
-        const temperatureParts = (maxTemp - minTemp) / 5;
+        const minTemp = Math.min(...filteredTemps.map(measurement => measurement.temperature));
+        const maxTemp = Math.max(...filteredTemps.map(measurement => measurement.temperature));
 
-        const temperatureRanges = temperatureColors.map((color, index) => {
-            const min = Math.round(minTemp + (temperatureParts * index));
-            const max = Math.round(minTemp + (temperatureParts * (index + 1)));
-            return { ...color, min, max };
+        // Show 5 for the amount colors to show to prevent the screen be cluttered with 11 
+        const numberOfColors = 5;
+        const temperatureParts = (maxTemp - minTemp) / numberOfColors;
+
+        // Creating the data point for each temperature block
+        const temperatureRanges = Array.from({ length: numberOfColors }, (_, index) => {
+            const min = (minTemp + temperatureParts * index).toFixed(1);
+            const max = (minTemp + temperatureParts * (index + 1)).toFixed(1);
+            const colorIndex = Math.floor((index / numberOfColors) * Object.keys(spectralColors).length);
+            const color = spectralColors[Object.keys(spectralColors)[colorIndex]];
+            return { color, min, max };
         });
 
         setTemperatureRanges(temperatureRanges);
-    }, [temperatures, legendLayer])
+    }, [temperatures]);
 
     return (
         <div className='legend-container'>
@@ -66,7 +39,8 @@ const Legend = ({ temperatures, legendLayer }) => {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
+
 
 export default Legend
