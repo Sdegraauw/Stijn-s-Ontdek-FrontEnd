@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "../App";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
+import { spectralColors } from '../Lib/Utility.js';
 
 const RegionLayer = ({ data, toggleRegion }) => {
     const [startDate, setStartDate] = useState(new Date());
@@ -18,60 +19,46 @@ const RegionLayer = ({ data, toggleRegion }) => {
 
     const [loading, setLoading] = useState(false);
 
-    let mintemp = -10;
-    let tempDif = 40;
+    let mintemp = Number.MAX_VALUE;
+    let maxtemp = Number.MIN_VALUE;
+    let tempDif = 1;
 
-    if (toggleRegion === "relatief") {
-        let maxtemp = Number.MIN_VALUE;
-        mintemp = Number.MAX_VALUE;
-        tempDif = 1;
-
-        data.forEach((neighbourhood) => {
-            if (!isNaN(neighbourhood.avgTemp)) {
-                if (neighbourhood.avgTemp < mintemp) {
-                    mintemp = neighbourhood.avgTemp;
-                }
-                if (neighbourhood.avgTemp > maxtemp) {
-                    maxtemp = neighbourhood.avgTemp;
-                }
+    data.forEach((neighbourhood) => {
+        if (!isNaN(neighbourhood.avgTemp)) {
+            if (neighbourhood.avgTemp < mintemp) {
+                mintemp = neighbourhood.avgTemp;
             }
-        });
-
-        if (maxtemp - mintemp !== 0) {
-            tempDif = maxtemp - mintemp;
+            if (neighbourhood.avgTemp > maxtemp) {
+                maxtemp = neighbourhood.avgTemp;
+            }
         }
+    });
+
+    if (maxtemp - mintemp !== 0) {
+        tempDif = maxtemp - mintemp;
+    }
+
+    var colorDictionary = {
+        0: spectralColors.coldBlue,
+        1: spectralColors.warmBlue,
+        2: spectralColors.green,
+        3: spectralColors.coldYellow,
+        4: spectralColors.warmYellow,
+        5: spectralColors.coldOrange,
+        6: spectralColors.mediumOrange,
+        7: spectralColors.warmOrange,
+        8: spectralColors.coldRed,
+        9: spectralColors.mediumRed,
+        10: spectralColors.warmRed,
     }
 
     function setRegionColour(value) {
         if (isNaN(value))
-            return "rgb(100,100,100)";
+            return "rgb(136,136,136)";
 
         let contrastValue = (value - mintemp) / tempDif;
-
-        if (contrastValue < 0)
-            contrastValue = 0;
-        else if (contrastValue > 1)
-            contrastValue = 1;
-
-        let red = Math.round(Red(contrastValue) * 255);
-        let green = Math.round(Green(contrastValue) * 255);
-        let blue = Math.round(Blue(contrastValue) * 255);
-
-        return "rgb(" + red.toString() + "," +
-            green.toString() + "," +
-            blue.toString() + ")";
-    }
-
-    function Red(contrastValue) {
-        return (Math.pow(2, contrastValue) - 1);
-    }
-
-    function Green(contrastValue) {
-        return Math.abs((-4 * Math.pow(contrastValue, 2)) + (4 * contrastValue));
-    }
-
-    function Blue(contrastValue) {
-        return ((Math.pow(2, 1 - contrastValue) - 1));
+        let colorIndex = Math.round(contrastValue * (Object.keys(colorDictionary).length - 1));
+        return colorDictionary[colorIndex];;
     }
 
     useEffect(() => {

@@ -66,6 +66,19 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
             setShowGemTemp(!showGemTemp);
     }
 
+    const handleStartDateChange = (date) => {
+        if (date.getDate() === endDate.getDate()) {
+            date.setDate(date.getDate() - 1)
+        }
+        setStartDate(date);
+    }
+    const handleEndDateChange = (date) => {
+        if (date.getDate() === startDate.getDate()) {
+            date.setDate(date.getDate() + 1)
+        }
+        setEndDate(date);
+    }
+
     if (!visible) return (<></>);
 
     return (
@@ -76,9 +89,9 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                         <label className="bold d-block fs-6">Station ID: {meting.id}</label>
 
                         <div key={meting.id}>
-                            <label>Temperatuur: {RoundToOneDecimal(meting.temperature)} °C</label>
+                            <label>{meting.temperature ? "Temperatuur: " + RoundToOneDecimal(meting.temperature) + " °C" : ''}</label>
                             <br />
-                            <label>Luchtvochtigheid: {RoundToOneDecimal(meting.humidity)}%</label>
+                            <label>{meting.humidity ? "Luchtvochtigheid: " + RoundToOneDecimal(meting.humidity) + " %" : ''}</label>
                         </div>
 
                         <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
@@ -119,11 +132,24 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                             <div className="row gy-2">
                                 <div className="col">
                                     <label className="me-2">Start datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    <ReactDatePicker
+                                        className="border border-secondary"
+                                        dateFormat="dd-MM-yyyy"
+                                        selected={startDate}
+                                        onChange={handleStartDateChange}
+                                        maxDate={endDate}
+                                    />
                                 </div>
                                 <div className="col">
                                     <label className="me-2">Eind datum</label>
-                                    <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={endDate} onChange={(date) => setEndDate(date)} />
+                                    <ReactDatePicker
+                                        className="border border-secondary"
+                                        dateFormat="dd-MM-yyyy"
+                                        selected={endDate}
+                                        onChange={handleEndDateChange}
+                                        minDate={startDate}
+                                        maxDate={new Date()}
+                                    />
                                 </div>
                             </div>
                         </div>
