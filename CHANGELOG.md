@@ -14,6 +14,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [UNRELEASED]
 
+## [0.3.4] - 2023-12-04
+
+### Added
+- Legenda voor de kleuren op de kaart toegevoegd (SCRUM-77)
+- Error handling toegevoegd
+- Wijkgeschiedenis weergave in grafiek toegevoegd (SCRUM-124)
+
+### Fixed
+- Conflict met namen in de CSS opgelost
+
 ## [0.3.3] - 2023-11-29
 
 ### Changed
