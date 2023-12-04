@@ -29,11 +29,11 @@ const ColorLegend = ({ temperatures }) => {
     }, [temperatures]);
 
     return (
-        <div className='legend-container'>
+        <div className='color-legend-container'>
             {temperatureRanges.map((point, index) => (
-                <div key={index} className='legend-item'>
-                    <div className='legend-color' style={{ backgroundColor: point.color }}></div>
-                    <div className='legend-label'>
+                <div key={index} className='color-legend-item'>
+                    <div className='color-legend-color' style={{ backgroundColor: point.color }}></div>
+                    <div className='color-legend-label'>
                         <p>{point.min}-{point.max}°C</p>
                     </div>
                 </div>

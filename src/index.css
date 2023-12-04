@@ -140,7 +140,7 @@ nav.navbar {
   box-shadow: 2px 2px 2px rgb(0, 0, 0, 0.1);
 }
 
-.legend-container {
+.color-legend-container {
   display: flex;
   flex-direction: row;
   right: 0;
@@ -154,26 +154,26 @@ nav.navbar {
   height: fit-content;
 }
 
-.legend-item {
+.color-legend-item {
   display: flex;
   flex-direction: column;
   width: 60px;
 }
 
-.legend-color {
+.color-legend-color {
   margin-right: 0.25rem;
   width: full;
   height: 10px;
   border-radius: 2px;
 }
 
-.legend-label {
+.color-legend-label {
   display: flex;
   font-size: 13px;
   justify-content: center;
 }
 
-.legend-label p {
+.color-legend-label p {
   margin: 0;
   color: white;
 }
