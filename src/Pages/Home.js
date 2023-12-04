@@ -58,7 +58,7 @@ const Home = () => {
                 });
 
             // Get neighbourhood data
-            api.get(`/neighbourhood/all?timestamp=${dateTime.toISOString()}`)
+            api.get(`/neighbourhood/history?timestamp=${dateTime.toISOString()}`)
                 .then((response) => {
                     setRegionData(response.data);
                 })
