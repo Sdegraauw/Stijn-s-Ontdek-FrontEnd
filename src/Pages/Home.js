@@ -8,8 +8,9 @@ import Checkbox from '../Components/Checkbox';
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
-import FieldNameRadioButton from "../Components/FieldNameRadioButton";
 import HeatmapLayer from "../Components/HeatmapLayer";
+import FieldNameRadioButton from "../Components/FieldNameRadioButton";
+import ColorLegend from "../Components/ColorLegend";
 
 const Home = () => {
     const errRef = useRef();
@@ -25,6 +26,8 @@ const Home = () => {
 
     const [dateTime, setDateTime] = useState(new Date());
     const calRef = useRef();
+
+    const [toggleRegion, setToggleRegion] = useState("relatief");
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -91,7 +94,7 @@ const Home = () => {
                     {tempMeasurements && <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />}
                 </MapContainer>
 
-                <div className="legend">
+                <div className="layer-control">
                     <RadioButtonGroup
                         handleToggleShowRegions={handleToggleShowRegions}
                         handleToggleTemp={handleToggleTemp} />
@@ -121,6 +124,7 @@ const Home = () => {
                         </button>
                     </ReactDatePicker>
                 </div>
+                <ColorLegend temperatures={tempMeasurements} />
             </div>
         </section>
     )
