@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { spectralColors } from '../Lib/Utility';
 
-const Legend = ({ temperatures }) => {
+const ColorLegend = ({ temperatures }) => {
     const [temperatureRanges, setTemperatureRanges] = useState([]);
 
     useEffect(() => {
@@ -43,4 +43,4 @@ const Legend = ({ temperatures }) => {
 };
 
 
-export default Legend
+export default ColorLegend

@@ -10,7 +10,7 @@ import "react-datepicker/dist/react-datepicker.css"
 import nl from 'date-fns/locale/nl';
 import HeatmapLayer from "../Components/HeatmapLayer";
 import FieldNameRadioButton from "../Components/FieldNameRadioButton";
-import Legend from "../Components/Legend";
+import ColorLegend from "../Components/ColorLegend";
 
 const Home = () => {
     const errRef = useRef();
@@ -123,7 +123,7 @@ const Home = () => {
                         </button>
                     </ReactDatePicker>
                 </div>
-                <Legend temperatures={tempMeasurements} />
+                <ColorLegend temperatures={tempMeasurements} />
             </div>
         </section>
     )
