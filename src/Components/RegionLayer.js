@@ -1,6 +1,6 @@
 import { Polygon, Popup } from "react-leaflet";
 import { RoundToOneDecimal } from "../Lib/Utility";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../App";
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import ReactDatePicker from "react-datepicker";
@@ -13,6 +13,10 @@ const RegionLayer = ({ data, toggleRegion }) => {
     const [showMinTemp, setShowMinTemp] = useState(false);
     const [showMaxTemp, setShowMaxTemp] = useState(false);
     const [showGemTemp, setShowGemTemp] = useState(false);
+    const errRef = useRef();
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const [loading, setLoading] = useState(false);
 
     let mintemp = -10;
     let tempDif = 40;
@@ -74,6 +78,8 @@ const RegionLayer = ({ data, toggleRegion }) => {
         if (selectedNeighbourhood === null)
             return;
 
+        setLoading(true);
+
         const options = { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" };
         api.get("/neighbourhood/history/average/" + selectedNeighbourhood, {
             params: {
@@ -88,8 +94,13 @@ const RegionLayer = ({ data, toggleRegion }) => {
                 maxTemp: meting.maxTemp
             }));
             setGraphData(data);
-        });
+            setLoading(false);
+        }).catch(handleError);
     }, [selectedNeighbourhood, startDate, endDate]);
+
+    function handleError() {
+        setErrorMessage("Het ophalen van de gegevens is mislukt");
+    }
 
     const handleClick = (e) => {
         if (startDate.getTime() === endDate.getTime()) {
@@ -97,8 +108,6 @@ const RegionLayer = ({ data, toggleRegion }) => {
             date.setMonth(date.getMonth() - 1);
             setStartDate(date);
         }
-
-        console.log(e);
 
         setSelectedNeighbourhood(e.target.options.id);
     }
@@ -117,13 +126,13 @@ const RegionLayer = ({ data, toggleRegion }) => {
             {
                 data.map((neighbourhood) => (
 
-                    <Polygon 
-                        positions={ neighbourhood.coordinates }
-                        key={ neighbourhood.id }
-                        id={ neighbourhood.id }
+                    <Polygon
+                        positions={neighbourhood.coordinates}
+                        key={neighbourhood.id}
+                        id={neighbourhood.id}
                         pathOptions={{ color: setRegionColour(neighbourhood.avgTemp) }}
-                        opacity={ neighbourhood.avgTemp === "NaN" ? .4 : 1 }
-                        fillOpacity={ neighbourhood.avgTemp === "NaN" ? .25 : .5 }
+                        opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1}
+                        fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}
                         eventHandlers={{ click: handleClick }}
                     >
                         <Popup>
@@ -131,7 +140,6 @@ const RegionLayer = ({ data, toggleRegion }) => {
 
                             <div>
                                 <label>
-                                    {/* TODO: Netter neerzetten */}
                                     {neighbourhood.avgTemp !== "NaN" ? "Gemiddelde wijktemperatuur: " + RoundToOneDecimal(neighbourhood.avgTemp) + " °C" : "Geen data beschikbaar"}
                                 </label>
                             </div>
@@ -139,7 +147,23 @@ const RegionLayer = ({ data, toggleRegion }) => {
                             <hr></hr>
 
                             <label className="bold mt-2">Historische temperatuur data</label>
-                        
+
+                            {
+                                errorMessage && (
+                                    <div>
+                                        <p className={'text-danger m-0'} ref={errRef} aria-live="assertive">{errorMessage}</p>
+                                    </div>
+                                )
+                            }
+
+                            {
+                                loading && (
+                                    <div>
+                                        <p className={'text-warning m-0'}>Data wordt opgehaald...</p>
+                                    </div>
+                                )
+                            }
+
                             <ResponsiveContainer minWidth={250} minHeight={250}>
                                 <LineChart data={graphData}>
                                     <XAxis dataKey="timestamp" />
@@ -147,8 +171,8 @@ const RegionLayer = ({ data, toggleRegion }) => {
                                     <CartesianGrid stroke="#ccc" />
                                     <Legend onClick={handleLegendChange} />
                                     <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} dot={false} />
-                                    <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false}/>
-                                    <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false}/>
+                                    <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false} />
+                                    <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false} />
                                 </LineChart>
                             </ResponsiveContainer>
 
@@ -156,11 +180,11 @@ const RegionLayer = ({ data, toggleRegion }) => {
                                 <div className="row gy-2">
                                     <div className="col">
                                         <label className="me-2">Start datum</label>
-                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ startDate } onChange={(date) => setStartDate(date)} />
+                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={startDate} onChange={(date) => setStartDate(date)} />
                                     </div>
                                     <div className="col">
                                         <label className="me-2">Eind datum</label>
-                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={ endDate } onChange={(date) => setEndDate(date)} />
+                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={endDate} onChange={(date) => setEndDate(date)} />
                                     </div>
                                 </div>
                             </div>
