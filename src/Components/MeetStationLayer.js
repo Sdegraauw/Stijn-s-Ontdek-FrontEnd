@@ -17,10 +17,13 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const [showGemTemp, setShowGemTemp] = useState(false);
     const errRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (selectedStation === null)
             return;
+
+        setLoading(true);
 
         const options = { year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" };
         api.get("/measurement/history/average/" + selectedStation, {
@@ -36,11 +39,12 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                 maxTemp: meting.maxTemp
             }));
             setGraphData(data);
+            setLoading(false);
         }).catch(handleError);
     }, [selectedStation, startDate, endDate]);
 
     function handleError() {
-        setErrorMessage('Het ophalen van de gegevens is mislukt')
+        setErrorMessage('Het ophalen van de gegevens is mislukt');
     }
 
     const handleClick = (e) => {
@@ -85,9 +89,9 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                         <label className="bold d-block fs-6">Station ID: {meting.id}</label>
 
                         <div key={meting.id}>
-                            <label>{meting.temperature ? "Temperatuur: "+ RoundToOneDecimal(meting.temperature)+ " °C": ''}</label>
+                            <label>{meting.temperature ? "Temperatuur: " + RoundToOneDecimal(meting.temperature) + " °C" : ''}</label>
                             <br />
-                            <label>{meting.humidity ? "Luchtvochtigheid: "+ RoundToOneDecimal(meting.humidity) + " %": ''}</label>
+                            <label>{meting.humidity ? "Luchtvochtigheid: " + RoundToOneDecimal(meting.humidity) + " %" : ''}</label>
                         </div>
 
                         <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
@@ -95,6 +99,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                         <hr></hr>
 
                         <label className="bold mt-2">Historische temperatuur data</label>
+
                         {
                             errorMessage && (
                                 <div>
@@ -102,6 +107,15 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                                 </div>
                             )
                         }
+
+                        {
+                            loading && (
+                                <div>
+                                    <p className={'text-warning m-0'}>Data wordt opgehaald...</p>
+                                </div>
+                            )
+                        }
+
                         <ResponsiveContainer minWidth={250} minHeight={250}>
                             <LineChart data={graphData}>
                                 <XAxis dataKey="timestamp" />
