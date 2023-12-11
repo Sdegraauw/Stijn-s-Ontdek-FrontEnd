@@ -12,7 +12,7 @@ const ColorLegend = ({ temperatures }) => {
         const minTemp = Math.min(...filteredTemps.map(measurement => measurement.temperature));
         const maxTemp = Math.max(...filteredTemps.map(measurement => measurement.temperature));
 
-        // Show 5 for the amount colors to show to prevent the screen be cluttered with 11 
+        // Show 5 for the amount colors to show to prevent the screen be cluttered with all colours
         const numberOfColors = 5;
         const temperatureParts = (maxTemp - minTemp) / numberOfColors;
 
