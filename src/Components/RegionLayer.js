@@ -117,9 +117,11 @@ const RegionLayer = ({ data, toggleRegion }) => {
                         positions={neighbourhood.coordinates}
                         key={neighbourhood.id}
                         id={neighbourhood.id}
-                        pathOptions={{ color: setRegionColour(neighbourhood.avgTemp),
-                            opacity:neighbourhood.avgTemp === "NaN" ? .4 : 1,
-                            fillOpacity:neighbourhood.avgTemp === "NaN" ? .25 : .5}}
+                        pathOptions={{
+                            color: setRegionColour(neighbourhood.avgTemp),
+                            opacity: neighbourhood.avgTemp === "NaN" ? .4 : 1,
+                            fillOpacity: neighbourhood.avgTemp === "NaN" ? .25 : .5
+                        }}
                         eventHandlers={{ click: handleClick }}
                     >
                         <Popup>
