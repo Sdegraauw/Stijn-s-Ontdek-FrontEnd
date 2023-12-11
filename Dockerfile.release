@@ -1,0 +1,16 @@
+# ---- Build Stage ----
+FROM dockerhublocation AS build
+# build the React app
+RUN npm run build
+
+
+# ---- Release with NGINX ----
+FROM nginx:alpine AS release
+# the relative path to the app as seen from this file
+ENV APP_PATH app/climatechecker/client
+# copy the built React app
+WORKDIR /usr/share/nginx/html
+COPY --from=build /${APP_PATH}/dist/ .
+COPY --from=build /${APP_PATH}/static/ .
+
+
