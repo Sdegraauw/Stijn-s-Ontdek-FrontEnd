@@ -18,7 +18,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
 
     const heatmapReadyData = [];
     data.map(meting => {
-        if (meting[type]){
+        if (meting[type]) {
             heatmapReadyData.push(
                 {
                     lat: meting.latitude,
@@ -31,24 +31,23 @@ const HeatmapLayer = ({ data, visible, type }) => {
 
     data = {
         max: maxval,
-        min: minval-((maxval-minval)*0.5),
-        data:heatmapReadyData
+        min: minval - ((maxval - minval) * 0.5),
+        data: heatmapReadyData
     };
 
     const radius_preview = 0.015;
     // Gradient color should taper off exponentially towards the bottom and top
     const rainbow_gradient = {
-        '.2': spectralColors.coldBlue,
-        '.35': spectralColors.warmBlue,
-        '.5': spectralColors.green,
-        '.7': spectralColors.coldYellow,
-        '.83': spectralColors.warmYellow,
-        '.86': spectralColors.coldOrange,
-        '.96': spectralColors.mediumOrange,
-        '.965': spectralColors.warmOrange,
-        '.975': spectralColors.coldRed,
-        '.995': spectralColors.mediumRed,
-        '1': spectralColors.warmRed
+        '.20': spectralColors[0],
+        '.32': spectralColors[1],
+        '.44': spectralColors[2],
+        '.56': spectralColors[3],
+        '.68': spectralColors[4],
+        '.77': spectralColors[5],
+        '.84': spectralColors[6],
+        '.90': spectralColors[7],
+        '.95': spectralColors[8],
+        '1': spectralColors[9]
     }
 
     const tempConfig = {
