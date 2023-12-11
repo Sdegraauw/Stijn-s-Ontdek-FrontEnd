@@ -38,27 +38,13 @@ const RegionLayer = ({ data, toggleRegion }) => {
         tempDif = maxtemp - mintemp;
     }
 
-    var colorDictionary = {
-        0: spectralColors.coldBlue,
-        1: spectralColors.warmBlue,
-        2: spectralColors.green,
-        3: spectralColors.coldYellow,
-        4: spectralColors.warmYellow,
-        5: spectralColors.coldOrange,
-        6: spectralColors.mediumOrange,
-        7: spectralColors.warmOrange,
-        8: spectralColors.coldRed,
-        9: spectralColors.mediumRed,
-        10: spectralColors.warmRed,
-    }
-
     function setRegionColour(value) {
         if (isNaN(value))
             return "rgb(136,136,136)";
 
         let contrastValue = (value - mintemp) / tempDif;
-        let colorIndex = Math.round(contrastValue * (Object.keys(colorDictionary).length - 1));
-        return colorDictionary[colorIndex];;
+        let colorIndex = Math.round(contrastValue * (Object.keys(spectralColors).length - 1));
+        return spectralColors[colorIndex];;
     }
 
     useEffect(() => {
