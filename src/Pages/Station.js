@@ -20,6 +20,7 @@ const Station = () => {
 
   return (
     <div className="Station">
+        <title>Station</title>
       <div>
         <p>Naam: {station.name}</p>
         <p>Hoogte: {station.height}</p>

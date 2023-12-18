@@ -16,6 +16,7 @@ const AllStations = () => {
   if (loading) return <h3>Laden...</h3>;
   return (
     <div>
+      <title>Stations</title>
       Alle stations
       <table className="table table-striped">
         <thead>
