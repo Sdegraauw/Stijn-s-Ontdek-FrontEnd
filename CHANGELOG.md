@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-## [0.3.4] - 2023-12-11
+## [0.3.5]
+### Added
+- title made to change per page
+- icon made to be logo of Ontdekstation013
+
+## [0.3.5] - 2023-12-11
 ### Fixed
 - Center en zoom liet bij inladen niet heel Tilburg zien (SCRUM-124)
 
