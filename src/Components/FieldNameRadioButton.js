@@ -3,6 +3,7 @@ import React, {useState} from "react";
 const Radiobutton = ({data, handleChange, current}) =>{
     const [selectedOption, setSelectedOption] = useState(current);
 
+    //makes sure there is data
     if (data === null || data === undefined || data[0] === null || data[0] === undefined){
         return <></>
     }
@@ -11,6 +12,7 @@ const Radiobutton = ({data, handleChange, current}) =>{
 
     const results = [];
     fieldNames.forEach(fieldName => {
+        //excludes fields that should not get shown
         if (fieldName !== 'id' && fieldName !== 'latitude' && fieldName !== 'longitude' && fieldName !== 'timestamp') {
             results.push(
                 <div>

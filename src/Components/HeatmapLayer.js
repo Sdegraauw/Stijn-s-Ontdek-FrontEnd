@@ -5,6 +5,7 @@ import { spectralColors } from '../Lib/Utility.js';
 const HeatmapLayer = ({ data, visible, type }) => {
     let maxval = Number.MIN_VALUE;
     let minval = Number.MAX_VALUE;
+
     data.forEach(meting => {
         if (meting[type]) {
             if (meting[type] > maxval) {
@@ -16,6 +17,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
         }
     });
 
+    //translates the relevant fields for the heatmap
     const heatmapReadyData = [];
     data.map(meting => {
         if (meting[type]) {
@@ -29,6 +31,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
         }
     });
 
+    //loads data into final object for heatmap
     data = {
         max: maxval,
         min: minval - ((maxval - minval) * 0.5),
@@ -77,12 +80,14 @@ const HeatmapLayer = ({ data, visible, type }) => {
     heatmapLayer.setData(data);
 
     if (visible) {
+        //looks for existing heatmap to update
         map.eachLayer(function (layer) {
             if (layer._heatmap)
                 layer.remove();
         })
         map.addLayer(heatmapLayer);
-    } else {
+    }
+    else {
         map.eachLayer(function (layer) {
             if (layer._heatmap)
                 layer.remove();
