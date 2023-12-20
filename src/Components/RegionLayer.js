@@ -6,18 +6,19 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAx
 import ReactDatePicker from "react-datepicker";
 import { spectralColors } from '../Lib/Utility.js';
 
-const RegionLayer = ({ data, toggleRegion }) => {
+const RegionLayer = ({ data }) => {
+    //use states for what to show and what not to show
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [graphData, setGraphData] = useState([]);
     const [selectedNeighbourhood, setSelectedNeighbourhood] = useState(null);
     const [showMinTemp, setShowMinTemp] = useState(false);
     const [showMaxTemp, setShowMaxTemp] = useState(false);
     const [showGemTemp, setShowGemTemp] = useState(false);
     const errRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
-
     const [loading, setLoading] = useState(false);
+    //data to be shown
+    const [graphData, setGraphData] = useState([]);
 
     let mintemp = Number.MAX_VALUE;
     let maxtemp = Number.MIN_VALUE;
@@ -44,7 +45,7 @@ const RegionLayer = ({ data, toggleRegion }) => {
 
         let contrastValue = (value - mintemp) / tempDif;
         let colorIndex = Math.round(contrastValue * (Object.keys(spectralColors).length - 1));
-        return spectralColors[colorIndex];;
+        return spectralColors[colorIndex];
     }
 
     useEffect(() => {
