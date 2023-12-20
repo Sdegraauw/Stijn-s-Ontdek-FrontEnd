@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Kleurenpallet aangepast na feedback opdrachtever, bevat nu sterkere verschillen in rood (SCRUM-159)
 - Kleurenpallet code duplicatie in Wijkkaart weggehaald
 
+## [0.4.0] - 2023-12-11
+
+### Fixed
+- Donkergrijze i.p.v. doorzichtige wijkvlakken (SCRUM-167)
+
 ## [0.3.4] - 2023-12-04
 
 ### Added
