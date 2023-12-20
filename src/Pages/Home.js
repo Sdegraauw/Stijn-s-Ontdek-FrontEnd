@@ -123,7 +123,7 @@ const Home = () => {
                         </button>
                     </ReactDatePicker>
                 </div>
-                <ColorLegend temperatures={tempMeasurements} />
+                {showRegions || heatmapType === "temperature" ? <ColorLegend temperatures={tempMeasurements} /> : null}
             </div>
         </section>
     )

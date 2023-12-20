@@ -17,12 +17,21 @@ const ColorLegend = ({ temperatures }) => {
         const temperatureParts = (maxTemp - minTemp) / numberOfColors;
 
         // Creating the data point for each temperature block
-        const temperatureRanges = Array.from({ length: numberOfColors }, (_, index) => {
-            const min = (minTemp + temperatureParts * index).toFixed(1);
-            const max = (minTemp + temperatureParts * (index + 1)).toFixed(1);
+        const temperatureRanges = Array.from({ length: numberOfColors - 1 }, (_, index) => {
+            const temp = (minTemp + temperatureParts * index).toFixed(1);
             const colorIndex = Math.floor((index / numberOfColors) * Object.keys(spectralColors).length);
             const color = spectralColors[Object.keys(spectralColors)[colorIndex]];
-            return { color, min, max };
+            return { color, temp };
+        });
+
+        //Replaces the first data point with the min temperature
+        temperatureRanges[0].temp = minTemp.toFixed(1);
+        temperatureRanges[0].color = spectralColors[Object.keys(spectralColors)[0]];
+
+        //Replaces the last data point with the max temperature
+        temperatureRanges.push({
+            color: spectralColors[Object.keys(spectralColors)[Object.keys(spectralColors).length - 1]],
+            temp: maxTemp.toFixed(1),
         });
 
         setTemperatureRanges(temperatureRanges);
@@ -34,7 +43,7 @@ const ColorLegend = ({ temperatures }) => {
                 <div key={index} className='color-legend-item'>
                     <div className='color-legend-color' style={{ backgroundColor: point.color }}></div>
                     <div className='color-legend-label'>
-                        <p>{point.min}-{point.max}°C</p>
+                        <p>{point.temp}°C</p>
                     </div>
                 </div>
             ))}
