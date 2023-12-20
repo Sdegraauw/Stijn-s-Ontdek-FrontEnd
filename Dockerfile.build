@@ -15,9 +15,13 @@ RUN npm ci
 
 # ---- Build Stage ----
 FROM base AS build
-# copy climatechecker dependencies & sources
+WORKDIR /${APP_PATH}
+# copy climatechecker dependencies
 COPY --from=dependencies /${APP_PATH}/ .
+# copy climatechecker sources
+WORKDIR /${APP_PATH}/public
 COPY public/ .
+WORKDIR /${APP_PATH}/src
 COPY src/ .
 
 # start the application
