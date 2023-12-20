@@ -16,18 +16,17 @@ const Home = () => {
     const errRef = useRef();
     const [errMsg, setErrMsg] = useState('');
 
+    //data from API's
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
-
+    //use states for what to show and what not to show
     const [showTemp, setShowTemp] = useState(false)
     const [showDataStations, setShowDataStations] = useState(false);
     const [showRegions, setShowRegions] = useState(true);
     const [heatmapType, setHeatmapType] = useState('temperature')
-
     const [dateTime, setDateTime] = useState(new Date());
-    const calRef = useRef();
 
-    const [toggleRegion, setToggleRegion] = useState("relatief");
+    const calRef = useRef();
 
     function handleToggleTemp() {
         setShowRegions(false);
@@ -79,7 +78,7 @@ const Home = () => {
                     errMsg && (
                         <div className="error-overlay">
                             <p ref={errRef} aria-live="assertive">{errMsg}</p>
-                            <button className="button" onClick={() => window.location.reload(false)}>Opnieuw proberen</button>
+                            <button className="button" onClick={() => window.location.reload()}>Opnieuw proberen</button>
                         </div>
                     )
                 }

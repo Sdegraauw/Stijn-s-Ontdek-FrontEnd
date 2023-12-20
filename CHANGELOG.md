@@ -5,9 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.3.5] - 2023-12-18
 
+## [0.3.5] - 2023-12-20
+
+### Changed
 - Color legend is aangepast en bevat nu één temp per color block. De temperature ranges bevatten nu altijd de min en max temps.
+
+### Fixed
+- Ongebruikte componenten en pagina's verwijderd
 
 ## [0.3.4] - 2023-12-11
 
@@ -21,6 +26,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Kleurenpallet aangepast na feedback opdrachtever, bevat nu sterkere verschillen in rood (SCRUM-159)
 - Kleurenpallet code duplicatie in Wijkkaart weggehaald
+
+## [0.4.0] - 2023-12-11
+
+### Fixed
+- Donkergrijze i.p.v. doorzichtige wijkvlakken (SCRUM-167)
 
 ## [0.3.4] - 2023-12-04
 
