@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.3.5] - 2023-12-18
+## [0.4.0] - 2024-01-08
+
+### Added
+- Dockerfile toegevoegd (SCRUM-162)
+
+## [0.3.6] - 2023-12-18
+
 ### Added
 - Project naam in navigatiebalk
 - Logo toegevoegd voor gebruik als thumbnail
@@ -16,22 +22,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Ongebruikte componenten en pagina's verwijderd
 
-## [0.3.4] - 2023-12-11
+## [0.3.5] - 2023-12-11
 
 ### Fixed
-
 - Center en zoom liet bij inladen niet heel Tilburg zien (SCRUM-124)
-
-## [0.3.5] - 2023-12-06
-
-### Fixed
-
 - Kleurenpallet aangepast na feedback opdrachtever, bevat nu sterkere verschillen in rood (SCRUM-159)
 - Kleurenpallet code duplicatie in Wijkkaart weggehaald
-
-## [0.4.0] - 2023-12-11
-
-### Fixed
 - Donkergrijze i.p.v. doorzichtige wijkvlakken (SCRUM-167)
 
 ## [0.3.4] - 2023-12-04
