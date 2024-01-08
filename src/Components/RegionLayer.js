@@ -6,18 +6,19 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, XAxis, YAx
 import ReactDatePicker from "react-datepicker";
 import { spectralColors } from '../Lib/Utility.js';
 
-const RegionLayer = ({ data, toggleRegion }) => {
+const RegionLayer = ({ data }) => {
+    //use states for what to show and what not to show
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [graphData, setGraphData] = useState([]);
     const [selectedNeighbourhood, setSelectedNeighbourhood] = useState(null);
     const [showMinTemp, setShowMinTemp] = useState(false);
     const [showMaxTemp, setShowMaxTemp] = useState(false);
     const [showGemTemp, setShowGemTemp] = useState(false);
     const errRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
-
     const [loading, setLoading] = useState(false);
+    //data to be shown
+    const [graphData, setGraphData] = useState([]);
 
     let mintemp = Number.MAX_VALUE;
     let maxtemp = Number.MIN_VALUE;
@@ -44,7 +45,7 @@ const RegionLayer = ({ data, toggleRegion }) => {
 
         let contrastValue = (value - mintemp) / tempDif;
         let colorIndex = Math.round(contrastValue * (Object.keys(spectralColors).length - 1));
-        return spectralColors[colorIndex];;
+        return spectralColors[colorIndex];
     }
 
     useEffect(() => {
@@ -94,6 +95,19 @@ const RegionLayer = ({ data, toggleRegion }) => {
             setShowGemTemp(!showGemTemp);
     }
 
+    const handleStartDateChange = (date) => {
+        if (date.getDate() === endDate.getDate()) {
+            date.setDate(date.getDate() - 1)
+        }
+        setStartDate(date);
+    }
+    const handleEndDateChange = (date) => {
+        if (date.getDate() === startDate.getDate()) {
+            date.setDate(date.getDate() + 1)
+        }
+        setEndDate(date);
+    }
+
     return (
         <>
             {
@@ -103,9 +117,11 @@ const RegionLayer = ({ data, toggleRegion }) => {
                         positions={neighbourhood.coordinates}
                         key={neighbourhood.id}
                         id={neighbourhood.id}
-                        pathOptions={{ color: setRegionColour(neighbourhood.avgTemp) }}
-                        opacity={neighbourhood.avgTemp === "NaN" ? .4 : 1}
-                        fillOpacity={neighbourhood.avgTemp === "NaN" ? .25 : .5}
+                        pathOptions={{
+                            color: setRegionColour(neighbourhood.avgTemp),
+                            opacity: neighbourhood.avgTemp === "NaN" ? .4 : 1,
+                            fillOpacity: neighbourhood.avgTemp === "NaN" ? .25 : .5
+                        }}
                         eventHandlers={{ click: handleClick }}
                     >
                         <Popup>
@@ -153,11 +169,24 @@ const RegionLayer = ({ data, toggleRegion }) => {
                                 <div className="row gy-2">
                                     <div className="col">
                                         <label className="me-2">Start datum</label>
-                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                        <ReactDatePicker
+                                            className="border border-secondary"
+                                            dateFormat="dd-MM-yyyy"
+                                            selected={startDate}
+                                            onChange={handleStartDateChange}
+                                            maxDate={endDate}
+                                        />
                                     </div>
                                     <div className="col">
                                         <label className="me-2">Eind datum</label>
-                                        <ReactDatePicker className="border border-secondary" dateFormat="dd-MM-yyyy" selected={endDate} onChange={(date) => setEndDate(date)} />
+                                        <ReactDatePicker
+                                            className="border border-secondary"
+                                            dateFormat="dd-MM-yyyy"
+                                            selected={endDate}
+                                            onChange={handleEndDateChange}
+                                            minDate={startDate}
+                                            maxDate={new Date()}
+                                        />
                                     </div>
                                 </div>
                             </div>

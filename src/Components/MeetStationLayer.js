@@ -8,9 +8,9 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css"
 
 const MeetStationLayer = ({ data, visible, selectedDate }) => {
+    //use states for what to show and what not to show
     const [endDate, setEndDate] = useState(new Date());
     const [startDate, setStartDate] = useState(new Date());
-    const [graphData, setGraphData] = useState([]);
     const [selectedStation, setSelectedStation] = useState(null);
     const [showMinTemp, setShowMinTemp] = useState(false);
     const [showMaxTemp, setShowMaxTemp] = useState(false);
@@ -18,6 +18,8 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
     const errRef = useRef();
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    //data to be shown
+    const [graphData, setGraphData] = useState([]);
 
     useEffect(() => {
         if (selectedStation === null)
