@@ -34,7 +34,7 @@ const HeatmapLayer = ({ data, visible, type }) => {
     //loads data into final object for heatmap
     data = {
         max: maxval,
-        min: minval,
+        min: minval - ((maxval - minval) * 0.5),
         data: heatmapReadyData
     };
 
