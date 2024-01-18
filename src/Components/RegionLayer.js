@@ -20,8 +20,8 @@ const RegionLayer = ({ data }) => {
     //data to be shown
     const [graphData, setGraphData] = useState([]);
 
-    let mintemp = Number.MAX_VALUE;
-    let maxtemp = Number.MIN_VALUE;
+    let mintemp = 1000;
+    let maxtemp = -1000;
     let tempDif = 1;
 
     data.forEach((neighbourhood) => {
@@ -42,7 +42,6 @@ const RegionLayer = ({ data }) => {
     function setRegionColour(value) {
         if (isNaN(value))
             return "rgb(136,136,136)";
-
         let contrastValue = (value - mintemp) / tempDif;
         let colorIndex = Math.round(contrastValue * (Object.keys(spectralColors).length - 1));
         return spectralColors[colorIndex];
