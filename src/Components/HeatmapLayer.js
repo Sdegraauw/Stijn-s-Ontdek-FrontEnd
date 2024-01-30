@@ -3,23 +3,28 @@ import HeatmapOverlay from 'leaflet-heatmap/leaflet-heatmap.js';
 import { spectralColors } from '../Lib/Utility.js';
 
 const HeatmapLayer = ({ data, visible, type }) => {
-    let maxval = Number.MIN_VALUE;
-    let minval = Number.MAX_VALUE;
+    let maxval = data.maxTemp;
+    let minval = data.minTemp;
 
-    data.forEach(meting => {
-        if (meting[type]) {
-            if (meting[type] > maxval) {
-                maxval = meting[type];
+    if(type !== 'temperatuur'){
+        maxval = -1000;
+        minval = 1000;
+
+        data.measurements.forEach(meting => {
+            if (meting[type]) {
+                if (meting[type] > maxval) {
+                    maxval = meting[type];
+                }
+                if (meting[type] < minval) {
+                    minval = meting[type];
+                }
             }
-            if (meting[type] < minval) {
-                minval = meting[type];
-            }
-        }
-    });
+        });
+    }
 
     //translates the relevant fields for the heatmap
     const heatmapReadyData = [];
-    data.map(meting => {
+    data.measurements.map(meting => {
         if (meting[type]) {
             heatmapReadyData.push(
                 {

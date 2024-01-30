@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { spectralColors } from '../Lib/Utility';
+import {RoundToOneDecimal, spectralColors} from '../Lib/Utility';
 
 const ColorLegend = ({ temperatures }) => {
     const [temperatureRanges, setTemperatureRanges] = useState([]);
 
     useEffect(() => {
-
-        //Null values are filtered out to prevent inconsistent legend
-        const filteredTemps = temperatures.filter((measurement) => measurement.temperature !== null);
-
-        const minTemp = Math.min(...filteredTemps.map(measurement => measurement.temperature));
-        const maxTemp = Math.max(...filteredTemps.map(measurement => measurement.temperature));
+        const minTemp = temperatures.minTemp;
+        const maxTemp = temperatures.maxTemp;
 
         // Show 5 color blocks for the amount of colors to prevent the screen to be cluttered with all colours
         const numberOfColors = 5;
@@ -25,13 +21,13 @@ const ColorLegend = ({ temperatures }) => {
         });
 
         //Replaces the first data point with the min temperature
-        temperatureRanges[0].temp = minTemp.toFixed(1);
+        temperatureRanges[0].temp = RoundToOneDecimal(minTemp);
         temperatureRanges[0].color = spectralColors[Object.keys(spectralColors)[0]];
 
         //Replaces the last data point with the max temperature
         temperatureRanges.push({
             color: spectralColors[Object.keys(spectralColors)[Object.keys(spectralColors).length - 1]],
-            temp: maxTemp.toFixed(1),
+            temp: RoundToOneDecimal(minTemp),
         });
 
         setTemperatureRanges(temperatureRanges);
