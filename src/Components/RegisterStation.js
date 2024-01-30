@@ -1,8 +1,8 @@
 import { useState } from "react";
 import React from "react";
-import axios from "axios";
+import { api } from "../App";
 
-function RegisterStation() {
+const RegisterStation = () => {
   // states for Registration
   /*  userId is currently forced to 1
       this needs to be changed once a logged in user is applicable */
@@ -38,10 +38,10 @@ function RegisterStation() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError(validate(inputs));
-    if (error == false) {
+    if (error === false) {
       setSubmitted(true);
-      axios
-        .post("http://localhost:8082/api/Station", inputs)
+      api
+        .post("/Station", inputs)
         .then((response) => {
           console.log(response);
         })

@@ -2,8 +2,8 @@
 
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import useRefreshToken from '../hooks/useRefreshToken';
-import useAuth from '../hooks/useAuth';
+import useRefreshToken from '../Hooks/useRefreshToken';
+import useAuth from '../Hooks/useAuth';
 
 const PersistLogin = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -28,21 +28,15 @@ const PersistLogin = () => {
         !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
 
         return () => isMounted = false;
-    }, [])
-
-    //can be removed later, just for logging/checking the isLoading state
-    useEffect(() => {
-        console.log(`isLoading: ${isLoading}`)
-        console.log(`aT: ${JSON.stringify(auth?.accessToken)}`)
-    }, [isLoading])
+    }, [auth?.accessToken, refresh])
 
     return (
         <>
             {isLoading
                 ? <p>Loading...</p>
-                : <Outlet/>
+                : <Outlet />
             }
-        
+
         </>
     )
 }

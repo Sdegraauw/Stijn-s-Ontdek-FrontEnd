@@ -1,17 +1,19 @@
-import React, {useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-export default function RegisterStationData() {
+import { api } from "../App";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+const RegisterStationData = () => {
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
     const items = JSON.parse(decodeURIComponent(params.get('items')));
 
     const [errorMessage, setErrorMessage] = useState(null);
 
-    const [answers, setAnswers] = useState(items);
+    const [answers] = useState(items);
     let answersValid = true;
 
     const postNaarBackend = async () => {
-        await fetch('http://localhost:8082/api/Station/registerStation', {
+        await api.get('/Station/registerStation', {
             method: 'POST',
             body: JSON.stringify({
                 userId: "1",
@@ -28,24 +30,17 @@ export default function RegisterStationData() {
             },
         })
             .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
     };
 
 
     const checkValues = () => {
         console.log(answers);
-        if(answers.length === 6)
-        {
-            answers.map(a => {
-                if(a == null) {
-                    answersValid = false;
-                }
-            });
+        if (answers.length === 6) {
+            // answers.map(a => {
+            //     if (a == null) {
+            //         answersValid = false;
+            //     }
+            // });
         }
         else {
             answersValid = false;
@@ -54,14 +49,9 @@ export default function RegisterStationData() {
 
     const handleClick = () => {
         setErrorMessage(null);
-
-        answers.map(a => {
-            console.log(a);
-        })
         checkValues();
 
-
-        if(answersValid) {
+        if (answersValid) {
             postNaarBackend();
         }
         else {
@@ -77,24 +67,24 @@ export default function RegisterStationData() {
 
     return (
         <div className={"color"}>
-            <br/>
+            <br />
             <div className={"container gy-5"}>
                 <div className={"row"}>
                     <div className={"col-4"}></div>
                     <div className={"col-4"}>
                         <h4><b>(5/5) Gegevens controleren</b></h4>
                         <label className={"labelMargin"}>
-                            Registratiecode: <br/>
-                            <div className={"form-text"}>{items[0]}</div><br/>
-                            Naam: <br/>
-                            <div className={"form-text"}>{items[1]}</div><br/>
-                            Hoogte: <br/>
-                            <div className={"form-text"}>{items[2]} cm</div><br/>
-                            Richting:<br/>
-                            <div className={"form-text"}>{items[3]}</div><br/>
-                            Buiten: <br/>
-                            <div className={"form-text"}>{items[4]}</div><br/>
-                            Prive: <br/>
+                            Registratiecode: <br />
+                            <div className={"form-text"}>{items[0]}</div><br />
+                            Naam: <br />
+                            <div className={"form-text"}>{items[1]}</div><br />
+                            Hoogte: <br />
+                            <div className={"form-text"}>{items[2]} cm</div><br />
+                            Richting:<br />
+                            <div className={"form-text"}>{items[3]}</div><br />
+                            Buiten: <br />
+                            <div className={"form-text"}>{items[4]}</div><br />
+                            Prive: <br />
                             <div className={"form-text"}>{items[5]}</div>
                         </label>
                         {errorMessage && <label className={"error-msg"}>{errorMessage}</label>}
@@ -116,3 +106,4 @@ export default function RegisterStationData() {
         </div>
     );
 }
+export default RegisterStationData;

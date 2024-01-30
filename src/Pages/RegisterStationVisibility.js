@@ -1,6 +1,6 @@
-import React, {useState} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-export default function RegisterStationVisibility() {
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+const RegisterStationVisibility = () => {
     const [visibility, setVisibility] = useState();
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
@@ -9,7 +9,6 @@ export default function RegisterStationVisibility() {
     const [errorMessage, setErrorMessage] = useState(null);
 
     const [answers, setAnswers] = useState(items);
-    let answersValid = true;
 
     const handleRadioChange = (event) => {
         setVisibility(event.target.value);
@@ -19,11 +18,7 @@ export default function RegisterStationVisibility() {
     const handleClick = () => {
         setErrorMessage(null);
 
-        answers.map(a => {
-            console.log(a);
-        })
-
-        if(visibility === undefined){
+        if (visibility === undefined) {
             setErrorMessage("Vul een status in.");
         } else {
             const updatedAnswers = [...answers, visibility];
@@ -40,7 +35,7 @@ export default function RegisterStationVisibility() {
 
     return (
         <div className={"color"}>
-            <br/>
+            <br />
             <div className={"container gy-5"}>
                 <div className={"row"}>
                     <div className={"col-4"}></div>
@@ -52,17 +47,17 @@ export default function RegisterStationVisibility() {
 
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="RadioVisibility" id="RadioPrivate"
-                                       value="false" onChange={handleRadioChange}/>
+                                    value="false" onChange={handleRadioChange} />
                                 <label className="form-check-label" htmlFor="RadioPrivate">Prive</label>
                             </div>
 
                             <div className="form-check form-check-inline">
                                 <input className="form-check-input" type="radio" name="RadioVisibility" id="RadioPublic"
-                                       value="true" onChange={handleRadioChange}/>
+                                    value="true" onChange={handleRadioChange} />
                                 <label className="form-check-label" htmlFor="RadioPublic">Openbaar</label>
                             </div>
                         </label>
-                        <br/>
+                        <br />
                         {errorMessage && <label className={"error-msg"}>{errorMessage}</label>}
                     </div>
 
@@ -80,3 +75,4 @@ export default function RegisterStationVisibility() {
         </div>
     );
 }
+export default RegisterStationVisibility;
