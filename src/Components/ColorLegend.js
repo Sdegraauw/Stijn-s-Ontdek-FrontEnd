@@ -27,7 +27,7 @@ const ColorLegend = ({ temperatures }) => {
         //Replaces the last data point with the max temperature
         temperatureRanges.push({
             color: spectralColors[Object.keys(spectralColors)[Object.keys(spectralColors).length - 1]],
-            temp: RoundToOneDecimal(minTemp),
+            temp: RoundToOneDecimal(maxTemp),
         });
 
         setTemperatureRanges(temperatureRanges);
