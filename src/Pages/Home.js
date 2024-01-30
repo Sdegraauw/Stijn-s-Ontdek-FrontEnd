@@ -51,7 +51,6 @@ const Home = () => {
             api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
                 .then(resp => {
                     setTempMeasurements(resp.data)
-                    console.log(resp.data)
                 })
                 .catch(function (error) {
                     handleAxiosError(error);
@@ -86,7 +85,7 @@ const Home = () => {
                         )
                     }
 
-                    <MapContainer center={[51.57898, 5.08772]} zoom={12} maxZoom={15} minZoom={11} closePopupOnClick={false}>
+                    <MapContainer center={[51.57898, 5.08772]} zoom={12} closePopupOnClick={false}>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
