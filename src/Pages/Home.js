@@ -93,8 +93,10 @@ const Home = () => {
                         />
                         {showRegions && regionData && <RegionLayer data={regionData}></RegionLayer>}
                         {tempMeasurements.measurements &&
-                            <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>+
-                            <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />}
+                            <div>
+                                <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>
+                                <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />
+                            </div>}
                     </MapContainer>
 
                     <div className="layer-control">
