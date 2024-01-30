@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const RadioButtonGroup = (props) => {
-    const [selectedOption, setSelectedOption] = useState("wijk");
+    const [selectedOption, setSelectedOption] = useState("heatmap");
     function handleChange(event) {
         setSelectedOption(event.target.value);
     }

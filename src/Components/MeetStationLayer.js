@@ -80,84 +80,112 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         }
         setEndDate(date);
     }
+    const suffixes = {
+        temperatuur:' °C',
+        luchtvochtigheid:' %',
+    }
 
     if (!visible) return (<></>);
 
+    const fielnames = Object.keys(data.measurements[0]);
+    let markers = [];
+    data.measurements.forEach(meting => {
+        const lables = [];
+        fielnames.forEach(field => {
+            if (field !== 'id' && field !== 'latitude' && field !== 'longitude' && field !== 'timestamp'){
+                let text;
+                if(suffixes[field] !== undefined){
+                    text = field + ': ' + RoundToOneDecimal(meting[field]) + suffixes[field];
+                }
+                else {
+                    text = field + ': ' + RoundToOneDecimal(meting[field]);
+                }
+
+                lables.push(
+                    <div>
+                        <label>{meting[field] ? text
+                            : field + ': foutief'}</label>
+                        <br />
+                    </div>
+                )
+            }
+        })
+
+        markers.push(
+        <Marker key={meting.id} id={meting.id} position={[meting.latitude, meting.longitude]} eventHandlers={{ click: handleClick }}>
+            <Popup closeOnClick={false}>
+                <label className="bold d-block fs-6">Station ID: {meting.id}</label>
+
+                <div key={meting.id}>
+                    {lables}
+                </div>
+
+                <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
+
+                <hr></hr>
+
+                <label className="bold mt-2">Historische temperatuur data</label>
+
+                {
+                    errorMessage && (
+                        <div>
+                            <p className={'text-danger'} ref={errRef} aria-live="assertive">{errorMessage}</p>
+                        </div>
+                    )
+                }
+
+                {
+                    loading && (
+                        <div>
+                            <p className={'text-warning m-0'}>Data wordt opgehaald...</p>
+                        </div>
+                    )
+                }
+
+                <ResponsiveContainer minWidth={250} minHeight={250}>
+                    <LineChart data={graphData}>
+                        <XAxis dataKey="timestamp" />
+                        <YAxis width={20} />
+                        <CartesianGrid stroke="#ccc" />
+                        <Legend onClick={handleLegendChange} />
+                        <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} dot={false} />
+                        <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false} />
+                        <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false} />
+                    </LineChart>
+                </ResponsiveContainer>
+
+                <div className="container text-center">
+                    <div className="row gy-2">
+                        <div className="col">
+                            <label className="me-2">Start datum</label>
+                            <ReactDatePicker
+                                className="border border-secondary"
+                                dateFormat="dd-MM-yyyy"
+                                selected={startDate}
+                                onChange={handleStartDateChange}
+                                maxDate={endDate}
+                            />
+                        </div>
+                        <div className="col">
+                            <label className="me-2">Eind datum</label>
+                            <ReactDatePicker
+                                className="border border-secondary"
+                                dateFormat="dd-MM-yyyy"
+                                selected={endDate}
+                                onChange={handleEndDateChange}
+                                minDate={startDate}
+                                maxDate={new Date()}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Popup>
+        </Marker>
+    )})
+
     return (
         <>
-            {data.map((meting) => (
-                <Marker key={meting.id} id={meting.id} position={[meting.latitude, meting.longitude]} eventHandlers={{ click: handleClick }}>
-                    <Popup closeOnClick={false}>
-                        <label className="bold d-block fs-6">Station ID: {meting.id}</label>
-
-                        <div key={meting.id}>
-                            <label>{meting.temperature ? "Temperatuur: " + RoundToOneDecimal(meting.temperature) + " °C" : ''}</label>
-                            <br />
-                            <label>{meting.humidity ? "Luchtvochtigheid: " + RoundToOneDecimal(meting.humidity) + " %" : ''}</label>
-                        </div>
-
-                        <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
-
-                        <hr></hr>
-
-                        <label className="bold mt-2">Historische temperatuur data</label>
-
-                        {
-                            errorMessage && (
-                                <div>
-                                    <p className={'text-danger'} ref={errRef} aria-live="assertive">{errorMessage}</p>
-                                </div>
-                            )
-                        }
-
-                        {
-                            loading && (
-                                <div>
-                                    <p className={'text-warning m-0'}>Data wordt opgehaald...</p>
-                                </div>
-                            )
-                        }
-
-                        <ResponsiveContainer minWidth={250} minHeight={250}>
-                            <LineChart data={graphData}>
-                                <XAxis dataKey="timestamp" />
-                                <YAxis width={20} />
-                                <CartesianGrid stroke="#ccc" />
-                                <Legend onClick={handleLegendChange} />
-                                <Line type="monotone" dataKey="minTemp" name="Min" stroke="#0000ff" hide={showMinTemp} dot={false} />
-                                <Line type="monotone" dataKey="maxTemp" name="Max" stroke="#ff0000" hide={showMaxTemp} dot={false} />
-                                <Line type="monotone" dataKey="avgTemp" name="Gemiddeld" stroke="#00ee00" hide={showGemTemp} dot={false} />
-                            </LineChart>
-                        </ResponsiveContainer>
-
-                        <div className="container text-center">
-                            <div className="row gy-2">
-                                <div className="col">
-                                    <label className="me-2">Start datum</label>
-                                    <ReactDatePicker
-                                        className="border border-secondary"
-                                        dateFormat="dd-MM-yyyy"
-                                        selected={startDate}
-                                        onChange={handleStartDateChange}
-                                        maxDate={endDate}
-                                    />
-                                </div>
-                                <div className="col">
-                                    <label className="me-2">Eind datum</label>
-                                    <ReactDatePicker
-                                        className="border border-secondary"
-                                        dateFormat="dd-MM-yyyy"
-                                        selected={endDate}
-                                        onChange={handleEndDateChange}
-                                        minDate={startDate}
-                                        maxDate={new Date()}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </Popup>
-                </Marker>
-            ))}
+            {markers}
         </>
     )
 }

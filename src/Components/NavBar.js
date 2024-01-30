@@ -23,15 +23,6 @@ const NavBar = () => {
             <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
               <Link className="nav-link" to="/about">Over ons</Link>
             </li>
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <Link className="nav-link" to="/Account">Mijn stations</Link>
-            </li>
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <Link className="nav-link" to="/Userdetails">Mijn gegevens</Link>
-            </li>
-            <li className="nav-item" data-toggle="collapse" data-target=".navbar-collapse.show">
-              <Link className="nav-link" to="/login">Login</Link>
-            </li>
           </ul>
         </div>
       </nav>

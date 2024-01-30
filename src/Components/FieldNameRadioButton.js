@@ -4,32 +4,31 @@ const Radiobutton = ({data, handleChange, current}) =>{
     const [selectedOption, setSelectedOption] = useState(current);
 
     //makes sure there is data
-    if (data === null || data === undefined || data[0] === null || data[0] === undefined){
+    if (data === undefined || data.measurements[0] === undefined){
         return <></>
     }
 
-    let fieldNames = Object.keys(data[0]);
+    let fieldNames = Object.keys(data.measurements[0]);
 
     const results = [];
-    fieldNames.forEach(fieldName => {
+    fieldNames.forEach(field => {
         //excludes fields that should not get shown
-        if (fieldName !== 'id' && fieldName !== 'latitude' && fieldName !== 'longitude' && fieldName !== 'timestamp') {
+        if (field !== 'id' && field !== 'latitude' && field !== 'longitude' && field !== 'timestamp') {
             results.push(
                 <div>
                     <label>
-                        <input type="radio" value={fieldName} checked={selectedOption === fieldName}
+                        <input type="radio" value={field} checked={selectedOption === field}
                                onChange={e => {
-                                   handleChange(fieldName.toLowerCase());
-                                   setSelectedOption(fieldName);
+                                   handleChange(field.toLowerCase());
+                                   setSelectedOption(field);
                                }}/>
-                            { fieldName.charAt(0).toUpperCase() + fieldName.substring(1) }
+                            { field.charAt(0).toUpperCase() + field.substring(1) }
                     </label>
                     <br/>
                 </div>
             )
         }
     })
-    console.log(fieldNames);
 
     return (
         <div>

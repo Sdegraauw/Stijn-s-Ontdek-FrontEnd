@@ -20,10 +20,10 @@ const Home = () => {
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
     //use states for what to show and what not to show
-    const [showTemp, setShowTemp] = useState(false)
+    const [showTemp, setShowTemp] = useState(true)
     const [showDataStations, setShowDataStations] = useState(false);
-    const [showRegions, setShowRegions] = useState(true);
-    const [heatmapType, setHeatmapType] = useState('temperature')
+    const [showRegions, setShowRegions] = useState(false);
+    const [heatmapType, setHeatmapType] = useState('temperatuur')
     const [dateTime, setDateTime] = useState(new Date());
 
     const calRef = useRef();
@@ -51,6 +51,7 @@ const Home = () => {
             api.get(`/measurement/history?timestamp=${dateTime.toISOString()}`)
                 .then(resp => {
                     setTempMeasurements(resp.data)
+                    console.log(resp.data)
                 })
                 .catch(function (error) {
                     handleAxiosError(error);
@@ -90,9 +91,12 @@ const Home = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        {showRegions && <RegionLayer data={regionData}></RegionLayer>}
-                        <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>
-                        {tempMeasurements && <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />}
+                        {showRegions && regionData && <RegionLayer data={regionData}></RegionLayer>}
+                        {tempMeasurements.measurements &&
+                            <div>
+                                <MeetStationLayer data={tempMeasurements} visible={showDataStations} selectedDate={dateTime}></MeetStationLayer>
+                                <HeatmapLayer data={tempMeasurements} visible={showTemp} type={heatmapType} />
+                            </div>}
                     </MapContainer>
 
                     <div className="layer-control">
@@ -100,7 +104,7 @@ const Home = () => {
                             handleToggleShowRegions={handleToggleShowRegions}
                             handleToggleTemp={handleToggleTemp} />
                         {showTemp && <div className={'heatmapRadio'}>
-                            <FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} current={heatmapType} />
+                            {tempMeasurements.measurements &&<FieldNameRadioButton data={tempMeasurements} handleChange={setHeatmapType} current={heatmapType} />}
                         </div>}
                         <Checkbox handleToggleShowDataStations={handleToggleShowDataStations} />
                         <ReactDatePicker
