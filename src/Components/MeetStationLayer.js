@@ -80,6 +80,10 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         }
         setEndDate(date);
     }
+    const suffixes = {
+        temperatuur:' °C',
+        luchtvochtigheid:' %',
+    }
 
     if (!visible) return (<></>);
 
@@ -89,9 +93,18 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
         const lables = [];
         fielnames.forEach(field => {
             if (field !== 'id' && field !== 'latitude' && field !== 'longitude' && field !== 'timestamp'){
+                let text;
+                if(suffixes[field] !== undefined){
+                    text = field + ': ' + RoundToOneDecimal(meting[field]) + suffixes[field];
+                }
+                else {
+                    text = field + ': ' + RoundToOneDecimal(meting[field]);
+                }
+
                 lables.push(
                     <div>
-                        <label>{meting[field] ? field + ': ' + RoundToOneDecimal(meting[field]) + ' °C' : field + ': foutief'}</label>
+                        <label>{meting[field] ? text
+                            : field + ': foutief'}</label>
                         <br />
                     </div>
                 )
