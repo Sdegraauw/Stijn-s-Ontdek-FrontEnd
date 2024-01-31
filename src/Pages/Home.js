@@ -20,9 +20,9 @@ const Home = () => {
     const [regionData, setRegionData] = useState([]);
     const [tempMeasurements, setTempMeasurements] = useState([]);
     //use states for what to show and what not to show
-    const [showTemp, setShowTemp] = useState(true)
+    const [showTemp, setShowTemp] = useState(false)
     const [showDataStations, setShowDataStations] = useState(false);
-    const [showRegions, setShowRegions] = useState(false);
+    const [showRegions, setShowRegions] = useState(true);
     const [heatmapType, setHeatmapType] = useState('temperatuur')
     const [dateTime, setDateTime] = useState(new Date());
 
