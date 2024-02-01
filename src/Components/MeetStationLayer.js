@@ -87,11 +87,12 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
 
     if (!visible) return (<></>);
 
-    const fielnames = Object.keys(data.measurements[0]);
+    const fieldnames = Object.keys(data.measurements[0]);
     let markers = [];
     data.measurements.forEach(meting => {
+        console.log(meting)
         const lables = [];
-        fielnames.forEach(field => {
+        fieldnames.forEach(field => {
             if (field !== 'id' && field !== 'latitude' && field !== 'longitude' && field !== 'timestamp'){
                 let text;
                 if(suffixes[field] !== undefined){
@@ -120,7 +121,7 @@ const MeetStationLayer = ({ data, visible, selectedDate }) => {
                     {lables}
                 </div>
 
-                <label className="fst-italic mt-1">Meting van: {selectedDate.toLocaleString('nl-NL')}</label>
+                <label className="fst-italic mt-1">Meting van: {meting.timestamp}</label>
 
                 <hr></hr>
 
